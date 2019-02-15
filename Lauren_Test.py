@@ -63,11 +63,12 @@ Final_value = visual.TextStim(win, text='Final Values', height = 0.1)
 highlight_1 = visual.Rect(win, width=0.6, height=0.6, autoLog= None, pos = [0.5,0])
 highlight_2 = visual.Rect(win, width=0.6, height=0.6, autoLog= None, pos = [-0.5,0])
 rewardtext = visual.TextStim(win, text = '$0.25', height = 0.1)
-
+miss = visual.TextStim(win, text = 'miss', height = 0.1)
 
 ###### set clocks #######
 globalClock = core.Clock()
 trialClock = core.Clock()
+playClock = core.Clock()
 
 ### Task parameters ####
 rewardAmount = 0 #cummulative reward amount 
@@ -122,44 +123,58 @@ for trialIdx in range(nTrials):
         endoptionA.draw()
         endoptionB.draw()
         win.flip()
-        core.wait(0.1)
-        #start the play routine to record response
-        playgame = helper.play_routine(win)
+        core.wait(0.2)
+        win.flip()
+        core.wait(0.2)
         #mask the two options
         rectangle_1.draw()
         rectangle_2.draw()
         win.flip()
         core.wait(1)
-        if playgame['winleft']:#if choose the left option on play
-            cents = optionValues['endA']
-            win.flip()
-            core.wait(1)
-            Final_value.draw()
-            endoptionA.draw()
-            endoptionB.draw()
-            highlight_1.draw()
-            win.flip()
-            core.wait(1)
-        if playgame['winright']:#if choose the right option on play
+        #start the play routine to record response
+        playgame = helper.play_routine(win)
+        if playgame['win_right']:#if choose the right option on play
             cents = optionValues['endB']
             win.flip()
+            #another iti for fun 
+            isi.draw()
+            win.flip()
             core.wait(1)
-            ##indicate that the values will change
+            ##indicate what you got
             Final_value.draw()
             endoptionA.draw()
             endoptionB.draw()
             highlight_2.draw()
             win.flip()
             core.wait(1)
-        if playgame['loose']: #if do not pick within the allowed time (you "lost" the game)
-            looseText.draw()
-            cents = optionValues['endA'] #right now just get option A (but will change this to be a routine that you get one or the other)
+        if playgame['win_left']:#if choose the left option on play
+            cents = optionValues['endA']
+            win.flip()
+            #another iti for fun 
+            isi.draw()
             win.flip()
             core.wait(1)
+            ##indicate what you got
             Final_value.draw()
             endoptionA.draw()
             endoptionB.draw()
             highlight_1.draw()
+            win.flip()
+            core.wait(1)
+        elif playgame['loose']: #if do not pick within the allowed time (you "lost" the game)
+            looseText.draw()
+            potentials = [optionValues['endA'], optionValues['endB']]
+            loosing_win = random.choice(potentials)
+            print(loosing_win)
+            cents == loosing_win
+            win.flip()
+            Final_value.draw()
+            endoptionA.draw()
+            endoptionB.draw()
+            if loosing_win == str(optionValues['endA']):
+               highlight_1.draw()
+            elif loosing_win == str(optionValues['endB']):
+                highlight_2.draw()
             win.flip()
             core.wait(1)
     elif pickChoice['pick']: #if choose pick on this trial 
@@ -209,6 +224,16 @@ for trialIdx in range(nTrials):
             highlight_2.draw()
             win.flip()
             core.wait(1)
+        elif precomm['miss']:
+            miss.draw()
+            win.flip()
+            core.wait(1)
+            cents = 0
+    elif pickChoice['miss']:
+        miss.draw()
+        win.flip()
+        core.wait(1)
+        cents = 0
     #show the amount of money earned on this trial
     if cents == optionValues['endA']: #you earned the A value
         reward_amountA = str(optionValues['endA'])
@@ -228,9 +253,17 @@ for trialIdx in range(nTrials):
         money = optionValues['endB']
         win.flip()
         core.wait(1)
+    if cents == loosing_win:
+        reward_amount == loosing_win
+        loosing_winning_text = visual.TextStim(win, text = 'You earned ' +loosing_win+ ' cents', height = 0.1)
+        loosing_winning_text.draw()
+        money = loosing_win
+        win.flip()
+        core.wait(1)
+    elif cents == 0:
+        money = 0
     #to add the money that you earned on this trial to the cummulative amount 
     rewardAmount += money
-
 
 #show earnings on entire block 
 moneyontrial= visual.TextStim(win, text='You earned a total of : ' +str(rewardAmount) + ' cents !', height = 0.1)

@@ -56,11 +56,18 @@ def pickoptions(win):
             response = 1
             RT = pickoptionsClock.getTime()
             win.flip()
-        if '2' in theseKeys: #pick pick
+        elif '2' in theseKeys: #pick pick
             response = 2
             RT = pickoptionsClock.getTime()
             win.flip()
-        choice_1 ={'play':response == 1, 'pick':response == 2}
+        else: #did not pick
+            response = 3
+            RT = pickoptionsClock.getTime()
+            win.flip()
+    if response == 0: 
+        response = 3
+        RT = pickoptionsClock.getTime()
+    choice_1 ={'play':response == 1, 'pick':response == 2, 'miss': response ==3}
     return choice_1
 
 #### precommitment (pick) routine ####
@@ -83,32 +90,37 @@ def precomm_pick(win):
             response = 2
             RT = pickClock.getTime()
             win.flip()
-        choice_2 ={'right':response == 1, 'left':response == 2}
+        else: #did not pick
+            response = 3
+            RT = pickClock.getTime()
+            win.flip()
+    if response == 0:
+        response = 3
+        RT = pickClock.getTime()
+    choice_2 ={'right':response == 1, 'left':response == 2, 'miss':response == 3}
     return choice_2 
 
 #### play routine (MID routine) ####
 def play_routine(win):
-    playClock = core.Clock()
+    #playClock = core.Clock()
     response = 0
     RT = 0 
     choice_3 = 0 #choice_3 refers to the play routine 
     ### start routine "play" ###
-    core.wait(1)
-    win.flip()
-    #record responses
     theseKeys = event.getKeys(keyList=['1','2','escape'])
     if len(theseKeys) > 0:
         if '1' in theseKeys: #pick right 
             response = 1
-            RT = playClock.getTime()
             win.flip()
-        if '2' in theseKeys: # pick left 
+        elif '2' in theseKeys: # pick left 
             response = 2
-            RT = playClock.getTime()
             win.flip()
         else: #did not pick
             response = 3
-            RT = playClock.getTime()
             win.flip()
-        choice_3 = {'winright':response == 1, 'winleft':response == 2, 'loose':response == 3}
+    if response == 0: 
+        response = 3
+    choice_3 = {'win_right':response == 1, 'win_left':response == 2, 'loose':response == 3}
     return choice_3 
+
+
