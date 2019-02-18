@@ -103,19 +103,23 @@ def play_routine(win):
     choice_3 = 0 #choice_3 refers to the play routine 
     ### start routine "play" ###
     theseKeys = event.getKeys(keyList=['1','2','escape'])
-    while playClock.getTime() < 0.5:
+    while playClock.getTime() < 2.0:
         if len(theseKeys) > 0:
             if '1' in theseKeys: #pick right 
                 response = 1
                 win.flip()
+                print('got right')
             elif '2' in theseKeys: # pick left 
                 response = 2
                 win.flip()
+                print('got left')
             else: #did not pick
                 response = 3
                 win.flip()
+                print('missed girly')
     if response == 0: 
         response = 3
+        print('you need to fix this')
     choice_3 = {'win_right':response == 1, 'win_left':response == 2, 'loose':response == 3}
     return choice_3 
 

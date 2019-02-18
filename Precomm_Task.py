@@ -6,7 +6,7 @@ import sys  # to get file system encoding
 import csv
 import random
 import time
-import Pre_Helper as helper
+import Precomm_Helper as helper
 
 
 ########### Basic experiment settings ###########
@@ -49,7 +49,7 @@ blockLength = 5
 length = 5
 
 ## Create Stimuli ##
-# stimuli outside loop - stimuli that do not change ###
+# stimuli outside loop = stimuli that do not change ###
 isi = visual.TextStim(win, text='+')
 optionText = visual.TextStim(win=win, text='PLAY (1) or PICK (2)', height=0.1)
 pickText = visual.TextStim(win, text='PICK', height=0.1)
@@ -92,6 +92,8 @@ for trialIdx in range(nTrials):
     #allow escape experiment
     if event.getKeys(keyList='escape'):
         core.quit()
+    event.clearEvents()
+    helper.logwrite([0, globalClock.getTime()], filename) 
     #Start with the cross before each trial 
     isi.draw()
     win.flip()
@@ -116,6 +118,7 @@ for trialIdx in range(nTrials):
     pickChoice = helper.pickoptions(win)
     if pickChoice['play']: #if choose to play on this trial 
         #screen to show that play was choosen 
+        taskChoice = helper.logwrite([1,globalClock.getTime()], filename)
         pickoptionA.draw()
         pickoptionB.draw()
         playText.draw()
@@ -124,7 +127,6 @@ for trialIdx in range(nTrials):
         #start play routine with fixation cross
         isi.draw()
         win.flip()
-        core.wait(1)
         #show the two options for the playing 
         playgame = helper.play_routine(win)
         endoptionA.draw()
@@ -194,6 +196,7 @@ for trialIdx in range(nTrials):
                 win.flip()
                 core.wait(1)
     elif pickChoice['pick']: #if choose pick on this trial
+        taskChoice = helper.logwrite([2,globalClock.getTime()], filename)
         #indicate that pick was chosen for this trial
         pickoptionA.draw()
         pickoptionB.draw()
@@ -246,6 +249,7 @@ for trialIdx in range(nTrials):
             core.wait(1)
             cents = 0
     elif pickChoice['miss']:
+        taskChoice = helper.logwrite([3,globalClock.getTime()], filename)
         miss.draw()
         win.flip()
         core.wait(1)
