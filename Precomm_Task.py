@@ -46,7 +46,7 @@ win = visual.Window(
 taskTime = 4
 isiTime = 1
 blockLength = 5
-length = 5
+length = 1
 
 ## Create Stimuli ##
 # stimuli outside loop = stimuli that do not change ###
@@ -127,14 +127,14 @@ for trialIdx in range(nTrials):
         #start play routine with fixation cross
         isi.draw()
         win.flip()
+        core.wait(1)
         #show the two options for the playing 
-        playgame = helper.play_routine(win)
         endoptionA.draw()
         endoptionB.draw()
         win.flip()
-        core.wait(0.2)
-        win.flip()
-        core.wait(0.2)
+        core.wait(0.5) #how long the end values are on the screen for the quick MID section 
+        #run the routine for responding to the stimulus 
+        playgame = helper.play_routine(win)
         #mask the two options
         rectangle_1.draw()
         rectangle_2.draw()
