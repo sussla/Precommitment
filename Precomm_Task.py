@@ -74,7 +74,7 @@ playClock = core.Clock()
 
 ### Task parameters ####
 rewardAmount = 0 #cummulative reward amount 
-nTrials = 5
+nTrials = 6
 
 ##############################
 ###### Begin experiment ######
@@ -92,8 +92,8 @@ for trialIdx in range(nTrials):
     #allow escape experiment
     if event.getKeys(keyList='escape'):
         core.quit()
+    #clear events from previous trial/ prevents a click from the previous trial to be counted on this trial
     event.clearEvents()
-    helper.logwrite([0, globalClock.getTime()], filename) 
     #Start with the cross before each trial 
     isi.draw()
     win.flip()
@@ -118,7 +118,6 @@ for trialIdx in range(nTrials):
     pickChoice = helper.pickoptions(win)
     if pickChoice['play']: #if choose to play on this trial 
         #screen to show that play was choosen 
-        taskChoice = helper.logwrite([1,globalClock.getTime()], filename)
         pickoptionA.draw()
         pickoptionB.draw()
         playText.draw()
@@ -132,7 +131,7 @@ for trialIdx in range(nTrials):
         endoptionA.draw()
         endoptionB.draw()
         win.flip()
-        core.wait(0.5) #how long the end values are on the screen for the quick MID section 
+        core.wait(0.3) #how long the end values are on the screen for the quick MID section 
         #run the routine for responding to the stimulus 
         playgame = helper.play_routine(win)
         #mask the two options
@@ -196,7 +195,6 @@ for trialIdx in range(nTrials):
                 win.flip()
                 core.wait(1)
     elif pickChoice['pick']: #if choose pick on this trial
-        taskChoice = helper.logwrite([2,globalClock.getTime()], filename)
         #indicate that pick was chosen for this trial
         pickoptionA.draw()
         pickoptionB.draw()
@@ -249,7 +247,6 @@ for trialIdx in range(nTrials):
             core.wait(1)
             cents = 0
     elif pickChoice['miss']:
-        taskChoice = helper.logwrite([3,globalClock.getTime()], filename)
         miss.draw()
         win.flip()
         core.wait(1)
@@ -275,11 +272,13 @@ for trialIdx in range(nTrials):
         core.wait(1)
     if cents == loosing_win: # the amount of money you earn if you lost (one or the other) 
         reward_amount = str(loosing_win)
+        #show on the screen the amount that you earned
         loosing_winning_text = visual.TextStim(win, text = 'You earned ' +str(loosing_win)+ ' cents', height = 0.1)
         loosing_winning_text.draw()
         money = loosing_win
         win.flip()
         core.wait(1)
+    #if you receive no money on the trial (forgot to click) 
     elif cents == 0:
         money = 0
     #to add the money that you earned on this trial to the cummulative amount 
@@ -292,6 +291,7 @@ if event.getKeys(keyList='escape'):
 moneyontrial= visual.TextStim(win, text='Congrats! You earned $' +str(rewardAmount/100.00) +'!', height = 0.1)
 moneyontrial.draw()
 win.flip()
+#right now need to press enter to end the experiment 
 event.waitKeys(keyList=['return'])
 
 ##end the experiment 

@@ -10,6 +10,7 @@ import random
 
 
 ###### Log writing #######
+#right now taken directly from Claudio
 def logwrite(values,filename,**new_directory):
     # Appends a new row 'values' to filename_log.csv
     # Optional (*directory): write log in a non-current path by adding newPath = 'desired path'
@@ -67,7 +68,7 @@ def pickoptions(win):
     if response == 0: 
         response = 3
         RT = pickoptionsClock.getTime()
-    choice_1 ={'play':response == 1, 'pick':response == 2, 'miss': response ==3}
+    choice_1 ={'play':response == 1, 'pick':response == 2, 'miss': response == 3}
     return choice_1
 
 #### precommitment (pick) routine ####
@@ -99,11 +100,11 @@ def play_routine(win):
     playClock = core.Clock()
     playClock.reset()
     response = 0
-    length = 1
+    length = 0.5
     RT = 0 
     choice_3 = 0 #choice_3 refers to the play routine 
     ### start routine "play" ###
-    theseKeys = event.getKeys(keyList=['1','2','escape'])
+    theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
     while playClock.getTime() < length:
         if len(theseKeys) > 0:
             if '1' in theseKeys: #pick right 
