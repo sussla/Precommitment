@@ -9,21 +9,6 @@ import csv
 import random
 
 
-###### Log writing #######
-#right now taken directly from Claudio
-def logwrite(values,filename,**new_directory):
-    # Appends a new row 'values' to filename_log.csv
-    # Optional (*directory): write log in a non-current path by adding newPath = 'desired path'
-    # File will be created in pwd unless 'filename' contains path info or newPath is called
-    if 'newPath' in new_directory:
-        print 'new path selected: ' + new_directory['newPath']
-        filename = os.path.join(new_directory['newPath'],filename)
-        with open(filename+'_log.csv','a') as logfile:
-            logwriter = csv.writer(logfile, delimiter=',')
-            logwriter.writerow(values)
-            logfile.close()
-
-
 ##### new function to pick options only
 def pickvalues():
     a1 = 5 
@@ -42,10 +27,10 @@ def pickvalues():
     return optionValues
 
 ###### Pick to play or not routine ######
-def pickoptions(win):
+def pickoptions(win, length):
     pickoptionsClock = core.Clock()
     response = 0
-    RT = 0
+    RT_choice = 0
     choice_1 = 0 #choice_1 refers to the pick or play routine
     ### start routine "pick options ###
     core.wait(1)
@@ -55,44 +40,47 @@ def pickoptions(win):
     if len(theseKeys) > 0:
         if '1' in theseKeys: #pick play
             response = 1
-            RT = pickoptionsClock.getTime()
+            RT_choice = pickoptionsClock.getTime()
             win.flip()
         elif '2' in theseKeys: #pick pick
             response = 2
-            RT = pickoptionsClock.getTime()
+            RT_choice = pickoptionsClock.getTime()
             win.flip()
         else: #did not pick
             response = 3
-            RT = pickoptionsClock.getTime()
+            RT_choice = pickoptionsClock.getTime()
             win.flip()
     if response == 0: 
         response = 3
-        RT = pickoptionsClock.getTime()
-    choice_1 ={'play':response == 1, 'pick':response == 2, 'miss': response == 3}
+        RT_choice = pickoptionsClock.getTime()
+    choice_1 ={'play':response == 1, 'pick':response == 2, 'miss': response == 3, 'RT_choice': RT_choice}
     return choice_1
 
 #### precommitment (pick) routine ####
 def precomm_pick(win):
     pickClock = core.Clock()
     response = 0
-    RT = 0
+    RT_precomm = 0
     choice_2 = 0 #choice_2 refers to the precommitment routine 
     #record responses
     theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
     if len(theseKeys) > 0:
         if '1' in theseKeys: #pick right
             response = 1
+            RT_precomm = pickClock.getTime()
             win.flip()
         elif '2' in theseKeys: #pick left
             response = 2
+            RT_precomm = pickClock.getTime()
             win.flip()
         else: #did not pick
             response = 3
-            RT = pickClock.getTime()
+            RT_precomm = pickClock.getTime()
             win.flip()
     if response == 0:
         response = 3
-    choice_2 ={'right':response == 1, 'left':response == 2, 'miss':response == 3}
+        RT_precomm = pickClock.getTime()
+    choice_2 ={'right':response == 1, 'left':response == 2, 'miss':response == 3, 'RT_precomm': RT_precomm}
     return choice_2 
 
 #### play routine (MID routine) ####
@@ -101,7 +89,7 @@ def play_routine(win):
     playClock.reset()
     response = 0
     length = 0.5
-    RT = 0 
+    RT_play = 0
     choice_3 = 0 #choice_3 refers to the play routine 
     ### start routine "play" ###
     theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
@@ -109,16 +97,20 @@ def play_routine(win):
         if len(theseKeys) > 0:
             if '1' in theseKeys: #pick right 
                 response = 1
+                RT_play = playClock.getTime()
                 win.flip()
             elif '2' in theseKeys: # pick left 
                 response = 2
+                RT_play = playClock.getTime()
                 win.flip()
             else: #did not pick
                 response = 3
+                RT_play = playClock.getTime()
                 win.flip()
     if response == 0: 
         response = 3
-    choice_3 = {'win_right':response == 1, 'win_left':response == 2, 'loose':response == 3}
+        RT_play = playClock.getTime()
+    choice_3 = {'win_right':response == 1, 'win_left':response == 2, 'loose':response == 3, 'RT_play': RT_play}
     return choice_3 
 
 

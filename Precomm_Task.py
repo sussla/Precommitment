@@ -1,5 +1,5 @@
 from __future__ import absolute_import, division
-from psychopy import gui, visual, core, event
+from psychopy import gui, visual, core, event, data, logging, sound
 import numpy as np  # whole numpy lib is available, prepend 'np.'
 import os  # handy system and path functions
 import sys  # to get file system encoding
@@ -11,29 +11,27 @@ import Precomm_Helper as helper
 
 ########### Basic experiment settings ###########
 
-### Ensure that relative paths start from the same directory as this script ###
-_thisDir = os.path.dirname(os.path.abspath(__file__))
-os.chdir(_thisDir)
 
 ### Store info about the experiment session ###
 expName = 'PreComm_Task'  # from the Builder filename that created this script
-expInfo = {'participant':''}
+expInfo = {'participant':'','date':''}
 dlg = gui.DlgFromDict(dictionary=expInfo, title=expName)
 if dlg.OK == False:
     core.quit()  # user pressed cancel
 expInfo['date'] = time.strftime("%d%m%Y")#data.getDateStr()  # add a simple timestamp
 expInfo['expName'] = expName
 
-### log file name ###
-## log order: 'timing','Expected Reward','Decision (0=quit;1=complete; 2=failed)','RT','Trial Time','Total Time','Trial result','Task presentec','Parameters used'
-filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date']) # old
-filename = u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])
-filename2 = u'data/attention_%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])
+### Ensure that relative paths start from the same directory as this script ###
+_thisDir = os.path.dirname(os.path.abspath(__file__)).decode(sys.getfilesystemencoding())
+os.chdir(_thisDir)
 
-### Check if data folder exists ###
-if os.path.isdir(_thisDir + os.sep + 'data') == False:
-    print ('NOTE: Created data directory because none existed')
-    os.makedirs('data')
+# Data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
+filename = _thisDir + os.sep + u'data/%s_%s_%s' %(expName, expInfo['participant'], expInfo['date'])
+
+# use an ExperimentHandler to handle saving data
+thisExp = data.ExperimentHandler(name=expName, version='',
+    extraInfo=expInfo, runtimeInfo=None, originPath=None,
+    savePickle=True, saveWideText=True, dataFileName=filename)
 
 ###### Setup the Window #######
 win = visual.Window(
@@ -42,11 +40,23 @@ win = visual.Window(
     monitor='testMonitor', color=[0,0,0], colorSpace='rgb',
     blendMode='avg', useFBO=True)
 
-##### timing parameters #######
-taskTime = 4
-isiTime = 1
-blockLength = 5
-length = 1
+#store frame rate of monitor if we can measure it successfully
+expInfo['frameRate']=win.getActualFrameRate()
+print('measured frame rate: ')
+print(expInfo['frameRate'])
+if expInfo['frameRate']!=None:
+    frameDur = 1.0/round(expInfo['frameRate'])
+else:
+    frameDur = 1.0/60.0 # couldn't get a reliable measure so guess
+
+###############################
+##### Task-specific setup #####
+
+###### timing parameters #######
+#taskTime = 4
+#isiTime = 1
+#blockLength = 5
+length = 0
 
 ## Create Stimuli ##
 # stimuli outside loop = stimuli that do not change ###
@@ -68,13 +78,17 @@ got_it = visual.TextStim(win, text ='win', height = 0.1)
 lost = visual.TextStim(win, text = 'Lost. One was chosen for you.', height = 0.1)
 
 ###### set clocks #######
-globalClock = core.Clock()
+#create clock and timer
+globalClock = core.Clock() #this tracks all of the time of the experiment
 trialClock = core.Clock()
-playClock = core.Clock()
+timeNow = 0 #for tracking cumulative time
+
 
 ### Task parameters ####
+#initalize variables
 rewardAmount = 0 #cummulative reward amount 
-nTrials = 6
+nTrials = 3 #number of trials per block
+response = 0
 
 ##############################
 ###### Begin experiment ######
@@ -114,15 +128,17 @@ for trialIdx in range(nTrials):
     pickoptionB.draw()
     optionText.draw()
     win.flip()
+    core.wait(2)
     #pick options routine
-    pickChoice = helper.pickoptions(win)
-    if pickChoice['play']: #if choose to play on this trial 
+    pickChoice = helper.pickoptions(win, length)
+    if pickChoice['play']: #if choose to play on this trial
         #screen to show that play was choosen 
+        response = 'play'
         pickoptionA.draw()
         pickoptionB.draw()
         playText.draw()
         win.flip()
-        core.wait(1)
+        core.wait(2)
         #start play routine with fixation cross
         isi.draw()
         win.flip()
@@ -141,6 +157,7 @@ for trialIdx in range(nTrials):
         core.wait(1)
        # #start the play routine to record response
         if playgame['win_right']:#if choose the right option on play
+            response = 'win_right'
             cents = optionValues['endB']
             win.flip()
             #indicate that you won 
@@ -155,6 +172,7 @@ for trialIdx in range(nTrials):
             win.flip()
             core.wait(1)
         if playgame['win_left']:#if choose the left option on play
+            response = 'win_left'
             cents = optionValues['endA']
             win.flip()
             #indicate that you won 
@@ -172,7 +190,8 @@ for trialIdx in range(nTrials):
             potentials = [optionValues['endA'], optionValues['endB']]
             #if you loose the game, one of the two options will be chosen for you 
             loosing_win = random.choice(potentials)
-            #indicate that you lost 
+            #indicate that you lost
+            response = 'lost_game'
             lost.draw()
             win.flip()
             core.wait(1)
@@ -196,24 +215,25 @@ for trialIdx in range(nTrials):
                 core.wait(1)
     elif pickChoice['pick']: #if choose pick on this trial
         #indicate that pick was chosen for this trial
+        response = 'pick'
         pickoptionA.draw()
         pickoptionB.draw()
         pickText.draw()
         win.flip()
-        core.wait(1)
+        core.wait(2)
         #instructions on how to pick 
         chooseText.draw()
         pickoptionA.draw()
         pickoptionB.draw()
         win.flip()
-        core.wait(1)
+        core.wait(2)
         #run the pick (precommitment) routine from helper to record options chosen 
         precomm = helper.precomm_pick(win)
         if precomm['right']: #if choose to precommit to the right option
             pickoptionB.draw()
             cents = optionValues['endB']
             win.flip()
-            core.wait(1)
+            core.wait(2)
             #indicate that the values change
             values_change.draw()
             win.flip()
@@ -224,12 +244,12 @@ for trialIdx in range(nTrials):
             endoptionB.draw()
             highlight_2.draw()
             win.flip()
-            core.wait(1)
+            core.wait(2)
         elif precomm['left']: #if choose to precommit to the left option 
             pickoptionA.draw()
             cents = optionValues['endA']
             win.flip()
-            core.wait(1)
+            core.wait(2)
             #indicate that the values change 
             values_change.draw()
             win.flip()
@@ -240,16 +260,17 @@ for trialIdx in range(nTrials):
             endoptionB.draw()
             highlight_1.draw()
             win.flip()
-            core.wait(1)
+            core.wait(2)
         elif precomm['miss']:
             miss.draw()
             win.flip()
-            core.wait(1)
+            core.wait(2)
             cents = 0
-    elif pickChoice['miss']:
+    elif pickChoice['miss']: #if missed in choosing to pick or play
+        response = 'miss'
         miss.draw()
         win.flip()
-        core.wait(1)
+        core.wait(2)
         cents = 0
     #show the amount of money earned on this trial
     if cents == optionValues['endA']: #you earned the A value
@@ -281,8 +302,27 @@ for trialIdx in range(nTrials):
     #if you receive no money on the trial (forgot to click) 
     elif cents == 0:
         money = 0
-    #to add the money that you earned on this trial to the cummulative amount 
+
+    #update earnings
     rewardAmount += money
+
+    #log data
+    thisExp.addData('TrialNumber',trialIdx+1)
+    thisExp.addData('OptionA',optionValues['optionA'])
+    thisExp.addData('OptionB',optionValues['optionB'])
+    thisExp.addData('EndA',optionValues['endA'])
+    thisExp.addData('EndB',optionValues['endB'])
+    thisExp.addData('Choice_RT', pickChoice['RT_choice'])
+    thisExp.addData('Choice_Play',response == 'play')
+    thisExp.addData('Choice_Pick',response == 'pick')
+    thisExp.addData('Choice_Miss',response == 'miss')
+    thisExp.addData('Play_RT',playgame['RT_play'])
+    thisExp.addData('Play_win_right',response == 'win_right')
+    thisExp.addData('Play_win_left',response == 'win_left')
+    thisExp.addData('Play_lost',response == 'lost')
+
+    thisExp.addData('Precomm_RT', precomm['RT_precomm'])
+    thisExp.nextEntry('')
 
 #show earnings on entire block 
 #allow escape experiment
@@ -294,7 +334,17 @@ win.flip()
 #right now need to press enter to end the experiment 
 event.waitKeys(keyList=['return'])
 
-##end the experiment 
+
+###########################
+##### Close-out steps #####
+
+# these shouldn't be strictly necessary (should auto-save)
+thisExp.saveAsWideText(filename+'.csv')
+thisExp.saveAsPickle(filename)
+logging.flush()
+
+##end the experiment
+thisExp.abort()
 #close the window
 win.close()
 #end the experiment 
