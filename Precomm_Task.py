@@ -149,7 +149,7 @@ for trialIdx in range(nTrials):
         win.flip()
         core.wait(0.3) #how long the end values are on the screen for the quick MID section 
         #run the routine for responding to the stimulus 
-        playgame = helper.play_routine(win)
+        playgame = helper.play_routine(win, length)
         #mask the two options
         rectangle_1.draw()
         rectangle_2.draw()
@@ -200,6 +200,7 @@ for trialIdx in range(nTrials):
             win.flip()
             #highlight the random value that was choosen for you if you lost 
             if loosing_win == optionValues['endA']:
+                response = 'chosen_endA'
                 highlight_1.draw()
                 Final_value.draw()
                 endoptionA.draw()
@@ -207,6 +208,7 @@ for trialIdx in range(nTrials):
                 win.flip()
                 core.wait(1)
             elif loosing_win == optionValues['endB']:
+                response = 'chosen_endB'
                 highlight_2.draw()
                 Final_value.draw()
                 endoptionA.draw()
@@ -228,8 +230,9 @@ for trialIdx in range(nTrials):
         win.flip()
         core.wait(2)
         #run the pick (precommitment) routine from helper to record options chosen 
-        precomm = helper.precomm_pick(win)
+        precomm = helper.precomm_pick(win, length)
         if precomm['right']: #if choose to precommit to the right option
+            response = 'precomm_right'
             pickoptionB.draw()
             cents = optionValues['endB']
             win.flip()
@@ -245,7 +248,8 @@ for trialIdx in range(nTrials):
             highlight_2.draw()
             win.flip()
             core.wait(2)
-        elif precomm['left']: #if choose to precommit to the left option 
+        elif precomm['left']: #if choose to precommit to the left option
+            response = 'precomm_left'
             pickoptionA.draw()
             cents = optionValues['endA']
             win.flip()
@@ -262,6 +266,7 @@ for trialIdx in range(nTrials):
             win.flip()
             core.wait(2)
         elif precomm['miss']:
+            response = 'precomm_miss'
             miss.draw()
             win.flip()
             core.wait(2)
@@ -320,8 +325,16 @@ for trialIdx in range(nTrials):
     thisExp.addData('Play_win_right',response == 'win_right')
     thisExp.addData('Play_win_left',response == 'win_left')
     thisExp.addData('Play_lost',response == 'lost')
-
-    thisExp.addData('Precomm_RT', precomm['RT_precomm'])
+    thisExp.addData('Play_lost_chosenA',response == 'chosen_endA')
+    thisExp.addData('Play_lost_chosenB',response == 'chosen_endB')
+    thisExp.addData('Play_toolate_left',playgame['late_left'])
+    thisExp.addData('Play_toolate_right',playgame['late_right'])
+    thisExp.addData('Play_neverpicked',playgame['never_press'])
+    thisExp.addData('Precomm_RT',precomm['RT_precomm'])
+    thisExp.addData('Precomm_right',response =='precomm_right')
+    thisExp.addData('Precomm_left',response =='precomm_left')
+    thisExp.addData('Precomm_miss',response =='precomm_miss')
+    thisExp.nextEntry('Earnings',money)
     thisExp.nextEntry('')
 
 #show earnings on entire block 

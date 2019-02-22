@@ -57,7 +57,7 @@ def pickoptions(win, length):
     return choice_1
 
 #### precommitment (pick) routine ####
-def precomm_pick(win):
+def precomm_pick(win, length):
     pickClock = core.Clock()
     response = 0
     RT_precomm = 0
@@ -84,10 +84,11 @@ def precomm_pick(win):
     return choice_2 
 
 #### play routine (MID routine) ####
-def play_routine(win):
+def play_routine(win, length):
     playClock = core.Clock()
     playClock.reset()
     response = 0
+    late_reaction = 0
     length = 0.5
     RT_play = 0
     choice_3 = 0 #choice_3 refers to the play routine 
@@ -107,10 +108,28 @@ def play_routine(win):
                 response = 3
                 RT_play = playClock.getTime()
                 win.flip()
+    while playClock.getTime() > length:
+        if len(theseKeys) > 0:
+            if '1' in theseKeys: #picked right too late
+                response = 3
+                late_reaction = 4
+                RT_play = playClock.getTime()
+                win.flip()
+            elif '2' in theseKeys: #picked left too late
+                response = 3
+                late_reaction = 5
+                RT_play = playClock.getTime()
+                win.flip()
+            else: #still did not pick
+                response = 3
+                late_reaction = 6
+                RT_play = playClock.getTime()
+                win.flip()
     if response == 0: 
         response = 3
         RT_play = playClock.getTime()
-    choice_3 = {'win_right':response == 1, 'win_left':response == 2, 'loose':response == 3, 'RT_play': RT_play}
-    return choice_3 
-
-
+    choice_3 = {'win_right':response == 1, 'win_left':response == 2, 'loose':response == 3,
+                'late_right': late_reaction == 4, 'late_left': late_reaction ==5,
+                'never_press': late_reaction == 6,
+                'RT_play': RT_play}
+    return choice_3
