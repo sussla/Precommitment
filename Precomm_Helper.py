@@ -45,7 +45,7 @@ def pickvalues():
     return optionValues
 
 ###### Pick to play or not routine ######
-def pickoptions(win):
+def pickoptions(win, trialClock):
     pickoptionsClock = core.Clock()
     pickoptionsClock.reset()
     response = 0
@@ -76,8 +76,8 @@ def pickoptions(win):
     return choice_1
 
 #### precommitment (pick) routine ####
-def precomm_pick(win):
-    pickClock = core.Clock()
+def precomm_pick(win, trialClock):
+   # pickClock = core.Clock()
     #pickClock.reset()
     response = 0
     RT_precomm = 0
@@ -87,30 +87,38 @@ def precomm_pick(win):
     if len(theseKeys) > 0:
         if '1' in theseKeys: #pick left
             response = 1
-            RT_precomm = pickClock.getTime()
+            RT_precomm = trialClock.getTime()
             win.flip()
         elif '2' in theseKeys: #pick right
             response = 2
-            RT_precomm = pickClock.getTime()
+            RT_precomm = trialClock.getTime()
             win.flip()
         else: #did not pick
             response = 3
-            RT_precomm = pickClock.getTime()
+            RT_precomm = trialClock.getTime()
             win.flip()
     if response == 0:
         response = 3
-        RT_precomm = pickClock.getTime()
+        RT_precomm = trialClock.getTime()
     choice_2 = {'B':response == 1, 'A':response == 2, 'miss':response == 3, 'RT_precomm': RT_precomm}
     return choice_2 
 
 #### play routine (MID routine) ####
-def play_routine(win, optionValues):
+def play_routine(win, optionValues, trialClock):
     playClock = core.Clock()
     playClock.reset()
     response = 0
     length = 0.5
     RT_play = 0
-    choice_3 = 0 #choice_3 refers to the play routine 
+    RT_trialClock_play = 0
+    choice_3 = 0 #choice_3 refers to the play routine
+    #show the option values as part of the play routine but need to define how to draw then a second time
+    endoptionA = visual.TextStim(win=win, text= optionValues['endA'], name='endA', pos = [0.5,0], rgb= None, color=(0,1,0), colorSpace='rgb')
+    endoptionB = visual.TextStim(win=win, text= optionValues['endB'], name='endB', pos = [-0.5,0], rgb= None, color=(1,0,0), colorSpace='rgb')
+    endoptionA.draw()
+    endoptionB.draw()
+    win.flip()
+    core.wait(0.5)  # how long the end values are on the screen for the quick MID section
     ### start routine "play" ###
    # theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
     while playClock.getTime() < length:
@@ -119,24 +127,28 @@ def play_routine(win, optionValues):
             if '1' in theseKeys: #pick left
                 response = 1
                 RT_play = playClock.getTime()
+                RT_trialClock_play = trialClock.getTime()
                 win.flip()
             elif '2' in theseKeys: #pick right
                 response = 2
                 RT_play = playClock.getTime()
+                RT_trialClock_play = trialClock.getTime()
                 win.flip()
             else: #did not pick
                 response = 3
                 RT_play = playClock.getTime()
+                RT_trialClock_play = trialClock.getTime()
                 win.flip()
     if response == 0:
         response = 3
         win.flip()
-    choice_3 = {'B':response == 1, 'A':response == 2, 'loose':response == 3, 'RT_play': RT_play}
+    choice_3 = {'B':response == 1, 'A':response == 2, 'loose':response == 3,
+                'RT_play': RT_play, 'RT_trialClock_play': RT_trialClock_play}
     return choice_3
 
-def press_late(win):
-    lateClock = core.Clock()
-    lateClock.reset()
+def press_late(win, trialClock):
+  #  lateClock = core.Clock()
+  #  lateClock.reset()
     response = 0
     RT_late = 0
     choice_4 = 0
@@ -145,18 +157,18 @@ def press_late(win):
     if len(theseKeys) > 0:
         if '1' in theseKeys: #pick right
             response = 1
-            RT_late = lateClock.getTime()
+            RT_late = trialClock.getTime()
             win.flip()
         elif '2' in theseKeys: #pick left
             response = 2
-            RT_late = lateClock.getTime()
+            RT_late = trialClock.getTime()
             win.flip()
         else: #did not pick
             response = 3
-            RT_late = lateClock.getTime()
+            RT_late = trialClock.getTime()
             win.flip()
     if response == 0:
         response = 3
-        RT_late = lateClock.getTime()
+        RT_late = trialClock.getTime()
     choice_4 = {'late_B':response == 1, 'late_A':response == 2, 'not_late':response == 3, 'RT_late': RT_late}
     return choice_4
