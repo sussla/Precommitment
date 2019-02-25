@@ -1,0 +1,4 @@
+TrialNumber,OptionA,OptionB,EndA,EndB,Choice_RT,Choice_Play,Choice_Pick,Choice_Miss,Play_RT,Play_win_A,Play_win_B,Late_RT,Play_lost,Play_lost_chosenA,Play_lost_chosenB,Play_toolate_B,Play_toolate_A,Precomm_RT,Precomm_B,Precomm_A,Precomm_miss,Earnings,date,frameRate,expName,participant,
+1,23,45,12,42,1.01634383202,True,False,False,0,False,False,0.000118970870972,False,False,True,False,True,0,False,False,False,42,24022019,59.679399436,PreComm_Task,,
+2,33,53,8,58,1.01635599136,True,False,False,0,False,False,0.000117063522339,False,True,False,False,True,0,False,False,False,8,24022019,59.679399436,PreComm_Task,,
+3,11,70,55,60,1.01565504074,True,False,False,0.498686075211,False,True,0.00011682510376,False,False,False,False,False,0,False,False,False,60,24022019,59.679399436,PreComm_Task,,
