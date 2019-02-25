@@ -32,11 +32,11 @@ def pickvalues():
     max_end = max(endA, endB)
     #if the best option changes or stays the same
     change = 0
-    if optionA >= optionB & endA >= endB:
+    if (optionA >= optionB) and (endA >= endB):
         change = 1
-    if optionA <= optionB & endA <= endB:
+    if (optionA <= optionB) and (endA <= endB):
         change = 2
-    if optionA >= optionB & endA <= endB or optionA <= optionB & endA >= endB:
+    if (optionA >= optionB and endA <= endB) or (optionA <= optionB and endA >= endB):
         change = 3
     optionValues = {'optionA':optionA, 'optionB':optionB, 'endA':endA, 'endB':endB,
                     'A_difference':A_difference, 'B_difference':B_difference,
@@ -78,7 +78,7 @@ def pickoptions(win):
 #### precommitment (pick) routine ####
 def precomm_pick(win):
     pickClock = core.Clock()
-    pickClock.reset()
+    #pickClock.reset()
     response = 0
     RT_precomm = 0
     choice_2 = 0 #choice_2 refers to the precommitment routine 
@@ -104,7 +104,7 @@ def precomm_pick(win):
     return choice_2 
 
 #### play routine (MID routine) ####
-def play_routine(win):
+def play_routine(win, optionValues):
     playClock = core.Clock()
     playClock.reset()
     response = 0
@@ -112,8 +112,9 @@ def play_routine(win):
     RT_play = 0
     choice_3 = 0 #choice_3 refers to the play routine 
     ### start routine "play" ###
-    theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
+   # theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
     while playClock.getTime() < length:
+        theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
         if len(theseKeys) > 0:
             if '1' in theseKeys: #pick left
                 response = 1
