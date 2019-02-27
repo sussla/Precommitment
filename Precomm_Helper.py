@@ -46,8 +46,6 @@ def pickvalues():
 
 ###### Pick to play or not routine ######
 def pickoptions(win, trialClock):
-    pickoptionsClock = core.Clock()
-    pickoptionsClock.reset()
     response = 0
     RT_choice = 0
     choice_1 = 0 # choice_1 refers to the pick or play routine
@@ -59,26 +57,24 @@ def pickoptions(win, trialClock):
     if len(theseKeys) > 0:
         if '1' in theseKeys: # pick play
             response = 1
-            RT_choice = pickoptionsClock.getTime()
+            RT_choice = trialClock.getTime()
             win.flip()
         elif '2' in theseKeys: # pick pick
             response = 2
-            RT_choice = pickoptionsClock.getTime()
+            RT_choice = trialClock.getTime()
             win.flip()
         else: # did not pick
             response = 3
-            RT_choice = pickoptionsClock.getTime()
+            RT_choice = trialClock.getTime()
             win.flip()
     if response == 0: 
         response = 3
-        RT_choice = pickoptionsClock.getTime()
+        RT_choice = trialClock.getTime()
     choice_1 ={'play':response == 1, 'pick':response == 2, 'miss': response == 3, 'RT_choice': RT_choice}
     return choice_1
 
 #### precommitment (pick) routine ####
 def precomm_pick(win, trialClock):
-   # pickClock = core.Clock()
-    #pickClock.reset()
     response = 0
     RT_precomm = 0
     choice_2 = 0 #choice_2 refers to the precommitment routine 
@@ -108,7 +104,7 @@ def play_routine(win, optionValues, trialClock):
     playClock = core.Clock()
     playClock.reset()
     response = 0
-    length = 0.5
+    length = 0.7
     RT_play = 0
     RT_trialClock_play = 0
     choice_3 = 0 #choice_3 refers to the play routine
@@ -120,7 +116,6 @@ def play_routine(win, optionValues, trialClock):
     win.flip()
     core.wait(0.5)  # how long the end values are on the screen for the quick MID section
     ### start routine "play" ###
-   # theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
     while playClock.getTime() < length:
         theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
         if len(theseKeys) > 0:
@@ -147,8 +142,6 @@ def play_routine(win, optionValues, trialClock):
     return choice_3
 
 def press_late(win, trialClock):
-  #  lateClock = core.Clock()
-  #  lateClock.reset()
     response = 0
     RT_late = 0
     choice_4 = 0
