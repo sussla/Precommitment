@@ -23,14 +23,14 @@ def pickvalues():
     # end values
     endA = random.choice(range(a1, b1, 1))
     endB = random.choice(range(a2, b2, 1))
-    #differnce between values
+    # difference between values
     A_difference = optionA - endA
     B_difference = optionB - endB
-    #largest of options
+    # largest of options
     max_option = max(optionA, optionB)
-    #largest of end values
+    # largest of end values
     max_end = max(endA, endB)
-    #if the best option changes or stays the same
+    # if the best option changes or stays the same
     change = 0
     if (optionA >= optionB) and (endA >= endB):
         change = 1
@@ -38,10 +38,10 @@ def pickvalues():
         change = 2
     if (optionA >= optionB and endA <= endB) or (optionA <= optionB and endA >= endB):
         change = 3
-    optionValues = {'optionA':optionA, 'optionB':optionB, 'endA':endA, 'endB':endB,
-                    'A_difference':A_difference, 'B_difference':B_difference,
-                   'max_option':max_option, 'max_end':max_end,
-                    'A_always':change ==1, 'B_always':change ==2, 'changes':change ==3}
+    optionValues = {'optionA': optionA, 'optionB': optionB, 'endA': endA, 'endB': endB,
+                    'A_difference': A_difference, 'B_difference': B_difference,
+                   'max_option': max_option, 'max_end': max_end,
+                    'A_always': change == 1, 'B_always': change == 2, 'changes': change == 3}
     return optionValues
 
 ###### Pick to play or not routine ######
@@ -70,33 +70,33 @@ def pickoptions(win, trialClock):
     if response == 0: 
         response = 3
         RT_choice = trialClock.getTime()
-    choice_1 ={'play':response == 1, 'pick':response == 2, 'miss': response == 3, 'RT_choice': RT_choice}
+    choice_1 ={'play': response == 1, 'pick': response == 2, 'miss': response == 3, 'RT_choice': RT_choice}
     return choice_1
 
 #### precommitment (pick) routine ####
 def precomm_pick(win, trialClock):
     response = 0
     RT_precomm = 0
-    choice_2 = 0 #choice_2 refers to the precommitment routine 
-    #record responses
+    choice_2 = 0  # choice_2 refers to the precommitment routine
+    # record responses
     theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
     if len(theseKeys) > 0:
-        if '1' in theseKeys: #pick left
+        if '1' in theseKeys:  # pick left
             response = 1
             RT_precomm = trialClock.getTime()
             win.flip()
-        elif '2' in theseKeys: #pick right
+        elif '2' in theseKeys:  # pick right
             response = 2
             RT_precomm = trialClock.getTime()
             win.flip()
-        else: #did not pick
+        else:  # did not pick
             response = 3
             RT_precomm = trialClock.getTime()
             win.flip()
     if response == 0:
         response = 3
         RT_precomm = trialClock.getTime()
-    choice_2 = {'B':response == 1, 'A':response == 2, 'miss':response == 3, 'RT_precomm': RT_precomm}
+    choice_2 = {'B': response == 1, 'A': response == 2, 'miss': response == 3, 'RT_precomm': RT_precomm}
     return choice_2 
 
 #### play routine (MID routine) ####
@@ -104,11 +104,11 @@ def play_routine(win, optionValues, trialClock):
     playClock = core.Clock()
     playClock.reset()
     response = 0
-    length = 0.7
+    length = 0.6
     RT_play = 0
     RT_trialClock_play = 0
-    choice_3 = 0 #choice_3 refers to the play routine
-    #show the option values as part of the play routine but need to define how to draw then a second time
+    choice_3 = 0  # choice_3 refers to the play routine
+    # show the option values as part of the play routine but need to define how to draw then a second time
     endoptionA = visual.TextStim(win=win, text= optionValues['endA'], name='endA', pos = [0.5,0], rgb= None, color=(0,1,0), colorSpace='rgb')
     endoptionB = visual.TextStim(win=win, text= optionValues['endB'], name='endB', pos = [-0.5,0], rgb= None, color=(1,0,0), colorSpace='rgb')
     endoptionA.draw()
@@ -119,17 +119,17 @@ def play_routine(win, optionValues, trialClock):
     while playClock.getTime() < length:
         theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
         if len(theseKeys) > 0:
-            if '1' in theseKeys: #pick left
+            if '1' in theseKeys:  # pick left
                 response = 1
                 RT_play = playClock.getTime()
                 RT_trialClock_play = trialClock.getTime()
                 win.flip()
-            elif '2' in theseKeys: #pick right
+            elif '2' in theseKeys:  # pick right
                 response = 2
                 RT_play = playClock.getTime()
                 RT_trialClock_play = trialClock.getTime()
                 win.flip()
-            else: #did not pick
+            else:  # did not pick
                 response = 3
                 RT_play = playClock.getTime()
                 RT_trialClock_play = trialClock.getTime()
@@ -137,7 +137,7 @@ def play_routine(win, optionValues, trialClock):
     if response == 0:
         response = 3
         win.flip()
-    choice_3 = {'B':response == 1, 'A':response == 2, 'loose':response == 3,
+    choice_3 = {'B': response == 1, 'A': response == 2, 'loose': response == 3,
                 'RT_play': RT_play, 'RT_trialClock_play': RT_trialClock_play}
     return choice_3
 
@@ -145,23 +145,23 @@ def press_late(win, trialClock):
     response = 0
     RT_late = 0
     choice_4 = 0
-    #record responses
+    # record responses
     theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
     if len(theseKeys) > 0:
-        if '1' in theseKeys: #pick right
+        if '1' in theseKeys:  # pick right
             response = 1
             RT_late = trialClock.getTime()
             win.flip()
-        elif '2' in theseKeys: #pick left
+        elif '2' in theseKeys:  # pick left
             response = 2
             RT_late = trialClock.getTime()
             win.flip()
-        else: #did not pick
+        else:  # did not pick
             response = 3
             RT_late = trialClock.getTime()
             win.flip()
     if response == 0:
         response = 3
         RT_late = trialClock.getTime()
-    choice_4 = {'late_B':response == 1, 'late_A':response == 2, 'not_late':response == 3, 'RT_late': RT_late}
+    choice_4 = {'late_B': response == 1, 'late_A': response == 2, 'not_late': response == 3, 'RT_late': RT_late}
     return choice_4
