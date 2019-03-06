@@ -10,10 +10,12 @@ import random
 
 
 ##### new function to pick options only
+
+
 def pickvalues():
     a1 = 5 
     a2 = 15 
-    w = 60 # width of each range
+    w = 60  # width of each range
     # derived params
     b1 = a1 + w 
     b2 = a2 + w 
@@ -53,13 +55,13 @@ def pickoptions(win, trialClock):
     core.wait(1)
     win.flip()
     # record responses
-    theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
+    theseKeys = event.getKeys(keyList=['up', 'down', 'escape'])
     if len(theseKeys) > 0:
-        if '1' in theseKeys: # pick play
+        if 'up' in theseKeys: # pick play
             response = 1
             RT_choice = trialClock.getTime()
             win.flip()
-        elif '2' in theseKeys: # pick pick
+        elif 'down' in theseKeys: # pick pick
             response = 2
             RT_choice = trialClock.getTime()
             win.flip()
@@ -79,13 +81,13 @@ def precomm_pick(win, trialClock):
     RT_precomm = 0
     choice_2 = 0  # choice_2 refers to the precommitment routine
     # record responses
-    theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
+    theseKeys = event.getKeys(keyList=['left', 'right', 'escape'])
     if len(theseKeys) > 0:
-        if '1' in theseKeys:  # pick left
+        if 'left' in theseKeys:  # pick left
             response = 1
             RT_precomm = trialClock.getTime()
             win.flip()
-        elif '2' in theseKeys:  # pick right
+        elif 'right' in theseKeys:  # pick right
             response = 2
             RT_precomm = trialClock.getTime()
             win.flip()
@@ -96,7 +98,7 @@ def precomm_pick(win, trialClock):
     if response == 0:
         response = 3
         RT_precomm = trialClock.getTime()
-    choice_2 = {'B': response == 1, 'A': response == 2, 'miss': response == 3, 'RT_precomm': RT_precomm}
+    choice_2 = {'A': response == 1, 'B': response == 2, 'miss': response == 3, 'RT_precomm': RT_precomm}
     return choice_2 
 
 #### play routine (MID routine) ####
@@ -117,14 +119,14 @@ def play_routine(win, optionValues, trialClock):
     core.wait(0.5)  # how long the end values are on the screen for the quick MID section
     ### start routine "play" ###
     while playClock.getTime() < length:
-        theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
+        theseKeys = event.getKeys(keyList=['left', 'right', 'escape'])
         if len(theseKeys) > 0:
-            if '1' in theseKeys:  # pick left
+            if 'left' in theseKeys:  # pick left
                 response = 1
                 RT_play = playClock.getTime()
                 RT_trialClock_play = trialClock.getTime()
                 win.flip()
-            elif '2' in theseKeys:  # pick right
+            elif 'right' in theseKeys:  # pick right
                 response = 2
                 RT_play = playClock.getTime()
                 RT_trialClock_play = trialClock.getTime()
@@ -137,7 +139,7 @@ def play_routine(win, optionValues, trialClock):
     if response == 0:
         response = 3
         win.flip()
-    choice_3 = {'B': response == 1, 'A': response == 2, 'loose': response == 3,
+    choice_3 = {'A': response == 1, 'B': response == 2, 'loose': response == 3,
                 'RT_play': RT_play, 'RT_trialClock_play': RT_trialClock_play}
     return choice_3
 
@@ -146,13 +148,13 @@ def press_late(win, trialClock):
     RT_late = 0
     choice_4 = 0
     # record responses
-    theseKeys = event.getKeys(keyList=['1', '2', 'escape'])
+    theseKeys = event.getKeys(keyList=['left', 'right', 'escape'])
     if len(theseKeys) > 0:
-        if '1' in theseKeys:  # pick right
+        if 'left' in theseKeys:  # pick right
             response = 1
             RT_late = trialClock.getTime()
             win.flip()
-        elif '2' in theseKeys:  # pick left
+        elif 'right' in theseKeys:  # pick left
             response = 2
             RT_late = trialClock.getTime()
             win.flip()
@@ -163,5 +165,5 @@ def press_late(win, trialClock):
     if response == 0:
         response = 3
         RT_late = trialClock.getTime()
-    choice_4 = {'late_B': response == 1, 'late_A': response == 2, 'not_late': response == 3, 'RT_late': RT_late}
+    choice_4 = {'late_A': response == 1, 'late_B': response == 2, 'not_late': response == 3, 'RT_late': RT_late}
     return choice_4

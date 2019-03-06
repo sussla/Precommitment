@@ -52,23 +52,33 @@ else:
 ###############################
 ##### Task-specific setup #####
 
-## Create Stimuli ##
+stimA_name = 'Apple'
+stimB_name = 'Broccoli'
+stimA_left = visual.ImageStim(win, image='Images/' + stimA_name +'.png', units='height',
+                              pos=[-0.45,-0.2], size=[0.2,0.2], name=stimA_name, interpolate=True)
+stimB_right = visual.ImageStim(win, image='Images/' + stimB_name +'.png', units='height',
+                              pos=[0.45,-0.2], size=[0.2,0.2], name=stimB_name, interpolate=True)
+
+
+## Word Stimuli ##
 # stimuli outside loop = stimuli that do not change ###
 isi = visual.TextStim(win, text='+')
-optionText = visual.TextStim(win=win, text='PLAY (1) or PICK (2)', height=0.1)
-pickText = visual.TextStim(win, text='PICK', height=0.1)
+optionText = visual.TextStim(win=win, text=' PLAY \n' + '  or  \n' + ' COMMIT ', height=0.1, pos=[0,0])
+pickText = visual.TextStim(win, text='COMMIT', height=0.1)
 playText = visual.TextStim(win, text='PLAY', height=0.1)
-chooseText = visual.TextStim(win, text='Left (1) or Right (2)', height=0.1)
-rectangle_1 = visual.Rect(win, width=0.6, height=0.6, autoLog= None, fillColor=[-0.2,-0.2,-0.2], pos = [0.5,0])
-rectangle_2 = visual.Rect(win, width=0.6, height=0.6, autoLog= None, fillColor=[-0.2,-0.2,-0.2], pos = [-0.5,0])
+chooseText = visual.TextStim(win, text='Left or Right ', height=0.1)
+rectangle_1 = visual.Rect(win, width=0.5, height=1.3, autoLog=None, fillColor=[-0.7, -0.7, -0.7], pos=[-0.5, -0.2])
+rectangle_2 = visual.Rect(win, width=0.5, height=1.3, autoLog=None, fillColor=[-0.7, -0.7, -0.7], pos=[0.5, -0.2])
+value_bar_1 = visual.Rect(win, width=0.2, height=0.8, lineWidth=3, autoLog=None, pos=[-0.5, 0.3])
+value_bar_2 = visual.Rect(win, width=0.2, height=0.8,lineWidth=3, autoLog=None, pos=[0.5, 0.3])
 looseText = visual.TextStim(win, text='loose', height=0.1)
 values_change = visual.TextStim(win, text='Values Change', height=0.1)
-Final_value = visual.TextStim(win, text='Final Values', height = 0.1)
-highlight_1 = visual.Rect(win, width=0.6, height=0.6, autoLog= None, pos = [0.5,0])
-highlight_2 = visual.Rect(win, width=0.6, height=0.6, autoLog= None, pos = [-0.5,0])
-rewardtext = visual.TextStim(win, text='$0.25', height = 0.1)
-miss = visual.TextStim(win, text='miss', height = 0.1)
-got_it = visual.TextStim(win, text='win', height = 0.1)
+Final_value = visual.TextStim(win, text='Final Values', height=0.1)
+highlight_1 = visual.Rect(win, width=0.6, height=1.5, lineWidth=5, lineColor=[1,-1,-1], autoLog=None, pos=[-0.5, 0])
+highlight_2 = visual.Rect(win, width=0.6, height=1.5, lineWidth=5, lineColor=[1,-1,-1], autoLog=None, pos=[0.5, 0])
+rewardtext = visual.TextStim(win, text='$0.25', height=0.1)
+miss = visual.TextStim(win, text='miss', height=0.1)
+got_it = visual.TextStim(win, text='hit', height=0.1)
 lost = visual.TextStim(win, text='Lost. One was chosen for you.', height = 0.1)
 
 ###### set clocks #######
@@ -78,7 +88,7 @@ trialClock = core.Clock()
 
 
 ### Task parameters ####
-nTrials = 10  # number of trials per block
+nTrials = 5  # number of trials per block
 rewardAmount = 0  # cumulative reward amount
 response = 0
 length = 0
@@ -119,14 +129,20 @@ for trialIdx in range(nTrials):
     # pick options from helper for this trial
     optionValues = helper.pickvalues()
     # stimuli that need to change for each trial
-    pickoptionA = visual.TextStim(win=win, text= optionValues['optionA'], name='optionA', pos = [0.5,0], rgb= None, color=(0,1,0), colorSpace='rgb')
-    pickoptionB = visual.TextStim(win=win, text= optionValues['optionB'], name='optionB', pos = [-0.5,0], rgb= None, color=(1,0,0), colorSpace='rgb')
-    endoptionA = visual.TextStim(win=win, text= optionValues['endA'], name='endA', pos = [0.5,0], rgb= None, color=(0,1,0), colorSpace='rgb')
-    endoptionB = visual.TextStim(win=win, text= optionValues['endB'], name='endB', pos = [-0.5,0], rgb= None, color=(1,0,0), colorSpace='rgb')
+    # option A is on the left side of screen
+    pickoptionA = visual.TextStim(win=win, text=optionValues['optionA'], name='optionA', pos = [-0.5,0], rgb= None, color=(0,1,0), colorSpace='rgb')
+    # option B is on the right side of screen
+    pickoptionB = visual.TextStim(win=win, text=optionValues['optionB'], name='optionB', pos = [0.5,0], rgb= None, color=(1,0,0), colorSpace='rgb')
+    endoptionA = visual.TextStim(win=win, text=optionValues['endA'], name='endA', pos = [-0.5,0], rgb= None, color=(0,1,0), colorSpace='rgb')
+    endoptionB = visual.TextStim(win=win, text=optionValues['endB'], name='endB', pos = [0.5,0], rgb= None, color=(1,0,0), colorSpace='rgb')
     # prepare to start routine "pick options"
     pickoptionA.draw()
     pickoptionB.draw()
     optionText.draw()
+    stimA_left.setAutoDraw(True)
+    stimB_right.setAutoDraw(True)
+    value_bar_1.setAutoDraw(True)
+    value_bar_2.setAutoDraw(True)
     win.flip()
     core.wait(1.5)
     # pick options routine
@@ -147,6 +163,10 @@ for trialIdx in range(nTrials):
         # run the routine for responding to the stimulus
         playgame = helper.play_routine(win, optionValues, trialClock)
         RT_play = playgame['RT_play']
+        stimA_left.setAutoDraw(False)
+        stimB_right.setAutoDraw(False)
+        value_bar_1.setAutoDraw(False)
+        value_bar_2.setAutoDraw(False)
         RT_trialClock_play = playgame['RT_trialClock_play']
         # mask the two options
         rectangle_1.draw()
@@ -154,7 +174,7 @@ for trialIdx in range(nTrials):
         win.flip()
         core.wait(1)
         # start the play routine to record response
-        if playgame['B']:  # if choose the right option on play
+        if playgame['B']:  # if choose the left option on play
             response = 'win_B'
             win_or_loose = 3
             cents = optionValues['endB']
@@ -168,9 +188,13 @@ for trialIdx in range(nTrials):
             endoptionA.draw()
             endoptionB.draw()
             highlight_2.draw()
+            stimA_left.draw()
+            stimB_right.draw()
+            value_bar_1.draw()
+            value_bar_2.draw()
             win.flip()
             core.wait(1)
-        if playgame['A']: # if choose the left option on play
+        if playgame['A']: # if choose the right option on play
             response = 'win_A'
             win_or_loose = 3
             cents = optionValues['endA']
@@ -184,6 +208,10 @@ for trialIdx in range(nTrials):
             endoptionA.draw()
             endoptionB.draw()
             highlight_1.draw()
+            stimA_left.draw()
+            stimB_right.draw()
+            value_bar_1.draw()
+            value_bar_2.draw()
             win.flip()
             core.wait(1)
         elif playgame['loose']:  # if do not pick within the allowed time (you "lost" the game)
@@ -214,6 +242,10 @@ for trialIdx in range(nTrials):
                 Final_value.draw()
                 endoptionA.draw()
                 endoptionB.draw()
+                stimA_left.draw()
+                stimB_right.draw()
+                value_bar_1.draw()
+                value_bar_2.draw()
                 win.flip()
                 core.wait(1)
             elif loosing_win == optionValues['endB']:
@@ -222,9 +254,13 @@ for trialIdx in range(nTrials):
                 Final_value.draw()
                 endoptionA.draw()
                 endoptionB.draw()
+                stimA_left.draw()
+                stimB_right.draw()
+                value_bar_1.draw()
+                value_bar_2.draw()
                 win.flip()
                 core.wait(1)
-    elif pickChoice['pick']: # if choose pick on this trial
+    elif pickChoice['pick']: # if choose to precommit on this trial
         # indicate that pick was chosen for this trial
         choice = 'pick'
         pickoptionA.draw()
@@ -241,7 +277,7 @@ for trialIdx in range(nTrials):
         # run the pick (precommitment) routine from helper to record options chosen
         precomm = helper.precomm_pick(win, trialClock)
         RT_precomm = precomm['RT_precomm']
-        if precomm['B']: # if choose to precommit to the right option
+        if precomm['B']: # if choose to precommit to the left option
             response = 'precomm_B'
             pickoptionB.draw()
             cents = optionValues['endB']
@@ -258,7 +294,11 @@ for trialIdx in range(nTrials):
             highlight_2.draw()
             win.flip()
             core.wait(1.5)
-        elif precomm['A']: # if choose to precommit to the left option
+            stimA_left.setAutoDraw(False)
+            stimB_right.setAutoDraw(False)
+            value_bar_1.setAutoDraw(False)
+            value_bar_2.setAutoDraw(False)
+        elif precomm['A']: # if choose to precommit to the right option
             response = 'precomm_A'
             pickoptionA.draw()
             cents = optionValues['endA']
@@ -275,6 +315,10 @@ for trialIdx in range(nTrials):
             highlight_1.draw()
             win.flip()
             core.wait(1.5)
+            stimA_left.setAutoDraw(False)
+            stimB_right.setAutoDraw(False)
+            value_bar_1.setAutoDraw(False)
+            value_bar_2.setAutoDraw(False)
         elif precomm['miss']:
             response = 'precomm_miss'
             miss.draw()
@@ -287,6 +331,10 @@ for trialIdx in range(nTrials):
         win.flip()
         core.wait(1.5)
         cents = 0
+        stimA_left.setAutoDraw(False)
+        stimB_right.setAutoDraw(False)
+        value_bar_1.setAutoDraw(False)
+        value_bar_2.setAutoDraw(False)
     # show the amount of money earned on this trial
     if cents == optionValues['endA']: # you earned the A value
         reward_amountA = str(optionValues['endA'])
