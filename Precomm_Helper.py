@@ -167,3 +167,38 @@ def press_late(win, trialClock):
         RT_late = trialClock.getTime()
     choice_4 = {'late_A': response == 1, 'late_B': response == 2, 'not_late': response == 3, 'RT_late': RT_late}
     return choice_4
+
+def value_bar(win, optionValues):
+    # 5 - 15
+    bar_1A = visual.Rect(win, width=0.2, height=0.02, autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, -0.095])
+    bar_1B = visual.Rect(win, width=0.2, height=0.02, autoLog=None, fillColor=[0, 1, 0], pos=[0.5, -0.095])
+    # 16 - 25
+    bar_2A = visual.Rect(win, width=0.2, height=0.12, autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, -0.037])
+    bar_2B = visual.Rect(win, width=0.2, height=0.12, autoLog=None, fillColor=[0, 1, 0], pos=[0.5, -0.037])
+    # 26 - 35
+    bar_3A = visual.Rect(win, width=0.2, height=0.22, autoLog=None, fillColor=[0, 1, 0], pos = [-0.5, ])
+    bar_3B = visual.Rect(win, width=0.2, height=0.22, autoLog=None, fillColor=[0, 1, 0], pos = [0.5, ])
+    # 36 - 45
+    bar_4A = visual.Rect(win, width=0.2, height=0.32, autoLog=None, fillColor=[0, 1, 0], pos = [-0.5, ])
+    bar_4B = visual.Rect(win, width=0.2, height=0.32, autoLog=None, fillColor=[0, 1, 0], pos = [0.5, ])
+    # 46 - 55
+    bar_5A = visual.Rect(win, width=0.2, height=0.42, autoLog=None, fillColor=[0, 1, 0], pos = [-0.5, ])
+    bar_5B = visual.Rect(win, width=0.2, height=0.42, autoLog=None, fillColor=[0, 1, 0], pos = [0.5, ])
+    # 56 - 65
+    bar_6A = visual.Rect(win, width=0.2, height=0.52, autoLog=None, fillColor=[0, 1, 0], pos = [-0.5, ])
+    bar_6B = visual.Rect(win, width=0.2, height=0.52, autoLog=None, fillColor=[0, 1, 0], pos = [0.5, ])
+    # 66 - 75
+    bar_7A = visual.Rect(win, width=0.2, height=0.62, autoLog=None, fillColor=[0, 1, 0], pos = [-0.5, ])
+    bar_7B = visual.Rect(win, width=0.2, height=0.62, autoLog=None, fillColor=[0, 1, 0], pos = [0.5, ])
+    # 76 - 85
+    bar_8A = visual.Rect(win, width=0.2, height=0.72, autoLog=None, fillColor=[0, 1, 0], pos = [-0.5, ])
+    bar_8B = visual.Rect(win, width=0.2, height=0.72, autoLog=None, fillColor=[0, 1, 0], pos = [0.5, ])
+    # 86 - 95
+    bar_9A = visual.Rect(win, width=0.2, height=0.8, autoLog=None, fillColor=[0, 1, 0], pos = [-0.5, -0.3])
+    bar_9B = visual.Rect(win, width=0.2, height=0.8, autoLog=None, fillColor=[0, 1, 0], pos = [0.5, -0.3])
+
+    bars = {'bar_1A': bar_1A,'bar_1B': bar_1B, 'bar_2A': bar_2A, 'bar_2B': bar_2B, 'bar_3A': bar_3A,
+            'bar_3B': bar_3B, 'bar_4A': bar_4A, 'bar_4B': bar_4B, 'bar_5A': bar_5A, 'bar_5B': bar_5B,
+            'bar_6A': bar_6A, 'bar_6B': bar_6B, 'bar_7A': bar_7A, 'bar_7B': bar_7B, 'bar_8A': bar_8A,
+            'bar_8B': bar_8B, 'bar_9A': bar_9A, 'bar_9B': bar_9B}
+    return bars

@@ -55,15 +55,15 @@ else:
 stimA_name = 'Apple'
 stimB_name = 'Broccoli'
 stimA_left = visual.ImageStim(win, image='Images/' + stimA_name +'.png', units='height',
-                              pos=[-0.45,-0.2], size=[0.2,0.2], name=stimA_name, interpolate=True)
+                              pos=[-0.4,-0.2], size=[0.2,0.2], name=stimA_name, interpolate=True)
 stimB_right = visual.ImageStim(win, image='Images/' + stimB_name +'.png', units='height',
-                              pos=[0.45,-0.2], size=[0.2,0.2], name=stimB_name, interpolate=True)
+                              pos=[0.4,-0.2], size=[0.2,0.2], name=stimB_name, interpolate=True)
 
 
 ## Word Stimuli ##
 # stimuli outside loop = stimuli that do not change ###
 isi = visual.TextStim(win, text='+')
-optionText = visual.TextStim(win=win, text=' PLAY \n' + '  or  \n' + ' COMMIT ', height=0.1, pos=[0,0])
+optionText = visual.TextStim(win=win, text='PLAY     \n' + '     or  \n' + 'COMMIT ', height=0.1, pos=[0,0])
 pickText = visual.TextStim(win, text='COMMIT', height=0.1)
 playText = visual.TextStim(win, text='PLAY', height=0.1)
 chooseText = visual.TextStim(win, text='Left or Right ', height=0.1)
@@ -80,6 +80,9 @@ rewardtext = visual.TextStim(win, text='$0.25', height=0.1)
 miss = visual.TextStim(win, text='miss', height=0.1)
 got_it = visual.TextStim(win, text='hit', height=0.1)
 lost = visual.TextStim(win, text='Lost. One was chosen for you.', height = 0.1)
+
+###
+bar_1 = visual.Rect(win, width=0.2, height=0.12, autoLog=None, fillColor=[0, 1, 0], pos = [-0.5, -0.037])
 
 ###### set clocks #######
 # create clock and timer
@@ -130,11 +133,11 @@ for trialIdx in range(nTrials):
     optionValues = helper.pickvalues()
     # stimuli that need to change for each trial
     # option A is on the left side of screen
-    pickoptionA = visual.TextStim(win=win, text=optionValues['optionA'], name='optionA', pos = [-0.5,0], rgb= None, color=(0,1,0), colorSpace='rgb')
+    pickoptionA = visual.TextStim(win=win, text=optionValues['optionA'], name='optionA', pos = [-0.5,0], rgb= None, color=(1,1,1), colorSpace='rgb')
     # option B is on the right side of screen
-    pickoptionB = visual.TextStim(win=win, text=optionValues['optionB'], name='optionB', pos = [0.5,0], rgb= None, color=(1,0,0), colorSpace='rgb')
-    endoptionA = visual.TextStim(win=win, text=optionValues['endA'], name='endA', pos = [-0.5,0], rgb= None, color=(0,1,0), colorSpace='rgb')
-    endoptionB = visual.TextStim(win=win, text=optionValues['endB'], name='endB', pos = [0.5,0], rgb= None, color=(1,0,0), colorSpace='rgb')
+    pickoptionB = visual.TextStim(win=win, text=optionValues['optionB'], name='optionB', pos = [0.5,0], rgb= None, color=(1,1,1), colorSpace='rgb')
+    endoptionA = visual.TextStim(win=win, text=optionValues['endA'], name='endA', pos = [-0.5,0], rgb= None, color=(1,1,1), colorSpace='rgb')
+    endoptionB = visual.TextStim(win=win, text=optionValues['endB'], name='endB', pos = [0.5,0], rgb= None, color=(1,1,1), colorSpace='rgb')
     # prepare to start routine "pick options"
     pickoptionA.draw()
     pickoptionB.draw()
@@ -143,6 +146,7 @@ for trialIdx in range(nTrials):
     stimB_right.setAutoDraw(True)
     value_bar_1.setAutoDraw(True)
     value_bar_2.setAutoDraw(True)
+    bar_1.setAutoDraw(True)
     win.flip()
     core.wait(1.5)
     # pick options routine
