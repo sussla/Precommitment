@@ -55,9 +55,9 @@ else:
 stimA_name = 'Apple'
 stimB_name = 'Broccoli'
 stimA_left = visual.ImageStim(win, image='Images/' + stimA_name +'.png', units='height',
-                              pos=[-0.4,-0.2], size=[0.2,0.2], name=stimA_name, interpolate=True)
+                              pos=[-0.4,-0.35], size=[0.2,0.2], name=stimA_name, interpolate=True)
 stimB_right = visual.ImageStim(win, image='Images/' + stimB_name +'.png', units='height',
-                              pos=[0.4,-0.2], size=[0.2,0.2], name=stimB_name, interpolate=True)
+                              pos=[0.4,-0.35], size=[0.2,0.2], name=stimB_name, interpolate=True)
 
 
 ## Word Stimuli ##
@@ -74,15 +74,13 @@ value_bar_2 = visual.Rect(win, width=0.2, height=0.8,lineWidth=3, autoLog=None, 
 looseText = visual.TextStim(win, text='loose', height=0.1)
 values_change = visual.TextStim(win, text='Values Change', height=0.1)
 Final_value = visual.TextStim(win, text='Final Values', height=0.1)
-highlight_1 = visual.Rect(win, width=0.6, height=1.5, lineWidth=5, lineColor=[1,-1,-1], autoLog=None, pos=[-0.5, 0])
-highlight_2 = visual.Rect(win, width=0.6, height=1.5, lineWidth=5, lineColor=[1,-1,-1], autoLog=None, pos=[0.5, 0])
+highlight_1 = visual.Rect(win, width=0.6, height=1.9, lineWidth=5, lineColor=[1,-1,-1], autoLog=None, pos=[-0.5, 0])
+highlight_2 = visual.Rect(win, width=0.6, height=1.9, lineWidth=5, lineColor=[1,-1,-1], autoLog=None, pos=[0.5, 0])
 rewardtext = visual.TextStim(win, text='$0.25', height=0.1)
 miss = visual.TextStim(win, text='miss', height=0.1)
 got_it = visual.TextStim(win, text='hit', height=0.1)
 lost = visual.TextStim(win, text='Lost. One was chosen for you.', height = 0.1)
 
-###
-bar_1 = visual.Rect(win, width=0.2, height=0.12, autoLog=None, fillColor=[0, 1, 0], pos = [-0.5, -0.037])
 
 ###### set clocks #######
 # create clock and timer
@@ -131,22 +129,24 @@ for trialIdx in range(nTrials):
     loosing_win = 0   # amount of money you earn when you play but loose (randomly chosen amount)
     # pick options from helper for this trial
     optionValues = helper.pickvalues()
+    value_bars = helper.value_bar(win,optionValues)
     # stimuli that need to change for each trial
     # option A is on the left side of screen
-    pickoptionA = visual.TextStim(win=win, text=optionValues['optionA'], name='optionA', pos = [-0.5,0], rgb= None, color=(1,1,1), colorSpace='rgb')
+    pickoptionA = visual.TextStim(win=win, text=optionValues['optionA'], name='optionA', pos = [-0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
     # option B is on the right side of screen
-    pickoptionB = visual.TextStim(win=win, text=optionValues['optionB'], name='optionB', pos = [0.5,0], rgb= None, color=(1,1,1), colorSpace='rgb')
-    endoptionA = visual.TextStim(win=win, text=optionValues['endA'], name='endA', pos = [-0.5,0], rgb= None, color=(1,1,1), colorSpace='rgb')
-    endoptionB = visual.TextStim(win=win, text=optionValues['endB'], name='endB', pos = [0.5,0], rgb= None, color=(1,1,1), colorSpace='rgb')
+    pickoptionB = visual.TextStim(win=win, text=optionValues['optionB'], name='optionB', pos = [0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
+    endoptionA = visual.TextStim(win=win, text=optionValues['endA'], name='endA', pos = [-0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
+    endoptionB = visual.TextStim(win=win, text=optionValues['endB'], name='endB', pos = [0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
     # prepare to start routine "pick options"
-    pickoptionA.draw()
-    pickoptionB.draw()
     optionText.draw()
+    value_bars['option_barA'].setAutoDraw(True)
+    value_bars['option_barB'].setAutoDraw(True)
+    pickoptionA.setAutoDraw(True)
+    pickoptionB.setAutoDraw(True)
     stimA_left.setAutoDraw(True)
     stimB_right.setAutoDraw(True)
     value_bar_1.setAutoDraw(True)
     value_bar_2.setAutoDraw(True)
-    bar_1.setAutoDraw(True)
     win.flip()
     core.wait(1.5)
     # pick options routine
@@ -164,13 +164,17 @@ for trialIdx in range(nTrials):
         isi.draw()
         win.flip()
         core.wait(1)
-        # run the routine for responding to the stimulus
-        playgame = helper.play_routine(win, optionValues, trialClock)
-        RT_play = playgame['RT_play']
+        value_bars['option_barA'].setAutoDraw(False)
+        value_bars['option_barB'].setAutoDraw(False)
+        pickoptionA.setAutoDraw(False)
+        pickoptionB.setAutoDraw(False)
         stimA_left.setAutoDraw(False)
         stimB_right.setAutoDraw(False)
         value_bar_1.setAutoDraw(False)
         value_bar_2.setAutoDraw(False)
+        # run the routine for responding to the stimulus
+        playgame = helper.play_routine(win, optionValues, value_bars, trialClock)
+        RT_play = playgame['RT_play']
         RT_trialClock_play = playgame['RT_trialClock_play']
         # mask the two options
         rectangle_1.draw()
@@ -190,7 +194,9 @@ for trialIdx in range(nTrials):
             # indicate what you got
             Final_value.draw()
             endoptionA.draw()
+            value_bars['end_barA'].draw()
             endoptionB.draw()
+            value_bars['end_barB'].draw()
             highlight_2.draw()
             stimA_left.draw()
             stimB_right.draw()
@@ -210,7 +216,9 @@ for trialIdx in range(nTrials):
             # indicate what you got
             Final_value.draw()
             endoptionA.draw()
+            value_bars['end_barA'].draw()
             endoptionB.draw()
+            value_bars['end_barB'].draw()
             highlight_1.draw()
             stimA_left.draw()
             stimB_right.draw()
@@ -245,7 +253,9 @@ for trialIdx in range(nTrials):
                 highlight_1.draw()
                 Final_value.draw()
                 endoptionA.draw()
+                value_bars['end_barA'].draw()
                 endoptionB.draw()
+                value_bars['end_barB'].draw()
                 stimA_left.draw()
                 stimB_right.draw()
                 value_bar_1.draw()
@@ -257,7 +267,9 @@ for trialIdx in range(nTrials):
                 highlight_2.draw()
                 Final_value.draw()
                 endoptionA.draw()
+                value_bars['end_barA'].draw()
                 endoptionB.draw()
+                value_bars['end_barB'].draw()
                 stimA_left.draw()
                 stimB_right.draw()
                 value_bar_1.draw()
@@ -286,18 +298,39 @@ for trialIdx in range(nTrials):
             pickoptionB.draw()
             cents = optionValues['endB']
             win.flip()
-            core.wait(1.5)
+            core.wait(0.5)
             # indicate that the values change
-            values_change.draw()
+            pickoptionA.setAutoDraw(False)
+            pickoptionB.setAutoDraw(False)
+            highlight_2.setAutoDraw(True)
+            random_bars = helper.random_bars(win)
+            random_bars['Random_BarA1'].draw()
+            random_bars['Random_BarB1'].draw()
             win.flip()
-            core.wait(1)
+            core.wait(0.5)
+            random_bars['Random_BarA2'].draw()
+            random_bars['Random_BarB2'].draw()
+            win.flip()
+            core.wait(0.5)
+            random_bars['Random_BarA3'].draw()
+            random_bars['Random_BarB3'].draw()
+            win.flip()
+            core.wait(0.5)
+            random_bars['Random_BarA4'].draw()
+            random_bars['Random_BarB4'].draw()
+            win.flip()
+            core.wait(0.5)
             # show the final values and the one that you earn on this trial
             Final_value.draw()
             endoptionA.draw()
+            value_bars['end_barA'].draw()
             endoptionB.draw()
-            highlight_2.draw()
+            value_bars['end_barB'].draw()
             win.flip()
-            core.wait(1.5)
+            core.wait(1.8)
+            highlight_2.setAutoDraw(False)
+            value_bars['option_barA'].setAutoDraw(False)
+            value_bars['option_barB'].setAutoDraw(False)
             stimA_left.setAutoDraw(False)
             stimB_right.setAutoDraw(False)
             value_bar_1.setAutoDraw(False)
@@ -307,18 +340,39 @@ for trialIdx in range(nTrials):
             pickoptionA.draw()
             cents = optionValues['endA']
             win.flip()
-            core.wait(1.5)
+            core.wait(0.5)
             # indicate that the values change
-            values_change.draw()
+            pickoptionA.setAutoDraw(False)
+            pickoptionB.setAutoDraw(False)
+            highlight_1.setAutoDraw(True)
+            random_bars = helper.random_bars(win)
+            random_bars['Random_BarA1'].draw()
+            random_bars['Random_BarB1'].draw()
             win.flip()
-            core.wait(1)
+            core.wait(0.5)
+            random_bars['Random_BarA2'].draw()
+            random_bars['Random_BarB2'].draw()
+            win.flip()
+            core.wait(0.5)
+            random_bars['Random_BarA3'].draw()
+            random_bars['Random_BarB3'].draw()
+            win.flip()
+            core.wait(0.5)
+            random_bars['Random_BarA4'].draw()
+            random_bars['Random_BarB4'].draw()
+            win.flip()
+            core.wait(0.5)
             # show the final values and the one that you earn on this trial
             Final_value.draw()
             endoptionA.draw()
+            value_bars['end_barA'].draw()
             endoptionB.draw()
-            highlight_1.draw()
+            value_bars['end_barB'].draw()
             win.flip()
-            core.wait(1.5)
+            core.wait(1.8)
+            highlight_1.setAutoDraw(False)
+            value_bars['option_barA'].setAutoDraw(False)
+            value_bars['option_barB'].setAutoDraw(False)
             stimA_left.setAutoDraw(False)
             stimB_right.setAutoDraw(False)
             value_bar_1.setAutoDraw(False)
@@ -335,6 +389,10 @@ for trialIdx in range(nTrials):
         win.flip()
         core.wait(1.5)
         cents = 0
+        value_bars['option_barA'].setAutoDraw(False)
+        value_bars['option_barB'].setAutoDraw(False)
+        pickoptionA.setAutoDraw(False)
+        pickoptionB.setAutoDraw(False)
         stimA_left.setAutoDraw(False)
         stimB_right.setAutoDraw(False)
         value_bar_1.setAutoDraw(False)
