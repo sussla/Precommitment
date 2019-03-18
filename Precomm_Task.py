@@ -47,7 +47,7 @@ print(expInfo['frameRate'])
 if expInfo['frameRate']!=None:
     frameDur = 1.0/round(expInfo['frameRate'])
 else:
-    frameDur = 1.0/60.0 # couldn't get a reliable measure so guess
+    frameDur = 1.0/60.0  # couldn't get a reliable measure so guess
 
 ###############################
 ##### Task-specific setup #####
@@ -63,10 +63,10 @@ stimB_right = visual.ImageStim(win, image='Images/' + stimB_name +'.png', units=
 ## Word Stimuli ##
 # stimuli outside loop = stimuli that do not change ###
 isi = visual.TextStim(win, text='+')
-optionText = visual.TextStim(win=win, text='PLAY     \n' + '     or  \n' + 'COMMIT ', height=0.1, pos=[0,0])
+optionText = visual.TextStim(win=win, text='PLAY     \n' + '     or  \n' + 'COMMIT ', height=0.1)
 pickText = visual.TextStim(win, text='COMMIT', height=0.1)
 playText = visual.TextStim(win, text='PLAY', height=0.1)
-chooseText = visual.TextStim(win, text='Left or Right ', height=0.1)
+chooseText = visual.TextStim(win, text=str(stimA_name) + ' or ' + str(stimB_name), height=0.1)
 rectangle_1 = visual.Rect(win, width=0.5, height=1.3, autoLog=None, fillColor=[-0.7, -0.7, -0.7], pos=[-0.5, -0.2])
 rectangle_2 = visual.Rect(win, width=0.5, height=1.3, autoLog=None, fillColor=[-0.7, -0.7, -0.7], pos=[0.5, -0.2])
 value_bar_1 = visual.Rect(win, width=0.2, height=0.8, lineWidth=3, autoLog=None, pos=[-0.5, 0.3])
@@ -79,7 +79,7 @@ highlight_2 = visual.Rect(win, width=0.6, height=1.9, lineWidth=5, lineColor=[1,
 rewardtext = visual.TextStim(win, text='$0.25', height=0.1)
 miss = visual.TextStim(win, text='miss', height=0.1)
 got_it = visual.TextStim(win, text='hit', height=0.1)
-lost = visual.TextStim(win, text='Lost. One was chosen for you.', height = 0.1)
+lost = visual.TextStim(win, text='Missed. \n' + ' One was chosen for you.', height = 0.1, pos=[0,0])
 
 
 ###### set clocks #######
@@ -170,13 +170,13 @@ for trialIdx in range(nTrials):
         pickoptionB.setAutoDraw(False)
         stimA_left.setAutoDraw(False)
         stimB_right.setAutoDraw(False)
-        value_bar_1.setAutoDraw(False)
-        value_bar_2.setAutoDraw(False)
         # run the routine for responding to the stimulus
         playgame = helper.play_routine(win, optionValues, value_bars, trialClock)
         RT_play = playgame['RT_play']
         RT_trialClock_play = playgame['RT_trialClock_play']
         # mask the two options
+        value_bar_1.setAutoDraw(False)
+        value_bar_2.setAutoDraw(False)
         rectangle_1.draw()
         rectangle_2.draw()
         win.flip()
@@ -307,19 +307,19 @@ for trialIdx in range(nTrials):
             random_bars['Random_BarA1'].draw()
             random_bars['Random_BarB1'].draw()
             win.flip()
-            core.wait(0.5)
+            core.wait(0.8)
             random_bars['Random_BarA2'].draw()
             random_bars['Random_BarB2'].draw()
             win.flip()
-            core.wait(0.5)
+            core.wait(0.8)
             random_bars['Random_BarA3'].draw()
             random_bars['Random_BarB3'].draw()
             win.flip()
-            core.wait(0.5)
+            core.wait(0.8)
             random_bars['Random_BarA4'].draw()
             random_bars['Random_BarB4'].draw()
             win.flip()
-            core.wait(0.5)
+            core.wait(0.8)
             # show the final values and the one that you earn on this trial
             Final_value.draw()
             endoptionA.draw()
@@ -349,19 +349,19 @@ for trialIdx in range(nTrials):
             random_bars['Random_BarA1'].draw()
             random_bars['Random_BarB1'].draw()
             win.flip()
-            core.wait(0.5)
+            core.wait(0.8)
             random_bars['Random_BarA2'].draw()
             random_bars['Random_BarB2'].draw()
             win.flip()
-            core.wait(0.5)
+            core.wait(0.8)
             random_bars['Random_BarA3'].draw()
             random_bars['Random_BarB3'].draw()
             win.flip()
-            core.wait(0.5)
+            core.wait(0.8)
             random_bars['Random_BarA4'].draw()
             random_bars['Random_BarB4'].draw()
             win.flip()
-            core.wait(0.5)
+            core.wait(0.8)
             # show the final values and the one that you earn on this trial
             Final_value.draw()
             endoptionA.draw()
