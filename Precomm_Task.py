@@ -63,7 +63,7 @@ stimB_right = visual.ImageStim(win, image='Images/' + stimB_name +'.png', units=
 ## Word Stimuli ##
 # stimuli outside loop = stimuli that do not change ###
 isi = visual.TextStim(win, text='+')
-optionText = visual.TextStim(win=win, text='PLAY     \n' + '     or  \n' + 'COMMIT ', height=0.1)
+optionText = visual.TextStim(win=win, text='PLAY   \n' + '     or  \n' + 'COMMIT ', height=0.1)
 pickText = visual.TextStim(win, text='COMMIT', height=0.1)
 playText = visual.TextStim(win, text='PLAY', height=0.1)
 chooseText = visual.TextStim(win, text=str(stimA_name) + ' or ' + str(stimB_name), height=0.1)

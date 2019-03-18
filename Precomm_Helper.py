@@ -282,16 +282,16 @@ def value_bar(win, optionValues):
     # 86 - 95 (Ninth)
     if (optionValues['optionA'] > 85) and (optionValues['optionA'] <= 95):
         option_barA = visual.Rect(win, width=0.2, height=0.8,  lineColor=[0, 1, 0],
-                                  autoLog=None, fillColor=[0, 1, 0], pos = [-0.5, -0.3])
+                                  autoLog=None, fillColor=[0, 1, 0], pos = [-0.5, 0.3])
     if (optionValues['optionB'] > 85) and (optionValues['optionB'] <= 95):
         option_barB = visual.Rect(win, width=0.2, height=0.8,  lineColor=[0, 1, 0],
-                                  autoLog=None, fillColor=[0, 1, 0], pos = [0.5, -0.3])
+                                  autoLog=None, fillColor=[0, 1, 0], pos = [0.5, 0.3])
     if (optionValues['endA'] > 85) and (optionValues['endA'] <= 95):
         end_barA = visual.Rect(win, width=0.2, height=0.8,  lineColor=[0, 1, 0],
-                               autoLog=None, fillColor=[0, 1, 0], pos = [-0.5, -0.3])
+                               autoLog=None, fillColor=[0, 1, 0], pos = [-0.5, 0.3])
     if (optionValues['endB'] > 85) and (optionValues['endB'] <= 95):
         end_barB = visual.Rect(win, width=0.2, height=0.8,  lineColor=[0, 1, 0],
-                               autoLog=None, fillColor=[0, 1, 0], pos = [0.5, -0.3])
+                               autoLog=None, fillColor=[0, 1, 0], pos = [0.5, 0.3])
     bars = {'option_barA': option_barA,'option_barB': option_barB, 'end_barA': end_barA, 'end_barB': end_barB}
     return bars
 

@@ -1,6 +1,0 @@
-TrialNumber,OptionA,OptionB,EndA,EndB,A_difference,B_difference,largest_option,largest_end,A_alwaysBest,B_alwaysBest,Best_changes,Choice_RT,Choice_Play,Choice_Pick,Choice_Miss,Play_RT,RT_trialClock_play,Play_win_A,Play_win_B,Late_RT,Play_lost,Play_lost_chosenA,Play_lost_chosenB,Play_toolate_B,Play_toolate_A,Precomm_RT,Precomm_B,Precomm_A,Precomm_miss,Earnings,date,frameRate,expName,participant,
-1,43,53,36,17,7,36,53,36,False,False,True,3.56822514534,False,False,True,0,0,False,False,0,False,False,False,False,False,0,False,False,False,0,05032019,59.9930199161,PreComm_Task,,
-2,21,61,52,34,-31,27,61,52,False,False,True,3.54814791679,False,False,True,0,0,False,False,0,False,False,False,False,False,0,False,False,False,0,05032019,59.9930199161,PreComm_Task,,
-3,34,69,17,38,17,31,69,38,False,True,False,3.56474804878,True,False,False,0,0,False,False,7.74964308739,True,True,False,False,False,0,False,False,False,17,05032019,59.9930199161,PreComm_Task,,
-4,9,23,28,61,-19,-38,23,61,False,True,False,3.54942917824,False,True,False,0,0,False,False,0,False,False,False,False,False,6.60013914108,False,True,False,28,05032019,59.9930199161,PreComm_Task,,
-5,59,69,44,54,15,15,69,54,False,True,False,3.54907894135,False,True,False,0,0,False,False,0,False,False,False,False,False,6.60034894943,False,True,False,44,05032019,59.9930199161,PreComm_Task,,
