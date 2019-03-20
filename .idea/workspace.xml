@@ -16,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Precomm_Helper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2175">
-              <caret line="145" column="52" selection-start-line="145" selection-start-column="52" selection-end-line="145" selection-end-column="52" />
+            <state relative-caret-position="-1701">
+              <caret line="145" column="19" selection-start-line="145" selection-start-column="19" selection-end-line="145" selection-end-column="19" />
               <folding>
                 <element signature="e#0#81#0" expanded="true" />
               </folding>
@@ -28,7 +28,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Precomm_Task.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2767">
+            <state relative-caret-position="15">
               <caret line="145" selection-start-line="145" selection-end-line="145" />
               <folding>
                 <element signature="e#0#48#0" expanded="true" />
@@ -51,7 +51,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="250" />
+    <option name="x" value="49" />
     <option name="y" value="23" />
     <option name="width" value="1190" />
     <option name="height" value="797" />
@@ -61,8 +61,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
       <pane id="Scope" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -94,7 +94,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="250" y="23" width="1190" height="797" extended-state="0" />
+    <frame x="49" y="23" width="1190" height="797" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17964073" />
@@ -119,7 +119,7 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Precomm_Task.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2767">
+        <state relative-caret-position="15">
           <caret line="145" selection-start-line="145" selection-end-line="145" />
           <folding>
             <element signature="e#0#48#0" expanded="true" />
@@ -129,8 +129,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Precomm_Helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2175">
-          <caret line="145" column="52" selection-start-line="145" selection-start-column="52" selection-end-line="145" selection-end-column="52" />
+        <state relative-caret-position="-1701">
+          <caret line="145" column="19" selection-start-line="145" selection-start-column="19" selection-end-line="145" selection-end-column="19" />
           <folding>
             <element signature="e#0#81#0" expanded="true" />
           </folding>
