@@ -1,3 +1,4 @@
+from __future__ import absolute_import, division
 from psychopy import locale_setup, gui, visual, core, data, event, logging, sound
 from psychopy.constants import (NOT_STARTED, STARTED, PLAYING, PAUSED, STOPPED, FINISHED, PRESSED, RELEASED, FOREVER)
 import numpy as np  # whole numpy lib is available, prepend 'np.'
@@ -40,11 +41,35 @@ def pickvalues():
         change = 2
     if (optionA >= optionB and endA <= endB) or (optionA <= optionB and endA >= endB):
         change = 3
+    print(optionA)
     optionValues = {'optionA': optionA, 'optionB': optionB, 'endA': endA, 'endB': endB,
                     'A_difference': A_difference, 'B_difference': B_difference,
                    'max_option': max_option, 'max_end': max_end,
                     'A_always': change == 1, 'B_always': change == 2, 'changes': change == 3}
     return optionValues
+
+def visual_bars(win, optionValues):
+    # complete the path for calculating changing values
+    h_optionA = (int(optionValues['optionA'])/100) * 0.8
+    p_optionA = (-0.1 + h_optionA/2)
+    h_endA = (int(optionValues['endA'])/100) * 0.8
+    p_endA = (-0.1 + h_endA/2)
+    h_optionB = (int(optionValues['optionB'])/100) * 0.8
+    p_optionB = (-0.1 + h_optionB/2)
+    h_endB = (int(optionValues['endB'])/100) * 0.8
+    p_endB = (-0.1 + h_endB/2)
+    # visual bars
+    option_barA = visual.Rect(win=win, width=0.2, height=h_optionA, lineColor=[0, 1, 0],
+                              autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_optionA])
+    option_barB = visual.Rect(win=win, width=0.2, height=h_optionB, lineColor=[0, 1, 0],
+                              autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_optionB])
+    end_barA = visual.Rect(win=win, width=0.2, height=h_endA, lineColor=[0, 1, 0],
+                              autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_endA])
+    end_barB = visual.Rect(win=win, width=0.2, height=h_endB, lineColor=[0, 1, 0],
+                              autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_endB])
+    value_bars = {'option_barA': option_barA, 'option_barB': option_barB, 'end_barA': end_barA, 'end_barB': end_barB}
+    return value_bars
+
 
 ###### Pick to play or not routine ######
 def pickoptions(win, trialClock):
@@ -111,8 +136,10 @@ def play_routine(win, optionValues, value_bars, trialClock):
     RT_trialClock_play = 0
     choice_3 = 0  # choice_3 refers to the play routine
     # show the option values as part of the play routine but need to define how to draw then a second time
-    endoptionA = visual.TextStim(win=win, text=optionValues['endA'], name='endA', pos = [-0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
-    endoptionB = visual.TextStim(win=win, text=optionValues['endB'], name='endB', pos = [0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
+    endoptionA = visual.TextStim(win=win, text=optionValues['endA'], name='endA', pos = [-0.5,-0.3],
+                                 rgb= None, color=(1,1,1), colorSpace='rgb')
+    endoptionB = visual.TextStim(win=win, text=optionValues['endB'], name='endB', pos = [0.5,-0.3],
+                                 rgb= None, color=(1,1,1), colorSpace='rgb')
     endoptionA.draw()
     endoptionB.draw()
     value_bars['end_barA'].draw()
@@ -169,6 +196,8 @@ def press_late(win, trialClock):
         RT_late = trialClock.getTime()
     choice_4 = {'late_A': response == 1, 'late_B': response == 2, 'not_late': response == 3, 'RT_late': RT_late}
     return choice_4
+<<<<<<< HEAD
+=======
 
 def value_bar(win, optionValues):
     option_barA = 0
@@ -355,3 +384,4 @@ def random_bars(win):
                   'Random_BarB1' : Random_BarB1, 'Random_BarB2': Random_BarB2, 'Random_BarB3': Random_BarB3,
                   'Random_BarA4' : Random_BarA4, 'Random_BarB4' : Random_BarB4}
     return random_bars
+>>>>>>> 146aa9550e732fabf29d4bdc823274c94b61ae59
