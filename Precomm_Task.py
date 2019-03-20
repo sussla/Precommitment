@@ -336,9 +336,16 @@ for trialIdx in range(nTrials):
             value_bars['option_barA'].setAutoDraw(False)
             value_bars['option_barB'].setAutoDraw(False)
             highlight_A.setAutoDraw(True)
+            win.flip()
             #######################################
             ### Current place holder while figure out how to make the bars move to new values
             #######################################
+            value_bars['option_barA'].setpos *= [-0.5, int(value_bars['p_endA'])]
+            value_bars['option_barB'].setpos *= [0.5, int(value_bars['p_endB'])]
+            value_bars['option_barA'].setheight *= int(value_bars['h_endA'])
+            value_bars['option_barB'].setheight *= int(value_bars['h_endB'])
+            value_bars['option_barA'].draw()
+            value_bars['option_barB'].draw()
             values_change.draw()
             win.flip()
             core.wait(1)
