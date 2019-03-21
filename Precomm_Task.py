@@ -63,9 +63,9 @@ stimB_right = visual.ImageStim(win, image='Images/' + stimB_name +'.png', units=
 ## Word Stimuli ##
 # stimuli outside loop = stimuli that do not change ###
 isi = visual.TextStim(win, text='+')
-optionText = visual.TextStim(win=win, text='PLAY   \n' + '     or  \n' + 'COMMIT ', height=0.1)
-pickText = visual.TextStim(win, text='COMMIT', height=0.1)
-playText = visual.TextStim(win, text='PLAY', height=0.1)
+optionText = visual.TextStim(win=win, text='Play   \n' + '     or  \n' + 'Commit ', height=0.1)
+pickText = visual.TextStim(win, text='Commit', height=0.1)
+playText = visual.TextStim(win, text='Play', height=0.1)
 chooseText = visual.TextStim(win, text=str(stimA_name) + ' or ' + str(stimB_name), height=0.1)
 rectangle_A = visual.Rect(win, width=0.5, height=1.3, autoLog=None, fillColor=[-0.7, -0.7, -0.7], pos=[-0.5, -0.2])
 rectangle_B = visual.Rect(win, width=0.5, height=1.3, autoLog=None, fillColor=[-0.7, -0.7, -0.7], pos=[0.5, -0.2])
@@ -305,9 +305,7 @@ for trialIdx in range(nTrials):
             value_bars['option_barA'].setAutoDraw(False)
             value_bars['option_barB'].setAutoDraw(False)
             highlight_B.setAutoDraw(True)
-            #######################################
-            ### Current place holder while figure out how to make the bars move to new values
-            #######################################
+            # show the values change in bar
             values_change = helper.values_change(win, optionValues)
             values_change['step1_barA'].draw()
             values_change['step1_barB'].draw()
@@ -359,9 +357,7 @@ for trialIdx in range(nTrials):
             value_bars['option_barB'].setAutoDraw(False)
             highlight_A.setAutoDraw(True)
             win.flip()
-            #######################################
-            ### Current place holder while figure out how to make the bars move to new values
-            #######################################
+            # show the values change in bar
             values_change = helper.values_change(win, optionValues)
             values_change['step1_barA'].draw()
             values_change['step1_barB'].draw()
