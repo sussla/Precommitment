@@ -41,7 +41,6 @@ def pickvalues():
         change = 2
     if (optionA >= optionB and endA <= endB) or (optionA <= optionB and endA >= endB):
         change = 3
-    print(optionA)
     optionValues = {'optionA': optionA, 'optionB': optionB, 'endA': endA, 'endB': endB,
                     'A_difference': A_difference, 'B_difference': B_difference,
                    'max_option': max_option, 'max_end': max_end,
@@ -70,7 +69,6 @@ def visual_bars(win, optionValues):
     value_bars = {'option_barA': option_barA, 'option_barB': option_barB, 'end_barA': end_barA, 'end_barB': end_barB,
                   'h_endA': h_endA, 'p_endA': p_endA, 'h_endB': h_endB, 'p_endB': p_endB}
     return value_bars
-
 
 ###### Pick to play or not routine ######
 def pickoptions(win, trialClock):
@@ -197,3 +195,117 @@ def press_late(win, trialClock):
         RT_late = trialClock.getTime()
     choice_4 = {'late_A': response == 1, 'late_B': response == 2, 'not_late': response == 3, 'RT_late': RT_late}
     return choice_4
+
+def values_change(win, optionValues):
+    if optionValues['endA'] >= optionValues['optionA']:
+        difference = int(optionValues['endA']) - int(optionValues['optionA'])
+        step = difference / 6
+        h_step1 = ((int(optionValues['optionA']) + (step * 1))/100) * 0.8
+        h_step2 = ((int(optionValues['optionA']) + (step * 2))/100) * 0.8
+        h_step3 = ((int(optionValues['optionA']) + (step * 3))/100) * 0.8
+        h_step4 = ((int(optionValues['optionA']) + (step * 4))/100) * 0.8
+        h_step5 = ((int(optionValues['optionA']) + (step * 5))/100) * 0.8
+        h_step6 = ((int(optionValues['optionA']) + (step * 6))/100) * 0.8
+        p_step1 = (-0.1 + h_step1/2)
+        p_step2 = (-0.1 + h_step2/2)
+        p_step3 = (-0.1 + h_step3/2)
+        p_step4 = (-0.1 + h_step4/2)
+        p_step5 = (-0.1 + h_step5/2)
+        p_step6 = (-0.1 + h_step6/2)
+        step1_barA = visual.Rect(win=win, width=0.2, height=h_step1, lineColor=[0, 1, 0],
+                                  autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_step1])
+        step2_barA = visual.Rect(win=win, width=0.2, height=h_step2, lineColor=[0, 1, 0],
+                                  autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_step2])
+        step3_barA = visual.Rect(win=win, width=0.2, height=h_step3, lineColor=[0, 1, 0],
+                                  autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_step3])
+        step4_barA = visual.Rect(win=win, width=0.2, height=h_step4, lineColor=[0, 1, 0],
+                                  autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_step4])
+        step5_barA = visual.Rect(win=win, width=0.2, height=h_step5, lineColor=[0, 1, 0],
+                                  autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_step5])
+        step6_barA = visual.Rect(win=win, width=0.2, height=h_step6, lineColor=[0, 1, 0],
+                                  autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_step6])
+    if optionValues['endA'] < optionValues['optionA']:
+        difference = int(optionValues['optionA']) - int(optionValues['endA'])
+        step = difference / 3
+        h_step1 = ((int(optionValues['optionA']) - (step * 1)) / 100) * 0.8
+        h_step2 = ((int(optionValues['optionA']) - (step * 2)) / 100) * 0.8
+        h_step3 = ((int(optionValues['optionA']) - (step * 3)) / 100) * 0.8
+        h_step4 = ((int(optionValues['optionA']) - (step * 4)) / 100) * 0.8
+        h_step5 = ((int(optionValues['optionA']) - (step * 5)) / 100) * 0.8
+        h_step6 = ((int(optionValues['optionA']) - (step * 6)) / 100) * 0.8
+        p_step1 = (-0.1 + h_step1 / 2)
+        p_step2 = (-0.1 + h_step2 / 2)
+        p_step3 = (-0.1 + h_step3 / 2)
+        p_step4 = (-0.1 + h_step4 / 2)
+        p_step5 = (-0.1 + h_step5 / 2)
+        p_step6 = (-0.1 + h_step6 / 2)
+        step1_barA = visual.Rect(win=win, width=0.2, height=h_step1, lineColor=[0, 1, 0],
+                                 autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_step1])
+        step2_barA = visual.Rect(win=win, width=0.2, height=h_step2, lineColor=[0, 1, 0],
+                                 autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_step2])
+        step3_barA = visual.Rect(win=win, width=0.2, height=h_step3, lineColor=[0, 1, 0],
+                                 autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_step3])
+        step4_barA = visual.Rect(win=win, width=0.2, height=h_step4, lineColor=[0, 1, 0],
+                                 autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_step4])
+        step5_barA = visual.Rect(win=win, width=0.2, height=h_step5, lineColor=[0, 1, 0],
+                                 autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_step5])
+        step6_barA = visual.Rect(win=win, width=0.2, height=h_step6, lineColor=[0, 1, 0],
+                                 autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_step6])
+    if optionValues['endB'] >= optionValues['optionB']:
+        difference = int(optionValues['endB']) - int(optionValues['optionB'])
+        step = difference / 6
+        h_step1 = ((int(optionValues['optionB']) + (step * 1))/100) * 0.8
+        h_step2 = ((int(optionValues['optionB']) + (step * 2))/100) * 0.8
+        h_step3 = ((int(optionValues['optionB']) + (step * 3))/100) * 0.8
+        h_step4 = ((int(optionValues['optionB']) + (step * 4))/100) * 0.8
+        h_step5 = ((int(optionValues['optionB']) + (step * 5))/100) * 0.8
+        h_step6 = ((int(optionValues['optionB']) + (step * 6))/100) * 0.8
+        p_step1 = (-0.1 + h_step1/2)
+        p_step2 = (-0.1 + h_step2/2)
+        p_step3 = (-0.1 + h_step3/2)
+        p_step4 = (-0.1 + h_step4/2)
+        p_step5 = (-0.1 + h_step5/2)
+        p_step6 = (-0.1 + h_step6/2)
+        step1_barB = visual.Rect(win=win, width=0.2, height=h_step1, lineColor=[0, 1, 0],
+                                  autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_step1])
+        step2_barB = visual.Rect(win=win, width=0.2, height=h_step2, lineColor=[0, 1, 0],
+                                  autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_step2])
+        step3_barB = visual.Rect(win=win, width=0.2, height=h_step3, lineColor=[0, 1, 0],
+                                  autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_step3])
+        step4_barB = visual.Rect(win=win, width=0.2, height=h_step4, lineColor=[0, 1, 0],
+                                  autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_step4])
+        step5_barB = visual.Rect(win=win, width=0.2, height=h_step5, lineColor=[0, 1, 0],
+                                  autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_step5])
+        step6_barB = visual.Rect(win=win, width=0.2, height=h_step6, lineColor=[0, 1, 0],
+                                  autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_step6])
+    elif optionValues['endB'] < optionValues['optionB']:
+        difference = int(optionValues['optionB']) - int(optionValues['endB'])
+        step = difference / 3
+        h_step1 = ((int(optionValues['optionB']) - (step * 1)) / 100) * 0.8
+        h_step2 = ((int(optionValues['optionB']) - (step * 2)) / 100) * 0.8
+        h_step3 = ((int(optionValues['optionB']) - (step * 3)) / 100) * 0.8
+        h_step4 = ((int(optionValues['optionB']) - (step * 4)) / 100) * 0.8
+        h_step5 = ((int(optionValues['optionB']) - (step * 5)) / 100) * 0.8
+        h_step6 = ((int(optionValues['optionB']) - (step * 6)) / 100) * 0.8
+        p_step1 = (-0.1 + h_step1 / 2)
+        p_step2 = (-0.1 + h_step2 / 2)
+        p_step3 = (-0.1 + h_step3 / 2)
+        p_step4 = (-0.1 + h_step4 / 2)
+        p_step5 = (-0.1 + h_step5 / 2)
+        p_step6 = (-0.1 + h_step6 / 2)
+        step1_barB = visual.Rect(win=win, width=0.2, height=h_step1, lineColor=[0, 1, 0],
+                                 autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_step1])
+        step2_barB = visual.Rect(win=win, width=0.2, height=h_step2, lineColor=[0, 1, 0],
+                                 autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_step2])
+        step3_barB = visual.Rect(win=win, width=0.2, height=h_step3, lineColor=[0, 1, 0],
+                                 autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_step3])
+        step4_barB = visual.Rect(win=win, width=0.2, height=h_step4, lineColor=[0, 1, 0],
+                                 autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_step4])
+        step5_barB = visual.Rect(win=win, width=0.2, height=h_step5, lineColor=[0, 1, 0],
+                                 autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_step5])
+        step6_barB = visual.Rect(win=win, width=0.2, height=h_step6, lineColor=[0, 1, 0],
+                                 autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_step6])
+    bars = {'step1_barA': step1_barA, 'step2_barA': step2_barA, 'step3_barA': step3_barA, 'step4_barA': step4_barA,
+            'step5_barA': step5_barA, 'step6_barA': step6_barA, 'step1_barB': step1_barB, 'step2_barB': step2_barB,
+            'step3_barB': step3_barB, 'step4_barB': step4_barB, 'step5_barB': step5_barB, 'step6_barB': step6_barB}
+    return bars

@@ -99,7 +99,7 @@ length = 0
 ##############################
 
 #Start with the welcome screen 
-start = visual.TextStim(win, text= 'Welcome! \n' + 'Press ENTER to begin', height= 0.1)
+start = visual.TextStim(win, text= 'Welcome! \n' + 'Press ENTER to begin task', height= 0.1, pos=[0,0])
 start.draw()
 win.flip()
 event.waitKeys(keyList=['return'])
@@ -308,9 +308,31 @@ for trialIdx in range(nTrials):
             #######################################
             ### Current place holder while figure out how to make the bars move to new values
             #######################################
-            values_change.draw()
+            values_change = helper.values_change(win, optionValues)
+            values_change['step1_barA'].draw()
+            values_change['step1_barB'].draw()
             win.flip()
-            core.wait(1)
+            core.wait(0.2)
+            values_change['step2_barA'].draw()
+            values_change['step2_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step3_barA'].draw()
+            values_change['step3_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step4_barA'].draw()
+            values_change['step4_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step5_barA'].draw()
+            values_change['step5_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step6_barA'].draw()
+            values_change['step6_barB'].draw()
+            win.flip()
+            core.wait(0.2)
             # show the final values and the one that you earn on this trial
             Final_value.draw()
             endoptionA.draw()
@@ -340,15 +362,31 @@ for trialIdx in range(nTrials):
             #######################################
             ### Current place holder while figure out how to make the bars move to new values
             #######################################
-            value_bars['option_barA'].setpos *= [-0.5, int(value_bars['p_endA'])]
-            value_bars['option_barB'].setpos *= [0.5, int(value_bars['p_endB'])]
-            value_bars['option_barA'].setheight *= int(value_bars['h_endA'])
-            value_bars['option_barB'].setheight *= int(value_bars['h_endB'])
-            value_bars['option_barA'].draw()
-            value_bars['option_barB'].draw()
-            values_change.draw()
+            values_change = helper.values_change(win, optionValues)
+            values_change['step1_barA'].draw()
+            values_change['step1_barB'].draw()
             win.flip()
-            core.wait(1)
+            core.wait(0.2)
+            values_change['step2_barA'].draw()
+            values_change['step2_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step3_barA'].draw()
+            values_change['step3_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step4_barA'].draw()
+            values_change['step4_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step5_barA'].draw()
+            values_change['step5_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step6_barA'].draw()
+            values_change['step6_barB'].draw()
+            win.flip()
+            core.wait(0.2)
             # show the final values and the one that you earn on this trial
             Final_value.draw()
             endoptionA.draw()
