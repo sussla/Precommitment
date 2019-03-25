@@ -72,12 +72,15 @@ def visual_bars(win, optionValues):
 
 ###### Pick to play or not routine ######
 def pickoptions(win, trialClock):
+    #pickClock = core.Clock()
+    #pickClock.reset()
     response = 0
     RT_choice = 0
     choice_1 = 0 # choice_1 refers to the pick or play routine
     ### start routine "pick options ###
     core.wait(1)
     win.flip()
+    #while pickClock.getTime() < 4.0 and response == 0:
     # record responses
     theseKeys = event.getKeys(keyList=['up', 'down', 'escape'])
     if len(theseKeys) > 0:
@@ -93,18 +96,25 @@ def pickoptions(win, trialClock):
             response = 3
             RT_choice = trialClock.getTime()
             win.flip()
-    if response == 0: 
+    if response == 0:
         response = 3
         RT_choice = trialClock.getTime()
+    #if pickClock.getTime() >= 4.0 and response == 0:
+         #response == 0
+         #response = 3
+         #RT_choice = trialClock.getTime()
     choice_1 ={'play': response == 1, 'pick': response == 2, 'miss': response == 3, 'RT_choice': RT_choice}
     return choice_1
 
 #### precommitment (pick) routine ####
 def precomm_pick(win, trialClock):
+    #precommClock = core.Clock()
+    #precommClock.reset()
     response = 0
     RT_precomm = 0
     choice_2 = 0  # choice_2 refers to the precommitment routine
     # record responses
+    #while precommClock.getTime() < 4.0 and response == 0:
     theseKeys = event.getKeys(keyList=['left', 'right', 'escape'])
     if len(theseKeys) > 0:
         if 'left' in theseKeys:  # pick left
@@ -122,6 +132,10 @@ def precomm_pick(win, trialClock):
     if response == 0:
         response = 3
         RT_precomm = trialClock.getTime()
+    #if precommClock.getTime() >= 4.0 and response == 0:
+        #response = 3
+        #RT_precomm = trialClock.getTime()
+        #win.flip()
     choice_2 = {'A': response == 1, 'B': response == 2, 'miss': response == 3, 'RT_precomm': RT_precomm}
     return choice_2 
 

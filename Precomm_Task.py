@@ -63,7 +63,8 @@ stimB_right = visual.ImageStim(win, image='Images/' + stimB_name +'.png', units=
 ## Word Stimuli ##
 # stimuli outside loop = stimuli that do not change ###
 isi = visual.TextStim(win, text='+')
-optionText = visual.TextStim(win=win, text='Play   \n' + '     or  \n' + 'Commit ', height=0.1)
+optionText = visual.TextStim(win=win, text='  Play \n    or  \n Commit', height=0.1,
+                             pos=[0, 0], alignHoriz='center')
 pickText = visual.TextStim(win, text='Commit', height=0.1)
 playText = visual.TextStim(win, text='Play', height=0.1)
 chooseText = visual.TextStim(win, text=str(stimA_name) + ' or ' + str(stimB_name), height=0.1)
@@ -79,7 +80,8 @@ highlight_B = visual.Rect(win, width=0.6, height=1.9, lineWidth=5, lineColor=[1,
 rewardtext = visual.TextStim(win, text='$0.25', height=0.1)
 miss = visual.TextStim(win, text='miss', height=0.1)
 got_it = visual.TextStim(win, text='hit', height=0.1)
-lost = visual.TextStim(win, text='Missed. \n' + ' One was chosen for you.', height = 0.1, pos=[0,0])
+lost = visual.TextStim(win, text='          Missed. \nOne was chosen for you.', height = 0.1,
+                       pos=[0, 0], alignHoriz='center')
 
 
 ###### set clocks #######
@@ -99,7 +101,8 @@ length = 0
 ##############################
 
 #Start with the welcome screen 
-start = visual.TextStim(win, text= 'Welcome! \n' + 'Press ENTER to begin task', height= 0.1, pos=[0,0])
+start = visual.TextStim(win, text= '            Welcome! \nPress ENTER to begin task', height= 0.1,
+                        pos=[0, 0], alignHoriz='center')
 start.draw()
 win.flip()
 event.waitKeys(keyList=['return'])
