@@ -240,7 +240,7 @@ def values_change(win, optionValues):
                                   autoLog=None, fillColor=[0, 1, 0], pos=[-0.5, p_step6])
     if optionValues['endA'] < optionValues['optionA']:
         difference = int(optionValues['optionA']) - int(optionValues['endA'])
-        step = difference / 3
+        step = difference / 6
         h_step1 = ((int(optionValues['optionA']) - (step * 1)) / 100) * 0.8
         h_step2 = ((int(optionValues['optionA']) - (step * 2)) / 100) * 0.8
         h_step3 = ((int(optionValues['optionA']) - (step * 3)) / 100) * 0.8
@@ -294,7 +294,7 @@ def values_change(win, optionValues):
                                   autoLog=None, fillColor=[0, 1, 0], pos=[0.5, p_step6])
     elif optionValues['endB'] < optionValues['optionB']:
         difference = int(optionValues['optionB']) - int(optionValues['endB'])
-        step = difference / 3
+        step = difference / 6
         h_step1 = ((int(optionValues['optionB']) - (step * 1)) / 100) * 0.8
         h_step2 = ((int(optionValues['optionB']) - (step * 2)) / 100) * 0.8
         h_step3 = ((int(optionValues['optionB']) - (step * 3)) / 100) * 0.8
