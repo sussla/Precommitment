@@ -52,12 +52,12 @@ else:
 ###############################
 ##### Task-specific setup #####
 
-stimA_name = 'Apple'
-stimB_name = 'Broccoli'
+stimA_name = 'Bookbyte'
+stimB_name = 'BookScouter'
 stimA_left = visual.ImageStim(win, image='Images/' + stimA_name +'.png', units='height',
-                              pos=[-0.4,-0.35], size=[0.2,0.2], name=stimA_name, interpolate=True)
+                              pos=[-0.4,-0.35], size=[0.5,0.2], name=stimA_name, interpolate=True)
 stimB_right = visual.ImageStim(win, image='Images/' + stimB_name +'.png', units='height',
-                              pos=[0.4,-0.35], size=[0.2,0.2], name=stimB_name, interpolate=True)
+                              pos=[0.4,-0.35], size=[0.5,0.2], name=stimB_name, interpolate=True)
 
 
 ## Word Stimuli ##
@@ -79,8 +79,9 @@ highlight_A = visual.Rect(win, width=0.6, height=1.9, lineWidth=5, lineColor=[1,
 highlight_B = visual.Rect(win, width=0.6, height=1.9, lineWidth=5, lineColor=[1,-1,-1], autoLog=None, pos=[0.5, 0])
 rewardtext = visual.TextStim(win, text='$0.25', height=0.1)
 miss = visual.TextStim(win, text='miss', height=0.1)
+choosen = visual.TextStim(win, text='Choosen for you', height = 0.1)
 got_it = visual.TextStim(win, text='hit', height=0.1)
-lost = visual.TextStim(win, text='          Missed. \nOne was chosen for you.', height = 0.1,
+lost = visual.TextStim(win, text='Missed', height = 0.1,
                        pos=[0, 0], alignHoriz='center')
 
 
@@ -148,8 +149,6 @@ for trialIdx in range(nTrials):
     pickoptionB.setAutoDraw(True)
     stimA_left.setAutoDraw(True)
     stimB_right.setAutoDraw(True)
-    outline_barA.setAutoDraw(True)
-    outline_barB.setAutoDraw(True)
     win.flip()
     core.wait(1.5)
     # pick options routine
@@ -173,64 +172,112 @@ for trialIdx in range(nTrials):
         pickoptionB.setAutoDraw(False)
         stimA_left.setAutoDraw(False)
         stimB_right.setAutoDraw(False)
-        # run the routine for responding to the stimulus
-        playgame = helper.play_routine(win, optionValues, value_bars, trialClock)
-        RT_play = playgame['RT_play']
-        RT_trialClock_play = playgame['RT_trialClock_play']
-        # mask the two options
         outline_barA.setAutoDraw(False)
         outline_barB.setAutoDraw(False)
-        rectangle_A.draw()
-        rectangle_B.draw()
+        # run the routine for responding to the stimulus
+        playgame = helper.play_mid(win, trialClock)
+        RT_play = playgame['RT_play']
+        RT_trialClock_play = playgame['RT_trialClock_play']
         win.flip()
         core.wait(1)
         # start the play routine to record response
-        if playgame['B']:  # if choose the left option on play
-            response = 'win_B'
-            win_or_loose = 3
-            cents = optionValues['endB']
-            win.flip()
-            # indicate that you won
+        if playgame['hit']:  # if choose the left option on play
+            response = 'hit'
             got_it.draw()
             win.flip()
             core.wait(1)
-            # indicate what you got
+            # show the values change in bar
+            values_change = helper.values_change(win, optionValues)
+            values_change['step1_barA'].draw()
+            values_change['step1_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step2_barA'].draw()
+            values_change['step2_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step3_barA'].draw()
+            values_change['step3_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step4_barA'].draw()
+            values_change['step4_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step5_barA'].draw()
+            values_change['step5_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step6_barA'].draw()
+            values_change['step6_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            # show the final values and the one that you earn on this trial
             Final_value.draw()
-            endoptionA.draw()
-            value_bars['end_barA'].draw()
-            endoptionB.draw()
-            value_bars['end_barB'].draw()
-            highlight_B.draw()
-            stimA_left.draw()
-            stimB_right.draw()
-            outline_barA.draw()
-            outline_barB.draw()
+            endoptionA.setAutoDraw(True)
+            value_bars['end_barA'].setAutoDraw(True)
+            endoptionB.setAutoDraw(True)
+            value_bars['end_barB'].setAutoDraw(True)
+            win.flip()
+            core.wait(1.8)
+            hit_pick = helper.precomm_pick(win, trialClock)
+            chooseText.draw()
             win.flip()
             core.wait(1)
-        if playgame['A']: # if choose the right option on play
-            response = 'win_A'
-            win_or_loose = 3
-            cents = optionValues['endA']
-            win.flip()
-            # indicate that you won
-            got_it.draw()
-            win.flip()
-            core.wait(1)
-            # indicate what you got
-            Final_value.draw()
-            endoptionA.draw()
-            value_bars['end_barA'].draw()
-            endoptionB.draw()
-            value_bars['end_barB'].draw()
-            highlight_A.draw()
-            stimA_left.draw()
-            stimB_right.draw()
-            outline_barA.draw()
-            outline_barB.draw()
-            win.flip()
-            core.wait(1)
-        elif playgame['loose']:  # if do not pick within the allowed time (you "lost" the game)
-            response = 'lost_game'
+            if hit_pick['B']:  # if choose to precommit to the left option
+                response = 'hit_pick_B'
+                #pickoptionB.draw()
+                cents = optionValues['endB']
+                win.flip()
+                core.wait(0.5)
+                highlight_B.setAutoDraw(True)
+                win.flip()
+                core.wait(1)
+                if cents == optionValues['endB']:  # you earned the B value
+                    reward_amountB = str(optionValues['endB'])
+                    # show on the screen the amount that you earned
+                    winning_textB = visual.TextStim(win, text='Received \n' +   str(reward_amountB) + '\n cents',
+                                                    height=0.1)
+                    winning_textB.draw()
+                    # nonstring record for the cumulative reward amount record
+                    money = optionValues['endB']
+                    win.flip()
+                    core.wait(1)
+                endoptionA.setAutoDraw(False)
+                value_bars['end_barA'].setAutoDraw(False)
+                endoptionB.setAutoDraw(False)
+                value_bars['end_barB'].setAutoDraw(False)
+                highlight_B.setAutoDraw(False)
+                stimA_left.setAutoDraw(False)
+                stimB_right.setAutoDraw(False)
+            if hit_pick['A']:  # if choose to precommit to the left option
+                response = 'hit_pick_A'
+                #pickoptionB.draw()
+                cents = optionValues['endA']
+                win.flip()
+                core.wait(0.5)
+                highlight_A.draw()
+                win.flip()
+                core.wait(1)
+                if cents == optionValues['endA']:  # you earned the B value
+                    reward_amountB = str(optionValues['endA'])
+                    # show on the screen the amount that you earned
+                    winning_textA = visual.TextStim(win, text='Received \n' +   str(reward_amountA) + '\n cents',
+                                                    height=0.1)
+                    winning_textA.draw()
+                    # nonstring record for the cumulative reward amount record
+                    money = optionValues['endB']
+                    win.flip()
+                    core.wait(1)
+                endoptionA.setAutoDraw(False)
+                value_bars['end_barA'].setAutoDraw(False)
+                endoptionB.setAutoDraw(False)
+                value_bars['end_barB'].setAutoDraw(False)
+                highlight_A.setAutoDraw(False)
+                stimA_left.setAutoDraw(False)
+                stimB_right.setAutoDraw(False)
+        elif playgame['miss']:  # if do not pick within the allowed time (you "lost" the game)
+            response = 'miss'
             press_late = helper.press_late(win, trialClock)
             RT_late = press_late['RT_late']
             win.flip()
@@ -244,41 +291,102 @@ for trialIdx in range(nTrials):
             if press_late['late_B']:
                 win_or_loose = 2
                 win.flip()
-            lost.draw()
+            miss.draw()
             win.flip()
             core.wait(1)
             # calculate the amount of money that will be earned if you lost
             cents = loosing_win
             win.flip()
+            values_change = helper.values_change(win, optionValues)
+            values_change['step1_barA'].draw()
+            values_change['step1_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step2_barA'].draw()
+            values_change['step2_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step3_barA'].draw()
+            values_change['step3_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step4_barA'].draw()
+            values_change['step4_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step5_barA'].draw()
+            values_change['step5_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            values_change['step6_barA'].draw()
+            values_change['step6_barB'].draw()
+            win.flip()
+            core.wait(0.2)
+            # show the final values and the one that you earn on this trial
+            Final_value.draw()
+            endoptionA.setAutoDraw(True)
+            value_bars['end_barA'].setAutoDraw(True)
+            endoptionB.setAutoDraw(True)
+            value_bars['end_barB'].setAutoDraw(True)
+            win.flip()
+            core.wait(1.8)
+            choosen.draw()
+            win.flip()
+            core.wait(1)
             # highlight the random value that was chosen for you if you lost
             if loosing_win == optionValues['endA']:
                 lost_type = 'chosen_endA'
-                highlight_A.draw()
-                Final_value.draw()
-                endoptionA.draw()
-                value_bars['end_barA'].draw()
-                endoptionB.draw()
-                value_bars['end_barB'].draw()
-                stimA_left.draw()
-                stimB_right.draw()
-                outline_barA.draw()
-                outline_barB.draw()
+                cents = optionValues['endA']
                 win.flip()
-                core.wait(1)
+                core.wait(0.5)
+                highlight_A.setAutoDraw(True)
+                win.flip()
+                if cents == optionValues['endA']:  # you earned the B value
+                    reward_amountA = str(optionValues['endA'])
+                    # show on the screen the amount that you earned
+                    winning_textA = visual.TextStim(win, text='Received \n' +    str(reward_amountA) + '\n cents',
+                                                    height=0.1)
+                    winning_textA.draw()
+                    # nonstring record for the cumulative reward amount record
+                    money = optionValues['endB']
+                    win.flip()
+                    core.wait(1)
+                endoptionA.setAutoDraw(False)
+                value_bars['end_barA'].setAutoDraw(False)
+                endoptionB.setAutoDraw(False)
+                value_bars['end_barB'].setAutoDraw(False)
+                highlight_A.setAutoDraw(False)
+                stimA_left.setAutoDraw(False)
+                stimB_right.setAutoDraw(False)
+                outline_barA.setAutoDraw(False)
+                outline_barB.setAutoDraw(False)
             elif loosing_win == optionValues['endB']:
                 lost_type = 'chosen_endB'
-                highlight_B.draw()
-                Final_value.draw()
-                endoptionA.draw()
-                value_bars['end_barA'].draw()
-                endoptionB.draw()
-                value_bars['end_barB'].draw()
-                stimA_left.draw()
-                stimB_right.draw()
-                outline_barA.draw()
-                outline_barB.draw()
+                cents = optionValues['endB']
                 win.flip()
-                core.wait(1)
+                core.wait(0.5)
+                highlight_B.setAutoDraw(True)
+                win.flip()
+                core.wait(2)
+                if cents == optionValues['endB']:  # you earned the B value
+                    reward_amountB = str(optionValues['endB'])
+                    # show on the screen the amount that you earned
+                    winning_textB = visual.TextStim(win, text='Received \n' +    str(reward_amountB) + '\n cents',
+                                                    height=0.1)
+                    winning_textB.draw()
+                    # nonstring record for the cumulative reward amount record
+                    money = optionValues['endB']
+                    win.flip()
+                    core.wait(1)
+                endoptionA.setAutoDraw(False)
+                value_bars['end_barA'].setAutoDraw(False)
+                endoptionB.setAutoDraw(False)
+                value_bars['end_barB'].setAutoDraw(False)
+                highlight_B.setAutoDraw(False)
+                stimA_left.setAutoDraw(False)
+                stimB_right.setAutoDraw(False)
+                outline_barA.setAutoDraw(False)
+                outline_barB.setAutoDraw(False)
     elif pickChoice['pick']: # if choose to precommit on this trial
         # indicate that pick was chosen for this trial
         choice = 'pick'
