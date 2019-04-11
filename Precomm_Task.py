@@ -55,9 +55,9 @@ else:
 stimA_name = 'Bookbyte'
 stimB_name = 'BookScouter'
 stimA_left = visual.ImageStim(win, image='Images/' + stimA_name +'.png', units='height',
-                              pos=[-0.4,-0.35], size=[0.5,0.2], name=stimA_name, interpolate=True)
+                              pos=[-0.4,-0.35], size=[0.45,0.2], name=stimA_name, interpolate=True)
 stimB_right = visual.ImageStim(win, image='Images/' + stimB_name +'.png', units='height',
-                              pos=[0.4,-0.35], size=[0.5,0.2], name=stimB_name, interpolate=True)
+                              pos=[0.4,-0.35], size=[0.45,0.2], name=stimB_name, interpolate=True)
 
 
 ## Word Stimuli ##
@@ -79,9 +79,9 @@ highlight_A = visual.Rect(win, width=0.6, height=1.9, lineWidth=5, lineColor=[1,
 highlight_B = visual.Rect(win, width=0.6, height=1.9, lineWidth=5, lineColor=[1,-1,-1], autoLog=None, pos=[0.5, 0])
 rewardtext = visual.TextStim(win, text='$0.25', height=0.1)
 miss = visual.TextStim(win, text='miss', height=0.1)
-choosen = visual.TextStim(win, text='Choosen for you', height = 0.1)
+choosen = visual.TextStim(win, text='One website was \n picked for you', height = 0.1)
 got_it = visual.TextStim(win, text='hit', height=0.1)
-lost = visual.TextStim(win, text='Missed', height = 0.1,
+lost = visual.TextStim(win, text='missed', height = 0.1,
                        pos=[0, 0], alignHoriz='center')
 
 
@@ -135,14 +135,20 @@ for trialIdx in range(nTrials):
     optionValues = helper.pickvalues()
     # stimuli that need to change for each trial
     # option A is on the left side of screen
-    pickoptionA = visual.TextStim(win=win, text=optionValues['optionA'], name='optionA', pos = [-0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
+    pickoptionA = visual.TextStim(win=win, text=optionValues['optionA'], name='optionA',
+                                  pos = [-0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
     # option B is on the right side of screen
-    pickoptionB = visual.TextStim(win=win, text=optionValues['optionB'], name='optionB', pos = [0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
-    endoptionA = visual.TextStim(win=win, text=optionValues['endA'], name='endA', pos = [-0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
-    endoptionB = visual.TextStim(win=win, text=optionValues['endB'], name='endB', pos = [0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
+    pickoptionB = visual.TextStim(win=win, text=optionValues['optionB'], name='optionB',
+                                  pos = [0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
+    endoptionA = visual.TextStim(win=win, text=optionValues['endA'], name='endA',
+                                 pos = [-0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
+    endoptionB = visual.TextStim(win=win, text=optionValues['endB'], name='endB',
+                                 pos = [0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
     # prepare to start routine "pick options"
     value_bars = helper.visual_bars(win, optionValues)
     optionText.draw()
+    outline_barA.setAutoDraw(True)
+    outline_barB.setAutoDraw(True)
     value_bars['option_barA'].setAutoDraw(True)
     value_bars['option_barB'].setAutoDraw(True)
     pickoptionA.setAutoDraw(True)
@@ -166,6 +172,8 @@ for trialIdx in range(nTrials):
         isi.draw()
         win.flip()
         core.wait(1)
+        outline_barB.setAutoDraw(False)
+        outline_barA.setAutoDraw(False)
         value_bars['option_barA'].setAutoDraw(False)
         value_bars['option_barB'].setAutoDraw(False)
         pickoptionA.setAutoDraw(False)
@@ -175,19 +183,23 @@ for trialIdx in range(nTrials):
         outline_barA.setAutoDraw(False)
         outline_barB.setAutoDraw(False)
         # run the routine for responding to the stimulus
-        playgame = helper.play_mid(win, trialClock)
-        RT_play = playgame['RT_play']
-        RT_trialClock_play = playgame['RT_trialClock_play']
+        play_mid = helper.play_mid(win, trialClock)
+        RT_play = play_mid['RT_play']
+        RT_trialClock_play = play_mid['RT_trialClock_play']
         win.flip()
         core.wait(1)
         # start the play routine to record response
-        if playgame['hit']:  # if choose the left option on play
+        if play_mid['hit']:  # if choose the left option on play
             response = 'hit'
             got_it.draw()
             win.flip()
             core.wait(1)
             # show the values change in bar
             values_change = helper.values_change(win, optionValues)
+            outline_barB.setAutoDraw(True)
+            outline_barA.setAutoDraw(True)
+            stimA_left.setAutoDraw(True)
+            stimB_right.setAutoDraw(True)
             values_change['step1_barA'].draw()
             values_change['step1_barB'].draw()
             win.flip()
@@ -220,13 +232,12 @@ for trialIdx in range(nTrials):
             value_bars['end_barB'].setAutoDraw(True)
             win.flip()
             core.wait(1.8)
-            hit_pick = helper.precomm_pick(win, trialClock)
+            hit_pick = helper.hit_choice(win, trialClock)
             chooseText.draw()
             win.flip()
-            core.wait(1)
+            core.wait(2)
             if hit_pick['B']:  # if choose to precommit to the left option
                 response = 'hit_pick_B'
-                #pickoptionB.draw()
                 cents = optionValues['endB']
                 win.flip()
                 core.wait(0.5)
@@ -236,13 +247,15 @@ for trialIdx in range(nTrials):
                 if cents == optionValues['endB']:  # you earned the B value
                     reward_amountB = str(optionValues['endB'])
                     # show on the screen the amount that you earned
-                    winning_textB = visual.TextStim(win, text='Received \n' +   str(reward_amountB) + '\n cents',
-                                                    height=0.1)
+                    winning_textB = visual.TextStim(win, text='You get \n' + str(reward_amountB) + '\n cents',
+                                                    height=0.1, pos=[0,0])
                     winning_textB.draw()
                     # nonstring record for the cumulative reward amount record
                     money = optionValues['endB']
                     win.flip()
                     core.wait(1)
+                outline_barB.setAutoDraw(False)
+                outline_barA.setAutoDraw(False)
                 endoptionA.setAutoDraw(False)
                 value_bars['end_barA'].setAutoDraw(False)
                 endoptionB.setAutoDraw(False)
@@ -252,7 +265,6 @@ for trialIdx in range(nTrials):
                 stimB_right.setAutoDraw(False)
             if hit_pick['A']:  # if choose to precommit to the left option
                 response = 'hit_pick_A'
-                #pickoptionB.draw()
                 cents = optionValues['endA']
                 win.flip()
                 core.wait(0.5)
@@ -260,15 +272,17 @@ for trialIdx in range(nTrials):
                 win.flip()
                 core.wait(1)
                 if cents == optionValues['endA']:  # you earned the B value
-                    reward_amountB = str(optionValues['endA'])
+                    reward_amountA = str(optionValues['endA'])
                     # show on the screen the amount that you earned
-                    winning_textA = visual.TextStim(win, text='Received \n' +   str(reward_amountA) + '\n cents',
-                                                    height=0.1)
+                    winning_textA = visual.TextStim(win, text='You get \n' + str(reward_amountA) + '\n cents',
+                                                    height=0.1, pos=[0,0])
                     winning_textA.draw()
                     # nonstring record for the cumulative reward amount record
                     money = optionValues['endB']
                     win.flip()
                     core.wait(1)
+                outline_barB.setAutoDraw(False)
+                outline_barA.setAutoDraw(False)
                 endoptionA.setAutoDraw(False)
                 value_bars['end_barA'].setAutoDraw(False)
                 endoptionB.setAutoDraw(False)
@@ -276,7 +290,29 @@ for trialIdx in range(nTrials):
                 highlight_A.setAutoDraw(False)
                 stimA_left.setAutoDraw(False)
                 stimB_right.setAutoDraw(False)
-        elif playgame['miss']:  # if do not pick within the allowed time (you "lost" the game)
+            if hit_pick['miss']:  # if choose to precommit to the left option
+                response = 'hit_pick_miss'
+                cents = 0
+                win.flip()
+                core.wait(0.5)
+                miss.draw()
+                win.flip()
+                core.wait(1)
+                miss_text = visual.TextStim(win, text='Received no money', height=0.1, pos=[0, 0])
+                miss_text.draw()
+                money = 0
+                win.flip()
+                core.wait(1)
+                outline_barB.setAutoDraw(False)
+                outline_barA.setAutoDraw(False)
+                endoptionA.setAutoDraw(False)
+                value_bars['end_barA'].setAutoDraw(False)
+                endoptionB.setAutoDraw(False)
+                value_bars['end_barB'].setAutoDraw(False)
+                highlight_A.setAutoDraw(False)
+                stimA_left.setAutoDraw(False)
+                stimB_right.setAutoDraw(False)
+        elif play_mid['miss']:  # if do not pick within the allowed time (you "lost" the game)
             response = 'miss'
             press_late = helper.press_late(win, trialClock)
             RT_late = press_late['RT_late']
@@ -298,6 +334,10 @@ for trialIdx in range(nTrials):
             cents = loosing_win
             win.flip()
             values_change = helper.values_change(win, optionValues)
+            stimA_left.setAutoDraw(True)
+            stimB_right.setAutoDraw(True)
+            outline_barB.setAutoDraw(True)
+            outline_barA.setAutoDraw(True)
             values_change['step1_barA'].draw()
             values_change['step1_barB'].draw()
             win.flip()
@@ -344,13 +384,15 @@ for trialIdx in range(nTrials):
                 if cents == optionValues['endA']:  # you earned the B value
                     reward_amountA = str(optionValues['endA'])
                     # show on the screen the amount that you earned
-                    winning_textA = visual.TextStim(win, text='Received \n' +    str(reward_amountA) + '\n cents',
-                                                    height=0.1)
+                    winning_textA = visual.TextStim(win, text='You get \n' + str(reward_amountA) + '\n cents',
+                                                    height=0.1, pos=[0,0])
                     winning_textA.draw()
                     # nonstring record for the cumulative reward amount record
                     money = optionValues['endB']
                     win.flip()
                     core.wait(1)
+                outline_barB.setAutoDraw(False)
+                outline_barA.setAutoDraw(False)
                 endoptionA.setAutoDraw(False)
                 value_bars['end_barA'].setAutoDraw(False)
                 endoptionB.setAutoDraw(False)
@@ -371,13 +413,15 @@ for trialIdx in range(nTrials):
                 if cents == optionValues['endB']:  # you earned the B value
                     reward_amountB = str(optionValues['endB'])
                     # show on the screen the amount that you earned
-                    winning_textB = visual.TextStim(win, text='Received \n' +    str(reward_amountB) + '\n cents',
-                                                    height=0.1)
+                    winning_textB = visual.TextStim(win, text='You get \n' + str(reward_amountB) + '\n cents',
+                                                    height=0.1, pos=[0,0])
                     winning_textB.draw()
                     # nonstring record for the cumulative reward amount record
                     money = optionValues['endB']
                     win.flip()
                     core.wait(1)
+                outline_barB.setAutoDraw(False)
+                outline_barA.setAutoDraw(False)
                 endoptionA.setAutoDraw(False)
                 value_bars['end_barA'].setAutoDraw(False)
                 endoptionB.setAutoDraw(False)

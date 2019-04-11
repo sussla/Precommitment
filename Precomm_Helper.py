@@ -137,60 +137,38 @@ def precomm_pick(win, trialClock):
         #RT_precomm = trialClock.getTime()
         #win.flip()
     choice_2 = {'A': response == 1, 'B': response == 2, 'miss': response == 3, 'RT_precomm': RT_precomm}
-    return choice_2 
+    return choice_2
 
-#### play routine (original) ####
-def play_routine(win, optionValues, value_bars, trialClock):
-    playClock = core.Clock()
-    playClock.reset()
+def hit_choice(win, trialClock):
     response = 0
-    length = 0.6
-    RT_play = 0
-    RT_trialClock_play = 0
-    choice_3 = 0  # choice_3 refers to the play routine
-    # show the option values as part of the play routine but need to define how to draw then a second time
-    endoptionA = visual.TextStim(win=win, text=optionValues['endA'], name='endA', pos = [-0.5,-0.3],
-                                 rgb= None, color=(1,1,1), colorSpace='rgb')
-    endoptionB = visual.TextStim(win=win, text=optionValues['endB'], name='endB', pos = [0.5,-0.3],
-                                 rgb= None, color=(1,1,1), colorSpace='rgb')
-    endoptionA.draw()
-    endoptionB.draw()
-    value_bars['end_barA'].draw()
-    value_bars['end_barB'].draw()
-    win.flip()
-    core.wait(0.5)  # how long the end values are on the screen for the quick MID section
-    ### start routine "play" ###
-    while playClock.getTime() < length:
-        theseKeys = event.getKeys(keyList=['left', 'right', 'escape'])
-        if len(theseKeys) > 0:
-            if 'left' in theseKeys:  # pick left
-                response = 1
-                RT_play = playClock.getTime()
-                RT_trialClock_play = trialClock.getTime()
-                win.flip()
-            elif 'right' in theseKeys:  # pick right
-                response = 2
-                RT_play = playClock.getTime()
-                RT_trialClock_play = trialClock.getTime()
-                win.flip()
-            else:  # did not pick
-                response = 3
-                RT_play = playClock.getTime()
-                RT_trialClock_play = trialClock.getTime()
-                win.flip()
+    RT_hitchoice = 0
+    theseKeys = event.getKeys(keyList=['left', 'right', 'escape'])
+    if len(theseKeys) > 0:
+        if 'left' in theseKeys:
+            response = 1
+            RT_hitchoice = trialClock.getTime()
+            win.flip()
+        elif 'right' in theseKeys:
+            response = 2
+            RT_hitchoice = trialClock.getTime()
+            win.flip()
+        else:
+            response = 3
+            RT_hitchoice = trialClock.getTime()
+            win.flip()
     if response == 0:
         response = 3
-        win.flip()
-    choice_3 = {'A': response == 1, 'B': response == 2, 'loose': response == 3,
-                'RT_play': RT_play, 'RT_trialClock_play': RT_trialClock_play}
-    return choice_3
+        RT_hitchoice = trialClock.getTime()
+    hit_pick = {'A': response == 1, 'B': response == 2, 'miss': response == 3, 'RT_hitchoice': RT_hitchoice}
+    return hit_pick
+
 
 #### MID play routine ####
 def play_mid(win, trialClock):
-    playClock = core.Clock()
-    playClock.reset()
+    midClock = core.Clock()
+    midClock.reset()
     response = 0
-    length = 0.9
+    length = 0.6
     RT_play = 0
     RT_trialClock_play = 0
     #MID_square
@@ -198,22 +176,20 @@ def play_mid(win, trialClock):
     square.draw()
     win.flip()
     core.wait(0.5)
-    while playClock.getTime < length:
-        theseKeys = event.getKeys(keyList=['up', 'escape'])
+    while midClock.getTime() < length:
+        theseKeys = event.getKeys(keyList=['space', 'escape'])
         if len(theseKeys) > 0:
-            if 'up' in theseKeys:  # hit
+            if 'space' in theseKeys:  # hit
                 response = 1
-                RT_play = playClock.getTime()
+                RT_play = midClock.getTime()
                 RT_trialClock_play = trialClock.getTime()
                 win.flip()
             else:  # did not pick
                 response = 2
-                print('A')
-                RT_play = playClock.getTime()
+                RT_play = midClock.getTime()
                 RT_trialClock_play = trialClock.getTime()
                 win.flip()
     if response == 0:
-        print('B')
         response = 2
         win.flip()
     choice_3 = {'hit': response == 1, 'miss': response == 2, 'RT_play': RT_play,
