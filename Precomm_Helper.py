@@ -76,15 +76,13 @@ def pickoptions(win, trialClock):
     #pickClock.reset()
     response = 0
     RT_choice = 0
-    choice_1 = 0 # choice_1 refers to the pick or play routine
     ### start routine "pick options ###
     core.wait(1)
     win.flip()
-    #while pickClock.getTime() < 4.0 and response == 0:
     # record responses
     theseKeys = event.getKeys(keyList=['up', 'down', 'escape'])
     if len(theseKeys) > 0:
-        if 'up' in theseKeys: # pick play
+        if 'up' in theseKeys: # pick wait
             response = 1
             RT_choice = trialClock.getTime()
             win.flip()
@@ -99,22 +97,14 @@ def pickoptions(win, trialClock):
     if response == 0:
         response = 3
         RT_choice = trialClock.getTime()
-    #if pickClock.getTime() >= 4.0 and response == 0:
-         #response == 0
-         #response = 3
-         #RT_choice = trialClock.getTime()
-    choice_1 ={'play': response == 1, 'pick': response == 2, 'miss': response == 3, 'RT_choice': RT_choice}
+    choice_1 ={'wait': response == 1, 'commit': response == 2, 'miss': response == 3, 'RT_choice': RT_choice}
     return choice_1
 
 #### precommitment (pick) routine ####
 def precomm_pick(win, trialClock):
-    #precommClock = core.Clock()
-    #precommClock.reset()
     response = 0
     RT_precomm = 0
-    choice_2 = 0  # choice_2 refers to the precommitment routine
     # record responses
-    #while precommClock.getTime() < 4.0 and response == 0:
     theseKeys = event.getKeys(keyList=['left', 'right', 'escape'])
     if len(theseKeys) > 0:
         if 'left' in theseKeys:  # pick left
@@ -132,10 +122,6 @@ def precomm_pick(win, trialClock):
     if response == 0:
         response = 3
         RT_precomm = trialClock.getTime()
-    #if precommClock.getTime() >= 4.0 and response == 0:
-        #response = 3
-        #RT_precomm = trialClock.getTime()
-        #win.flip()
     choice_2 = {'A': response == 1, 'B': response == 2, 'miss': response == 3, 'RT_precomm': RT_precomm}
     return choice_2
 
@@ -146,17 +132,21 @@ def hit_choice(win, trialClock):
     if len(theseKeys) > 0:
         if 'left' in theseKeys:
             response = 1
+            print('left')
             RT_hitchoice = trialClock.getTime()
             win.flip()
         elif 'right' in theseKeys:
+            print('right')
             response = 2
             RT_hitchoice = trialClock.getTime()
             win.flip()
         else:
             response = 3
+            print('else')
             RT_hitchoice = trialClock.getTime()
             win.flip()
     if response == 0:
+        print('other')
         response = 3
         RT_hitchoice = trialClock.getTime()
     hit_pick = {'A': response == 1, 'B': response == 2, 'miss': response == 3, 'RT_hitchoice': RT_hitchoice}
@@ -334,3 +324,29 @@ def values_change(win, optionValues):
             'step5_barA': step5_barA, 'step6_barA': step6_barA, 'step1_barB': step1_barB, 'step2_barB': step2_barB,
             'step3_barB': step3_barB, 'step4_barB': step4_barB, 'step5_barB': step5_barB, 'step6_barB': step6_barB}
     return bars
+
+def progressive(win, values_change):
+    values_change['step1_barA'].draw()
+    values_change['step1_barB'].draw()
+    win.flip()
+    core.wait(0.2)
+    values_change['step2_barA'].draw()
+    values_change['step2_barB'].draw()
+    win.flip()
+    core.wait(0.2)
+    values_change['step3_barA'].draw()
+    values_change['step3_barB'].draw()
+    win.flip()
+    core.wait(0.2)
+    values_change['step4_barA'].draw()
+    values_change['step4_barB'].draw()
+    win.flip()
+    core.wait(0.2)
+    values_change['step5_barA'].draw()
+    values_change['step5_barB'].draw()
+    win.flip()
+    core.wait(0.2)
+    values_change['step6_barA'].draw()
+    values_change['step6_barB'].draw()
+    win.flip()
+    core.wait(0.2)
