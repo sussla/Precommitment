@@ -72,8 +72,6 @@ def visual_bars(win, optionValues):
 
 ###### Pick to play or not routine ######
 def pickoptions(win, trialClock):
-    #pickClock = core.Clock()
-    #pickClock.reset()
     response = 0
     RT_choice = 0
     ### start routine "pick options ###
@@ -125,32 +123,29 @@ def precomm_pick(win, trialClock):
     choice_2 = {'A': response == 1, 'B': response == 2, 'miss': response == 3, 'RT_precomm': RT_precomm}
     return choice_2
 
-def hit_choice(win, trialClock):
+def hit_pick(win, trialClock):
     response = 0
-    RT_hitchoice = 0
+    RT_hitChoice = 0
+    # record responses
     theseKeys = event.getKeys(keyList=['left', 'right', 'escape'])
     if len(theseKeys) > 0:
-        if 'left' in theseKeys:
+        if 'left' in theseKeys:  # pick left
             response = 1
-            print('left')
-            RT_hitchoice = trialClock.getTime()
+            RT_hitChoice = trialClock.getTime()
             win.flip()
-        elif 'right' in theseKeys:
-            print('right')
+        elif 'right' in theseKeys:  # pick right
             response = 2
-            RT_hitchoice = trialClock.getTime()
+            RT_hitChoice = trialClock.getTime()
             win.flip()
-        else:
+        else:  # did not pick
             response = 3
-            print('else')
-            RT_hitchoice = trialClock.getTime()
+            RT_hitChoice = trialClock.getTime()
             win.flip()
     if response == 0:
-        print('other')
         response = 3
-        RT_hitchoice = trialClock.getTime()
-    hit_pick = {'A': response == 1, 'B': response == 2, 'miss': response == 3, 'RT_hitchoice': RT_hitchoice}
-    return hit_pick
+        RT_hitChoice = trialClock.getTime()
+    choice_3 = {'A': response == 1, 'B': response == 2, 'miss': response == 3, 'RT_hitChoice': RT_hitChoice}
+    return choice_3
 
 
 #### MID play routine ####
@@ -158,33 +153,43 @@ def play_mid(win, trialClock):
     midClock = core.Clock()
     midClock.reset()
     response = 0
-    length = 0.6
+    hit = 0
+    length = 0.4
     RT_play = 0
     RT_trialClock_play = 0
     #MID_square
     square = visual.Rect(win=win, width=0.5, height=0.5, autoLog=None, fillColor='white', pos=[0,0])
     square.draw()
     win.flip()
-    core.wait(0.5)
+    core.wait(0.2)
     while midClock.getTime() < length:
         theseKeys = event.getKeys(keyList=['space', 'escape'])
         if len(theseKeys) > 0:
             if 'space' in theseKeys:  # hit
-                response = 1
+                hit = 1
                 RT_play = midClock.getTime()
                 RT_trialClock_play = trialClock.getTime()
+                picked = random.choice(range(1,4, 1))
+                if picked == 1 or picked == 2:
+                    response = 1
+                if picked == 3 or picked == 4:
+                    response = 2
                 win.flip()
             else:  # did not pick
+                hit = 2
                 response = 2
                 RT_play = midClock.getTime()
                 RT_trialClock_play = trialClock.getTime()
                 win.flip()
     if response == 0:
         response = 2
+        hit = 2
         win.flip()
-    choice_3 = {'hit': response == 1, 'miss': response == 2, 'RT_play': RT_play,
-                'RT_trialClock_play': RT_trialClock_play}
+    choice_3 = {'hit': response == 1, 'miss': response == 2, 'press_hit': hit == 1, 'press_miss': hit == 2,
+                'RT_play': RT_play, 'RT_trialClock_play': RT_trialClock_play}
     return choice_3
+
+
 
 def press_late(win, trialClock):
     response = 0
@@ -350,3 +355,5 @@ def progressive(win, values_change):
     values_change['step6_barB'].draw()
     win.flip()
     core.wait(0.2)
+
+
