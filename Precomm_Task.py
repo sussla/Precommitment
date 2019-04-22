@@ -78,8 +78,8 @@ change_values = visual.TextStim(win, text='values change', height=0.1, pos=[0,0]
                                 wrapWidth=10)
 Final_value = visual.TextStim(win, text='new values', height=0.1)
 attempt = visual.TextStim(win, text='ready')
-highlight_A = visual.Rect(win, width=0.7, height=1.9, lineWidth=5, lineColor=[1,-1,-1], autoLog=None, pos=[-0.5, 0])
-highlight_B = visual.Rect(win, width=0.7, height=1.9, lineWidth=5, lineColor=[1,-1,-1], autoLog=None, pos=[0.5, 0])
+highlight_A = visual.Rect(win, width=0.65, height=1.9, lineWidth=5, lineColor=[1,-1,-1], autoLog=None, pos=[-0.5, 0])
+highlight_B = visual.Rect(win, width=0.65, height=1.9, lineWidth=5, lineColor=[1,-1,-1], autoLog=None, pos=[0.5, 0])
 rewardtext = visual.TextStim(win, text='$0.25', height=0.1)
 miss = visual.TextStim(win, text='missed', height=0.1)
 tomorrow = visual.TextStim(win, text='Updated Prices', height=0.1)
@@ -266,7 +266,7 @@ for trialIdx in range(nTrials):
                 core.wait(0.5)
                 reward_amountB = str(optionValues['endB'])
                 # show on the screen the amount that you earned
-                winning_textB = visual.TextStim(win, text='Sell for \n' + str(reward_amountB) + ' points',
+                winning_textB = visual.TextStim(win, text='     Get \n' + str(reward_amountB) + ' points!',
                                                 wrapWidth=4, height=0.1, pos=[0,0])
                 # nonstring record for the cumulative reward amount record
                 money = optionValues['endB']
@@ -293,7 +293,7 @@ for trialIdx in range(nTrials):
                 core.wait(0.5)
                 reward_amountA = str(optionValues['endA'])
                 # show on the screen the amount that you earned
-                winning_textA = visual.TextStim(win, text='Sell for \n' + str(reward_amountA) + ' points',
+                winning_textA = visual.TextStim(win, text='     Get \n' + str(reward_amountA) + ' points!',
                                                 wrapWidth=4, height=0.1, pos=[0,0])
                 # nonstring record for the cumulative reward amount record
                 money = optionValues['endA']
@@ -378,7 +378,7 @@ for trialIdx in range(nTrials):
                 core.wait(2)
                 reward_amountA = str(optionValues['endA'])
                 # show on the screen the amount that you earned
-                winning_textA = visual.TextStim(win, text='Sell for \n' + str(reward_amountA) + ' points',
+                winning_textA = visual.TextStim(win, text='     Get \n' + str(reward_amountA) + ' points!',
                                                     wrapWidth=4, height=0.1, pos=[0,0])
                 winning_textA.draw()
                 # nonstring record for the cumulative reward amount record
@@ -407,7 +407,7 @@ for trialIdx in range(nTrials):
                 core.wait(2)
                 reward_amountB = str(optionValues['endB'])
                 # show on the screen the amount that you earned
-                winning_textB = visual.TextStim(win, text='Sell for \n' + str(reward_amountB) + ' points',
+                winning_textB = visual.TextStim(win, text='     Get \n' + str(reward_amountB) + ' points!',
                                                wrapWidth=4, height=0.1, pos=[0,0])
                 winning_textB.draw()
                 # nonstring record for the cumulative reward amount record
@@ -471,7 +471,7 @@ for trialIdx in range(nTrials):
             core.wait(1.8)
             reward_amountB = str(optionValues['endB'])
             # show on the screen the amount that you earned
-            winning_textB = visual.TextStim(win, text='Sell for \n' + str(reward_amountB) + ' points',
+            winning_textB = visual.TextStim(win, text='     Get \n' + str(reward_amountB) + ' points!',
                                             height=0.1, pos=[0, 0])
             winning_textB.draw()
             endoptionA.draw()
@@ -516,7 +516,7 @@ for trialIdx in range(nTrials):
             core.wait(1.8)
             reward_amountA = str(optionValues['endA'])
             # show on the screen the amount that you earned
-            winning_textA = visual.TextStim(win, text='Sell for  \n' + str(reward_amountA) + ' points',
+            winning_textA = visual.TextStim(win, text='     Get  \n' + str(reward_amountA) + ' points!',
                                             height=0.1, pos=[0, 0])
             winning_textA.draw()
             endoptionA.draw()
@@ -624,7 +624,8 @@ for trialIdx in range(nTrials):
 # allow escape experiment
 if event.getKeys(keyList='escape'):
     core.quit()
-moneyontrial= visual.TextStim(win, text='Congrats! You earned $' +str(rewardAmount/100.00) +'!', height = 0.1)
+moneyontrial= visual.TextStim(win, text='            Checkout. \n   You received $' +str(rewardAmount/100.00)
+                                        +'\n for selling your books!', height = 0.1)
 moneyontrial.draw()
 win.flip()
 # right now need to press enter to end the experiment
