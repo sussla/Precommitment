@@ -149,12 +149,11 @@ def hit_pick(win, trialClock):
 
 
 #### MID play routine ####
-def play_mid(win, trialClock):
+def play_mid(win, trialClock, length):
     midClock = core.Clock()
     midClock.reset()
     response = 0
     hit = 0
-    length = 0.4
     RT_play = 0
     RT_trialClock_play = 0
     #MID_square
@@ -169,11 +168,7 @@ def play_mid(win, trialClock):
                 hit = 1
                 RT_play = midClock.getTime()
                 RT_trialClock_play = trialClock.getTime()
-                picked = random.choice(range(1,4, 1))
-                if picked == 1 or picked == 2:
-                    response = 1
-                if picked == 3 or picked == 4:
-                    response = 2
+                response = 1
                 win.flip()
             else:  # did not pick
                 hit = 2

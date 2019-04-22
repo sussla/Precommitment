@@ -98,7 +98,8 @@ trialClock = core.Clock()
 nTrials = 5  # number of trials per block
 rewardAmount = 0  # cumulative reward amount
 response = 0
-length = 0
+length = 0.3
+increase = 0.05
 
 
 ##############################
@@ -193,38 +194,38 @@ for trialIdx in range(nTrials):
         isi.draw()
         win.flip()
         core.wait(1)
+        change_values.draw()
+        win.flip()
+        core.wait(0.5)
         value_bars['option_barA'].setAutoDraw(False)
         value_bars['option_barB'].setAutoDraw(False)
         pickoptionA.setAutoDraw(False)
         pickoptionB.setAutoDraw(False)
         # show the values change in bar
         values_change = helper.values_change(win, optionValues)
-        change_values.draw()
         # show progressive change of values
         bars_change = helper.progressive(win, values_change)
         if event.getKeys(keyList='escape'):
             core.quit()
         # show the final values and the one that you earn on this trial
-        values_change['step6_barA'].draw()
-        values_change['step6_barB'].draw()
+        values_change['step6_barA'].setAutoDraw(True)
+        values_change['step6_barB'].setAutoDraw(True)
         Final_value.draw()
-        endoptionA.draw()
-        endoptionB.draw()
+        endoptionA.setAutoDraw(True)
+        endoptionB.setAutoDraw(True)
         win.flip()
         core.wait(1.5)
-        outline_barB.setAutoDraw(False)
-        outline_barA.setAutoDraw(False)
-        stimA_left.setAutoDraw(False)
-        stimB_right.setAutoDraw(False)
         attempt.draw()
         win.flip()
         core.wait(2)
         if event.getKeys(keyList='escape'):
             core.quit()
+        timinglist = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+        isi_time = random.choice(timinglist)
         isi.draw()
         win.flip()
-        core.wait(0.5)
-        play_mid = helper.play_mid(win, trialClock)
+        core.wait(isi_time)
+        play_mid = helper.play_mid(win, trialClock, length)
         RT_play = play_mid['RT_play']
         RT_trialClock_play = play_mid['RT_trialClock_play']
         space = play_mid['press_hit']
@@ -237,18 +238,11 @@ for trialIdx in range(nTrials):
         # start the play routine to record response
         if play_mid['hit']:  # if choose the left option on play
             response = 'hit'
+            length -= increase
             # tell them that it was a hit
             got_it.draw()
             win.flip()
             core.wait(1)
-            values_change['step6_barA'].setAutoDraw(True)
-            values_change['step6_barB'].setAutoDraw(True)
-            endoptionA.setAutoDraw(True)
-            endoptionB.setAutoDraw(True)
-            outline_barB.setAutoDraw(True)
-            outline_barA.setAutoDraw(True)
-            stimA_left.setAutoDraw(True)
-            stimB_right.setAutoDraw(True)
             chooseText.draw()
             win.flip()
             core.wait(2)
@@ -325,11 +319,20 @@ for trialIdx in range(nTrials):
                 money = 0
                 win.flip()
                 core.wait(1)
+                values_change['step6_barA'].setAutoDraw(False)
+                values_change['step6_barB'].setAutoDraw(False)
+                endoptionA.setAutoDraw(False)
+                endoptionB.setAutoDraw(False)
+                outline_barB.setAutoDraw(False)
+                outline_barA.setAutoDraw(False)
+                stimA_left.setAutoDraw(False)
+                stimB_right.setAutoDraw(False)
                 # allow escape experiment
                 if event.getKeys(keyList='escape'):
                     core.quit()
         elif play_mid['miss']:  # if do not pick within the allowed time (you "lost" the game)
             response = 'miss'
+            length += increase
             press_late = helper.press_late(win, trialClock)
             RT_late = press_late['RT_late']
             win.flip()
@@ -350,17 +353,6 @@ for trialIdx in range(nTrials):
             cents = loosing_win
             win.flip()
             core.wait(2)
-            values_change = helper.values_change(win, optionValues)
-            stimA_left.setAutoDraw(True)
-            stimB_right.setAutoDraw(True)
-            outline_barB.setAutoDraw(True)
-            outline_barA.setAutoDraw(True)
-            endoptionA.setAutoDraw(True)
-            value_bars['end_barA'].setAutoDraw(True)
-            endoptionB.setAutoDraw(True)
-            value_bars['end_barB'].setAutoDraw(True)
-            win.flip()
-            core.wait(1)
             choosen.draw()
             win.flip()
             core.wait(1)
@@ -390,9 +382,9 @@ for trialIdx in range(nTrials):
                 outline_barB.setAutoDraw(False)
                 outline_barA.setAutoDraw(False)
                 endoptionA.setAutoDraw(False)
-                value_bars['end_barA'].setAutoDraw(False)
+                values_change['step6_barA'].setAutoDraw(False)
+                values_change['step6_barB'].setAutoDraw(False)
                 endoptionB.setAutoDraw(False)
-                value_bars['end_barB'].setAutoDraw(False)
                 highlight_A.setAutoDraw(False)
                 # allow escape experiment
                 if event.getKeys(keyList='escape'):
@@ -419,9 +411,9 @@ for trialIdx in range(nTrials):
                 outline_barB.setAutoDraw(False)
                 outline_barA.setAutoDraw(False)
                 endoptionA.setAutoDraw(False)
-                value_bars['end_barA'].setAutoDraw(False)
+                values_change['step6_barA'].setAutoDraw(False)
+                values_change['step6_barB'].setAutoDraw(False)
                 endoptionB.setAutoDraw(False)
-                value_bars['end_barB'].setAutoDraw(False)
                 highlight_B.setAutoDraw(False)
                 # allow escape experiment
                 if event.getKeys(keyList='escape'):
