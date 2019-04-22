@@ -1,7 +1,7 @@
 # free params
-a1 = 20 # lower bound of the lower range
-a2 = 28 # lower bound of the higher range
-w = 80  # width of each range
+a1 = 5 # lower bound of the lower range
+a2 = 15 # lower bound of the higher range
+w = 60  # width of each range
 l = 0.5 # lambda = the amount of times a random choice will be granted 
 
 # derived params
