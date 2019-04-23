@@ -73,7 +73,6 @@ rectangle_A = visual.Rect(win, width=0.5, height=1.3, autoLog=None, fillColor=[-
 rectangle_B = visual.Rect(win, width=0.5, height=1.3, autoLog=None, fillColor=[-0.7, -0.7, -0.7], pos=[0.5, -0.2])
 outline_barA = visual.Rect(win, width=0.2, height=0.8, lineWidth=3, autoLog=None, pos=[-0.5, 0.3])
 outline_barB = visual.Rect(win, width=0.2, height=0.8,lineWidth=3, autoLog=None, pos=[0.5, 0.3])
-looseText = visual.TextStim(win, text='loose', height=0.1)
 change_values = visual.TextStim(win, text='values change', height=0.1, pos=[0,0],
                                 wrapWidth=10)
 Final_value = visual.TextStim(win, text='new values', height=0.1)
@@ -85,7 +84,7 @@ miss = visual.TextStim(win, text='missed', height=0.1)
 tomorrow = visual.TextStim(win, text='Updated Prices', height=0.1)
 choosen = visual.TextStim(win, text='One Website was \n Picked for You', height=0.1, wrapWidth=6)
 got_it = visual.TextStim(win, text='hit', height=0.1)
-lost = visual.TextStim(win, text='missed', height=0.1, pos=[0, 0], alignHoriz='center')
+#lost = visual.TextStim(win, text='missed', height=0.1, pos=[0, 0], alignHoriz='center')
 
 
 ###### set clocks #######
@@ -220,7 +219,7 @@ for trialIdx in range(nTrials):
         core.wait(2)
         if event.getKeys(keyList='escape'):
             core.quit()
-        timinglist = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+        timinglist = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
         isi_time = random.choice(timinglist)
         isi.draw()
         win.flip()
