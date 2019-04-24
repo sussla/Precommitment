@@ -84,7 +84,6 @@ miss = visual.TextStim(win, text='missed', height=0.1)
 tomorrow = visual.TextStim(win, text='Updated Prices', height=0.1)
 choosen = visual.TextStim(win, text='One Website was \n Picked for You', height=0.1, wrapWidth=6)
 got_it = visual.TextStim(win, text='hit', height=0.1)
-#lost = visual.TextStim(win, text='missed', height=0.1, pos=[0, 0], alignHoriz='center')
 
 
 ###### set clocks #######
@@ -219,8 +218,8 @@ for trialIdx in range(nTrials):
         core.wait(2)
         if event.getKeys(keyList='escape'):
             core.quit()
-        timinglist = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
-        isi_time = random.choice(timinglist)
+        timing_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
+        isi_time = random.choice(timing_list)
         isi.draw()
         win.flip()
         core.wait(isi_time)
