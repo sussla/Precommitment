@@ -1,5 +1,6 @@
+twenty = 20
+
 for (x in c(1:10))
-{ 
   {
   difference = 0 
   option = 0
@@ -19,44 +20,47 @@ for (x in c(1:10))
   #define the actual values of A and B
   if (Max_start == A_start) 
     A = Max_start else A = Min_start 
-  if (Max_start == B_start)
-    B = Max_start else B = Min_start
+  if (Max_start == B_start) 
+    B = Max_start else B = Min_start 
   
   #what to do when the differnce is greater than 20
   if (difference >= 20)
-    Max_end = Max_start + 30
-    Min_end = Min_start - 30
-    if (A == Max_start & B == Min_start)
-      A_end = Max_end
-      B_end = Min_end
-      if (B == Max_start & A == Min_start)
-      A_end = Min_end
-      B_end = Max_end
+  {  
+    Max_end <- (Max_start + twenty)
+    Min_end <- (Min_start - twenty) }
 
   #what to do when the difference is less than 20
-  if (difference <= 20)
-    Max_end = Max_start - 30
-    Min_end = Min_start + 30
-    if (A == Max_start & B == Min_start)
-      A_end = Max_end
-      B_end = Min_end
-    if (B == Max_start & A == Min_start)
-      A_end = Min_end
-      B_end = Max_end
-    
-  #if the values are the same or different 
-  if (Max_start == A_start & Max_end == A_end) 
-    option <- ("A_always_best")
-  if (Max_start == B_start & Max_end == B_end) 
-    option <- ("B_always_best")
-  if (Max_start == A_start & Max_end == B_end | Max_start == B_start & Max_end == A_end)
-    option <- ("changes") 
+  if (difference < 20)
+  {  
+    Max_end <- (Max_start - twenty)
+    Min_end <- (Min_start + twenty) }
   
-data = c(A_start, B_start, A_end, B_end, difference, option)
-print(data)
+  # naming the max and min values in alignment with A and B 
+  if (Max_end == (A + 20))
+    A2 <- Max_end else A2 <- Min_end 
+  if (Max_end == (B + 20))
+    B2 = Max_end else B2 = Min_end 
+  
+  print(Max_end)
+  print(Min_end)
+  
+  
+  #if the values are the same or different 
+  if ((Max_start == A_start) & (Max_end == A_end)) {
+    option <- ("A_always_best") 
+    } else if  ((Max_start == B_start) & (Max_end == B_end)) {
+      option <- ("B_always_best")
+    } else if  ((Max_start == A_start) & (Max_end == B_end)) {
+      option <- ("changes") 
+    } else if ((Max_start == B_start) & (Max_end == A_end)) {
+      option <- ("changes")
+    }
+      
+  data = c(A_start, B_start, A_end, B_end, difference, option)
+  print(data)
+  print 
 }
-}
-write.table(data)
-colnames(view) <- c('A_start', 'B_start', 'A_end', 'B_end', 'difference', 'option')
-rownames(view) <- c(1:10)
-view.table <- as.table(view)
+  #view = matrix(c(data), nrow = 6, ncol = 10, byrow = TRUE)
+  #colnames(view) <- c('A_start', 'B_start', 'A_end', 'B_end', 'difference', 'option')
+  #rownames(view) <- c(1:10)
+  #view.table <- as.table(view)

@@ -47,6 +47,55 @@ def pickvalues():
                     'A_always': change == 1, 'B_always': change == 2, 'changes': change == 3}
     return optionValues
 
+def new_values():
+    #first pick options
+    optionA = random.choice(range(20,80,1))
+    optionB = random.choice(range(20,80,1))
+    #determine which is higher and lower
+    max_option = max(optionA, optionB)
+    min_option = min(optionA, optionB)
+    #Set up options
+    A_plus = optionA + 20
+    A_minus = optionA - 20
+    B_plus = optionB + 20
+    B_minus = optionB - 20
+    #determine difference
+    difference = abs(optionA - optionB)
+    if difference >= 20:
+        first_end = max_option + 20
+        second_end = min_option - 20
+    elif difference < 20:
+        first_end = max_option - 20
+        second_end = min_option + 20
+    if A_plus == first_end:
+        endA = first_end
+    if A_minus == first_end:
+        endA = first_end
+    if A_plus == second_end:
+        endA = second_end
+    if A_minus == second_end:
+        endA = second_end
+    if B_plus == first_end:
+        endB = first_end
+    if B_minus == first_end:
+        endB = first_end
+    if B_plus == second_end:
+        endB = second_end
+    if B_minus == second_end:
+        endB = second_end
+    # if the best option changes or stays the same
+    change = 0
+    if (optionA >= optionB) and (endA >= endB):
+        change = 1
+    if (optionA <= optionB) and (endA <= endB):
+        change = 2
+    if (optionA >= optionB and endA <= endB) or (optionA <= optionB and endA >= endB):
+        change = 3
+    optionValues = {'optionA': optionA, 'optionB': optionB, 'endA': endA, 'endB': endB,
+                    'A_always': change == 1, 'B_always': change == 2, 'changes': change == 3}
+    return optionValues
+
+
 def visual_bars(win, optionValues):
     # complete the path for calculating changing values
     h_optionA = (int(optionValues['optionA'])/100) * 0.8

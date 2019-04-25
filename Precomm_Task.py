@@ -149,7 +149,7 @@ for trialIdx in range(nTrials):
     cents = 0
     loosing_win = 0   # amount of money you earn when you play but loose (randomly chosen amount)
     # pick options from helper for this trial
-    optionValues = helper.pickvalues()
+    optionValues = helper.new_values()
     # stimuli that need to change for each trial
     # option A is on the left side of screen
     pickoptionA = visual.TextStim(win=win, text=optionValues['optionA'], name='optionA',
@@ -578,8 +578,8 @@ for trialIdx in range(nTrials):
     thisExp.addData('OptionB', optionValues['optionB'])
     thisExp.addData('EndA', optionValues['endA'])
     thisExp.addData('EndB', optionValues['endB'])
-    thisExp.addData('A_difference', optionValues['A_difference'])
-    thisExp.addData('B_difference', optionValues['B_difference'])
+    #thisExp.addData('A_difference', optionValues['A_difference'])
+    #thisExp.addData('B_difference', optionValues['B_difference'])
     thisExp.addData('largest_option',optionValues['max_option'])
     thisExp.addData('largest_end', optionValues['max_end'])
     thisExp.addData('A_alwaysBest', optionValues['A_always'])
