@@ -211,6 +211,8 @@ for trialIdx in range(nTrials):
         Final_value.draw()
         endoptionA.setAutoDraw(True)
         endoptionB.setAutoDraw(True)
+        if event.getKeys(keyList='escape'):
+            core.quit()
         win.flip()
         core.wait(1.5)
         attempt.draw()
@@ -236,6 +238,8 @@ for trialIdx in range(nTrials):
         # start the play routine to record response
         if play_mid['hit']:  # if choose the left option on play
             response = 'hit'
+            if event.getKeys(keyList='escape'):
+                core.quit()
             length -= increase
             # tell them that it was a hit
             got_it.draw()
@@ -252,6 +256,8 @@ for trialIdx in range(nTrials):
             # if choose second B
             if hit_pick['B']:  # if choose to precommit to the left option
                 response = 'hit_pickB'
+                if event.getKeys(keyList='escape'):
+                    core.quit()
                 cents = optionValues['endB']
                 highlight_B.setAutoDraw(True)
                 win.flip()
@@ -279,6 +285,8 @@ for trialIdx in range(nTrials):
                     core.quit()
             elif hit_pick['A']:  # if choose to precommit to the left option
                 response = 'hit_pickA'
+                if event.getKeys(keyList='escape'):
+                    core.quit()
                 cents = optionValues['endA']
                 highlight_A.setAutoDraw(True)
                 win.flip()
@@ -306,6 +314,8 @@ for trialIdx in range(nTrials):
                     core.quit()
             elif hit_pick['miss']:  # if choose to precommit to the left option
                 response = 'hit_pick_miss'
+                if event.getKeys(keyList='escape'):
+                    core.quit()
                 cents = 0
                 win.flip()
                 core.wait(1)
@@ -419,6 +429,8 @@ for trialIdx in range(nTrials):
     elif pickChoice['commit']: # if choose to precommit on this trial
         # indicate that pick was chosen for this trial
         choice = 'commit'
+        if event.getKeys(keyList='escape'):
+            core.quit()
         pickoptionA.draw()
         pickoptionB.draw()
         pickText.draw()
@@ -438,6 +450,8 @@ for trialIdx in range(nTrials):
             core.quit()
         if precomm['B']: # if choose to precommit to the left option
             response = 'precomm_B'
+            if event.getKeys(keyList='escape'):
+                core.quit()
             pickoptionB.draw()
             cents = optionValues['endB']
             win.flip()
@@ -482,6 +496,8 @@ for trialIdx in range(nTrials):
                 core.quit()
         elif precomm['A']: # if choose to precommit to the right option
             response = 'precomm_A'
+            if event.getKeys(keyList='escape'):
+                core.quit()
             pickoptionA.draw()
             cents = optionValues['endA']
             win.flip()
@@ -526,6 +542,8 @@ for trialIdx in range(nTrials):
             if event.getKeys(keyList='escape'):
                 core.quit()
         elif precomm['miss']:
+            if event.getKeys(keyList='escape'):
+                core.quit()
             response = 'precomm_miss'
             miss.draw()
             win.flip()
@@ -580,11 +598,11 @@ for trialIdx in range(nTrials):
     thisExp.addData('EndB', optionValues['endB'])
     #thisExp.addData('A_difference', optionValues['A_difference'])
     #thisExp.addData('B_difference', optionValues['B_difference'])
-    thisExp.addData('largest_option',optionValues['max_option'])
-    thisExp.addData('largest_end', optionValues['max_end'])
-    thisExp.addData('A_alwaysBest', optionValues['A_always'])
-    thisExp.addData('B_alwaysBest', optionValues['B_always'])
-    thisExp.addData('Best_changes', optionValues['changes'])
+    #thisExp.addData('largest_option',optionValues['max_option'])
+    #thisExp.addData('largest_end', optionValues['max_end'])
+    #thisExp.addData('A_alwaysBest', optionValues['A_always'])
+    #thisExp.addData('B_alwaysBest', optionValues['B_always'])
+    #thisExp.addData('Best_changes', optionValues['changes'])
     thisExp.addData('Choice_RT', RT_choice)
     thisExp.addData('Choice_Play', choice == 'wait')
     thisExp.addData('Choice_Pick', choice == 'pick')

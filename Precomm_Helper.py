@@ -48,25 +48,28 @@ def pickvalues():
     return optionValues
 
 def new_values():
-    #first pick options
+    # first pick options
     optionA = random.choice(range(20,80,1))
     optionB = random.choice(range(20,80,1))
-    #determine which is higher and lower
+    # determine which is higher and lower
     max_option = max(optionA, optionB)
     min_option = min(optionA, optionB)
-    #Set up options
-    A_plus = optionA + 20
-    A_minus = optionA - 20
-    B_plus = optionB + 20
-    B_minus = optionB - 20
-    #determine difference
+    # pick values to add or subtract
+    Z = random.choice(range(15,25,1))
+    Y = random.choice(range(15,25,1))
+    # Set up options
+    A_plus = optionA + Z
+    A_minus = optionA - Y
+    B_plus = optionB + Z
+    B_minus = optionB - Y
+    # determine difference
     difference = abs(optionA - optionB)
     if difference >= 20:
-        first_end = max_option + 20
-        second_end = min_option - 20
+        first_end = max_option + Z
+        second_end = min_option - Y
     elif difference < 20:
-        first_end = max_option - 20
-        second_end = min_option + 20
+        first_end = max_option - Y
+        second_end = min_option + Z
     if A_plus == first_end:
         endA = first_end
     if A_minus == first_end:
