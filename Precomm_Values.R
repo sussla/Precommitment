@@ -1,7 +1,9 @@
-twenty = 20
+#parameters
+addition = 20
 
 for (x in c(1:10))
-  {
+{
+  
   difference = 0 
   option = 0
   #Pick the first values 
@@ -24,26 +26,26 @@ for (x in c(1:10))
     B = Max_start else B = Min_start 
   
   #what to do when the differnce is greater than 20
-  if (difference >= 20)
-  {  
-    Max_end <- (Max_start + twenty)
-    Min_end <- (Min_start - twenty) }
+  if (difference >= 20) { 
+    One_end = (Max_start + addition)
+    Two_end = (Min_start - addition) }
+    #what to do when the difference is less than 20
+  if (difference < 20) {
+    One_end = (Max_start - addition)
+    Two_end = (Min_start + addition) 
+  }
+  
 
-  #what to do when the difference is less than 20
-  if (difference < 20)
-  {  
-    Max_end <- (Max_start - twenty)
-    Min_end <- (Min_start + twenty) }
-  
   # naming the max and min values in alignment with A and B 
-  if (Max_end == (A + 20))
-    A2 <- Max_end else A2 <- Min_end 
-  if (Max_end == (B + 20))
-    B2 = Max_end else B2 = Min_end 
+  if (One_end == (A + addition))
+    A_end <- One_end else A_end <- Two_end 
+  if (One_end == (B + addition))
+    B_end <- Two_end else B_end <- One_end
   
-  print(Max_end)
-  print(Min_end)
-  
+  #max is the higher end value 
+  #min is the smaller end value 
+  Max_end = max(One_end:Two_end)
+  Min_end = min(One_end:Two_end)
   
   #if the values are the same or different 
   if ((Max_start == A_start) & (Max_end == A_end)) {
@@ -58,9 +60,4 @@ for (x in c(1:10))
       
   data = c(A_start, B_start, A_end, B_end, difference, option)
   print(data)
-  print 
 }
-  #view = matrix(c(data), nrow = 6, ncol = 10, byrow = TRUE)
-  #colnames(view) <- c('A_start', 'B_start', 'A_end', 'B_end', 'difference', 'option')
-  #rownames(view) <- c(1:10)
-  #view.table <- as.table(view)
