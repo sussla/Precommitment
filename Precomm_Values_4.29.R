@@ -22,20 +22,20 @@ for (x in c(1:2))
 {
   #Pick the first value
   A_start = sample(14:86,1)
-  print (A_start)
+  
   #Decide on a difference option 
   d = sample(c(diff_options), 1)
-  print(d)
+  
   #Pick the second value 
   B_start = A_start + d
-  print(B_start)
+  
   #Pick the value you want to change by 
   c = sample(c(change_options), 1)
-  print(c)
-  
+
+  #Determine the direction of the change
   direction = sample(c(1, -1), 1)
-  print(direction)
-  
+
+  #Different ending options depending on the two different directions
   if (direction == 1) {
     A_end = A_start + c
     B_end = B_start - c
@@ -43,7 +43,11 @@ for (x in c(1:2))
     A_end = A_start - c 
     B_end = B_start + c
   }
-  
-  print(A_end)
-  print(B_end)
+  cat('A_start=', A_start, '\n')
+  cat('d=', d, '\n')
+  cat('B_start=', B_start, '\n')
+  cat('c=', c, '\n')
+  cat('direction=', direction, '\n')
+  cat('A_end=', A_end, '\n')
+  cat('B_end=', B_end, '\n')
 }
