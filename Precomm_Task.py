@@ -220,7 +220,7 @@ for trialIdx in range(nTrials):
         core.wait(2)
         if event.getKeys(keyList='escape'):
             core.quit()
-        timing_list = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
+        timing_list = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
         isi_time = random.choice(timing_list)
         isi.draw()
         win.flip()
