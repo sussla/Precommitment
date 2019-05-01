@@ -7,7 +7,7 @@ path <- "~/Documents/Github/Precommitment/data/"
 setwd(path)
 
 #Open the data
-Precomm_1 <- read.csv("~/Documents/Github/Precommitment/data/*.csv")
+Precomm_1 <- read.csv("~/Documents/Github/Precommitment/data/")
 View(Precomm_1)
 
 ##### Checking on Components of the data #####
