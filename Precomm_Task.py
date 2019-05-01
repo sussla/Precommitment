@@ -69,8 +69,8 @@ optionText = visual.TextStim(win=win, text='Wait for New Prices \n             o
 pickText = visual.TextStim(win, text='Commit', height=0.1)
 waitText = visual.TextStim(win, text='Wait', height=0.1)
 chooseText = visual.TextStim(win, text=str(stimA_name) + ' or ' + str(stimB_name), height=0.1)
-rectangle_A = visual.Rect(win, width=0.5, height=1.3, autoLog=None, fillColor=[-0.7, -0.7, -0.7], pos=[-0.5, -0.2])
-rectangle_B = visual.Rect(win, width=0.5, height=1.3, autoLog=None, fillColor=[-0.7, -0.7, -0.7], pos=[0.5, -0.2])
+rectangle_A = visual.Rect(win, width=0.5, height=1.6, autoLog=None, fillColor=[-0.7, -0.7, -0.7], pos=[-0.5, -0.2])
+rectangle_B = visual.Rect(win, width=0.5, height=1.6, autoLog=None, fillColor=[-0.7, -0.7, -0.7], pos=[0.5, -0.2])
 outline_barA = visual.Rect(win, width=0.2, height=0.8, lineWidth=3, autoLog=None, pos=[-0.5, 0.3])
 outline_barB = visual.Rect(win, width=0.2, height=0.8,lineWidth=3, autoLog=None, pos=[0.5, 0.3])
 change_values = visual.TextStim(win, text='values change', height=0.1, pos=[0,0],
@@ -93,7 +93,7 @@ trialClock = core.Clock()
 
 
 ### Task parameters ####
-nTrials = 5  # number of trials per block
+nTrials = 20  # number of trials per block
 rewardAmount = 0  # cumulative reward amount
 response = 0
 length = 0.3
@@ -133,6 +133,8 @@ for trialIdx in range(nTrials):
     isi.draw()
     win.flip()
     core.wait(1)
+    if event.getKeys(keyList='escape'):
+        core.quit()
     # track the reward value for each particular trial
     cover_number = random.choice(range(1, 99, 1))
     book = visual.ImageStim(win, image= 'Books/' + str(cover_number) + '.png', units='height',
@@ -568,6 +570,8 @@ for trialIdx in range(nTrials):
     elif pickChoice['miss']:  # if missed in choosing to pick or play
         choice = 'miss'
         miss.draw()
+        if event.getKeys(keyList='escape'):
+            core.quit()
         win.flip()
         core.wait(1.5)
         cents = 0
@@ -596,13 +600,11 @@ for trialIdx in range(nTrials):
     thisExp.addData('OptionB', optionValues['optionB'])
     thisExp.addData('EndA', optionValues['endA'])
     thisExp.addData('EndB', optionValues['endB'])
-    #thisExp.addData('A_difference', optionValues['A_difference'])
-    #thisExp.addData('B_difference', optionValues['B_difference'])
-    #thisExp.addData('largest_option',optionValues['max_option'])
-    #thisExp.addData('largest_end', optionValues['max_end'])
-    #thisExp.addData('A_alwaysBest', optionValues['A_always'])
-    #thisExp.addData('B_alwaysBest', optionValues['B_always'])
-    #thisExp.addData('Best_changes', optionValues['changes'])
+    thisExp.addData('difference', optionValues['difference'])
+    thisExp.addData('change', optionValues['change'])
+    thisExp.addData('A_alwaysBest', optionValues['A_always'])
+    thisExp.addData('B_alwaysBest', optionValues['B_always'])
+    thisExp.addData('Best_changes', optionValues['changes'])
     thisExp.addData('Choice_RT', RT_choice)
     thisExp.addData('Choice_Play', choice == 'wait')
     thisExp.addData('Choice_Pick', choice == 'pick')

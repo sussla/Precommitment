@@ -13,88 +13,47 @@ import random
 ##### new function to pick options only
 
 
-def pickvalues():
-    a1 = 5 
-    a2 = 15 
-    w = 60  # width of each range
-    # derived params
-    b1 = a1 + w 
-    b2 = a2 + w 
-    # pick options
-    optionA = random.choice(range(a1, b1, 1))
-    optionB = random.choice(range(a2, b2, 1))
-    # end values
-    endA = random.choice(range(a1, b1, 1))
-    endB = random.choice(range(a2, b2, 1))
-    # difference between values
-    A_difference = optionA - endA
-    B_difference = optionB - endB
-    # largest of options
-    max_option = max(optionA, optionB)
-    # largest of end values
-    max_end = max(endA, endB)
-    # if the best option changes or stays the same
-    change = 0
-    if (optionA >= optionB) and (endA >= endB):
-        change = 1
-    if (optionA <= optionB) and (endA <= endB):
-        change = 2
-    if (optionA >= optionB and endA <= endB) or (optionA <= optionB and endA >= endB):
-        change = 3
-    optionValues = {'optionA': optionA, 'optionB': optionB, 'endA': endA, 'endB': endB,
-                    'A_difference': A_difference, 'B_difference': B_difference,
-                   'max_option': max_option, 'max_end': max_end,
-                    'A_always': change == 1, 'B_always': change == 2, 'changes': change == 3}
-    return optionValues
-
 def new_values():
+    # set parameters
+    diff_options = [4, -4, 12, -12, 20, -20, 28, -28]
+    d = random.choice(diff_options)
+    change_options = [3, 9, 13]
+    c = random.choice(change_options)
+    # determine random options
+    direction = random.choice(range(0, 1, 1))
+    r = random.choice(range(0, 1, 1))
     # first pick options
-    optionA = random.choice(range(20,80,1))
-    optionB = random.choice(range(20,80,1))
-    # determine which is higher and lower
-    max_option = max(optionA, optionB)
-    min_option = min(optionA, optionB)
-    # pick values to add or subtract
-    Z = random.choice(range(15,25,1))
-    Y = random.choice(range(15,25,1))
-    # Set up options
-    A_plus = optionA + Z
-    A_minus = optionA - Y
-    B_plus = optionB + Z
-    B_minus = optionB - Y
-    # determine difference
-    difference = abs(optionA - optionB)
-    if difference >= 20:
-        first_end = max_option + Z
-        second_end = min_option - Y
-    elif difference < 20:
-        first_end = max_option - Y
-        second_end = min_option + Z
-    if A_plus == first_end:
-        endA = first_end
-    if A_minus == first_end:
-        endA = first_end
-    if A_plus == second_end:
-        endA = second_end
-    if A_minus == second_end:
-        endA = second_end
-    if B_plus == first_end:
-        endB = first_end
-    if B_minus == first_end:
-        endB = first_end
-    if B_plus == second_end:
-        endB = second_end
-    if B_minus == second_end:
-        endB = second_end
-    # if the best option changes or stays the same
+    First_start = random.choice(range(42, 89, 1))
+    Second_start = (First_start + d)
+    # Determine which value is A and B
+    if r == 1:
+        A_start = First_start
+        B_start = Second_start
+    if r == 0:
+        A_start = Second_start
+        B_start = First_start
+    # Determine ending options
+    if direction == 1:
+        A_end = A_start + c
+        B_end = B_start - c
+    if direction == 0:
+        A_end = A_start - c
+        B_end = B_start + c
+    # Determine which value is larger or smaller
+    max_start = max(A_start, B_start)
+    min_start = min(A_start, B_start)
+    max_end = max(A_end, B_end)
+    min_end = min(A_end, B_end)
+    # if best option changes or stays the same
     change = 0
-    if (optionA >= optionB) and (endA >= endB):
+    if (A_start == max_start) and (A_end == max_end):
         change = 1
-    if (optionA <= optionB) and (endA <= endB):
+    if (B_start == max_start) and (B_end == max_end):
         change = 2
-    if (optionA >= optionB and endA <= endB) or (optionA <= optionB and endA >= endB):
+    if (A_start == max_start and A_end == min_end) or (B_start == max_start and B_end == min_end):
         change = 3
-    optionValues = {'optionA': optionA, 'optionB': optionB, 'endA': endA, 'endB': endB,
+    optionValues = {'optionA': A_start, 'optionB': B_start, 'endA': A_end, 'endB': B_end,
+                    'difference': d, 'change': c,
                     'A_always': change == 1, 'B_always': change == 2, 'changes': change == 3}
     return optionValues
 

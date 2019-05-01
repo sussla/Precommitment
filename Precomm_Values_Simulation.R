@@ -66,18 +66,6 @@ for (x in c(1:30))
     best = str('B_both')
   } else best = str('changes')
   
-  
-  #cat('d=', d, '\n')
-  #cat('A_start=', A_start, '\n')
-  #cat('B_start=', B_start, '\n')
-  #cat('First_start=', First_start, '\n')
-  #cat('Second_start=', Second_start, '\n')
-  #cat('c=', c, '\n')
-  #cat('direction=', direction, '\n')
-  #cat('random=', random, '\n')
-  #cat('A_end=', A_end, '\n')
-  #cat('B_end=', B_end, '\n')
-  
   data = (c(d, A_start, B_start, First_start, Second_start, c, direction, random, A_end, B_end, best))
   print(data)
 }
