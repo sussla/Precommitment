@@ -93,7 +93,7 @@ trialClock = core.Clock()
 
 
 ### Task parameters ####
-nTrials = 20  # number of trials per block
+nTrials = 40  # number of trials per block
 rewardAmount = 0  # cumulative reward amount
 response = 0
 length = 0.3
@@ -129,6 +129,8 @@ for trialIdx in range(nTrials):
     lost_type = 0
     space = 0
     no_space = 0
+    isi_time = 0
+    blank = str(length)
     # start with the cross before each trial
     isi.draw()
     win.flip()
@@ -137,8 +139,8 @@ for trialIdx in range(nTrials):
         core.quit()
     # track the reward value for each particular trial
     cover_number = random.choice(range(1, 99, 1))
-    book = visual.ImageStim(win, image= 'Books/' + str(cover_number) + '.png', units='height',
-                            pos=[0,0], size=[0.4, 0.8], interpolate=True)
+    book = visual.ImageStim(win, image='Books/' + str(cover_number) + '.png', units='height',
+                            pos=[0, 0], size=[0.4, 0.8], interpolate=True)
     book.draw()
     win.flip()
     core.wait(2)
@@ -155,14 +157,14 @@ for trialIdx in range(nTrials):
     # stimuli that need to change for each trial
     # option A is on the left side of screen
     pickoptionA = visual.TextStim(win=win, text=optionValues['optionA'], name='optionA',
-                                  pos = [-0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
+                                  pos=[-0.5, -0.3], rgb=None, color=(1, 1, 1), colorSpace='rgb')
     # option B is on the right side of screen
     pickoptionB = visual.TextStim(win=win, text=optionValues['optionB'], name='optionB',
-                                  pos = [0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
+                                  pos=[0.5, -0.3], rgb=None, color=(1, 1, 1), colorSpace='rgb')
     endoptionA = visual.TextStim(win=win, text=optionValues['endA'], name='endA',
-                                 pos = [-0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
+                                 pos=[-0.5, -0.3], rgb=None, color=(1, 1, 1), colorSpace='rgb')
     endoptionB = visual.TextStim(win=win, text=optionValues['endB'], name='endB',
-                                 pos = [0.5,-0.3], rgb= None, color=(1,1,1), colorSpace='rgb')
+                                 pos=[0.5, -0.3], rgb=None, color=(1, 1, 1), colorSpace='rgb')
     # prepare to start routine "pick options"
     value_bars = helper.visual_bars(win, optionValues)
     if event.getKeys(keyList='escape'):
@@ -267,7 +269,7 @@ for trialIdx in range(nTrials):
                 reward_amountB = str(optionValues['endB'])
                 # show on the screen the amount that you earned
                 winning_textB = visual.TextStim(win, text='     Get \n' + str(reward_amountB) + ' points!',
-                                                wrapWidth=4, height=0.1, pos=[0,0])
+                                                wrapWidth=4, height=0.1, pos=[0, 0])
                 # nonstring record for the cumulative reward amount record
                 money = optionValues['endB']
                 winning_textB.draw()
@@ -296,7 +298,7 @@ for trialIdx in range(nTrials):
                 reward_amountA = str(optionValues['endA'])
                 # show on the screen the amount that you earned
                 winning_textA = visual.TextStim(win, text='     Get \n' + str(reward_amountA) + ' points!',
-                                                wrapWidth=4, height=0.1, pos=[0,0])
+                                                wrapWidth=4, height=0.1, pos=[0, 0])
                 # nonstring record for the cumulative reward amount record
                 money = optionValues['endA']
                 winning_textA.draw()
@@ -410,7 +412,7 @@ for trialIdx in range(nTrials):
                 reward_amountB = str(optionValues['endB'])
                 # show on the screen the amount that you earned
                 winning_textB = visual.TextStim(win, text='     Get \n' + str(reward_amountB) + ' points!',
-                                               wrapWidth=4, height=0.1, pos=[0,0])
+                                               wrapWidth=4, height=0.1, pos=[0, 0])
                 winning_textB.draw()
                 # nonstring record for the cumulative reward amount record
                 money = optionValues['endB']
@@ -606,15 +608,17 @@ for trialIdx in range(nTrials):
     thisExp.addData('B_alwaysBest', optionValues['B_always'])
     thisExp.addData('Best_changes', optionValues['changes'])
     thisExp.addData('Choice_RT', RT_choice)
-    thisExp.addData('Choice_Play', choice == 'wait')
-    thisExp.addData('Choice_Pick', choice == 'pick')
+    thisExp.addData('Choice_Wait', choice == 'wait')
+    thisExp.addData('Choice_Commit', choice == 'commit')
     thisExp.addData('Choice_Miss', choice == 'miss')
+    thisExp.addData('Press_hit', space)
     thisExp.addData('Play_RT', RT_play)
     thisExp.addData('RT_trialClock_play', RT_trialClock_play)
-    thisExp.addData('Press_hit', space)
+    thisExp.addData('ITI_play', isi_time)
+    thisExp.addData('Square_timing', blank)
     thisExp.addData('Press_miss', no_space)
-    thisExp.addData('Play_win_A', response == 'win_A')
-    thisExp.addData('Play_win_B', response == 'win_B')
+    thisExp.addData('Play_win_A', response == 'hit_pickA')
+    thisExp.addData('Play_win_B', response == 'hit_pickB')
     thisExp.addData('Late_RT', RT_late)
     thisExp.addData('Play_lost', response == 'lost_game')
     thisExp.addData('Play_lost_chosenA', lost_type == 'chosen_endA')
@@ -635,7 +639,7 @@ for trialIdx in range(nTrials):
 if event.getKeys(keyList='escape'):
     core.quit()
 moneyontrial= visual.TextStim(win, text='            Checkout. \n   You received $' +str(rewardAmount/100.00)
-                                        +'\n for selling your books!', height = 0.1)
+                                        +'\n for selling your books!', height=0.1)
 moneyontrial.draw()
 win.flip()
 # right now need to press enter to end the experiment
