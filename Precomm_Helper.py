@@ -15,16 +15,25 @@ import random
 
 def new_values():
     # set parameters
-    diff_options = [4, -4, 12, -12, 20, -20, 28, -28]
-    d = random.choice(diff_options)
     change_options = [3, 9, 13]
     c = random.choice(change_options)
     # determine random options
     direction = random.choice(range(0, 1, 1))
     r = random.choice(range(0, 1, 1))
     # first pick options
-    First_start = random.choice(range(42, 89, 1))
-    Second_start = (First_start + d)
+    First_start = random.choice(range(13, 87, 1))
+    if First_start <= 28:
+        diff_options = [4, 12, 20, 28]
+        d = random.choice(diff_options)
+        Second_start = (First_start + d)
+    if First_start >= 72:
+        diff_options = [-4, -12, -20, -28]
+        d = random.choice(diff_options)
+        Second_start = (First_start + d)
+    else:
+        diff_options = [4, -4, 12, -12, 20, -20, 28, -28]
+        d = random.choice(diff_options)
+        Second_start = (First_start + d)
     # Determine which value is A and B
     if r == 1:
         A_start = First_start
