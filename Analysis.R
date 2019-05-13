@@ -1,6 +1,5 @@
 ###### Basic Data Analysis Option ######
 library(ggplot2)
-library(dplyr)
 
 #Working directory
 path <- "~/Documents/Github/Precommitment/data/"
@@ -55,7 +54,7 @@ A_best <- table(Precomm$A_alwaysBest)
 B_best <- table(Precomm$B_alwaysBest)
 Best_changes <- table(Precomm$Best_changes)
 Best <- c(A_best, B_best, Best_changes)
-nrow(Precomm[Precomm$A_alwaysBest=TRUE])
+nrow(Precomm[Precomm$A_alwaysBest==TRUE])
 
 Best_A <- as.numeric(Precomm$A_alwaysBest)>1
 Best_A
