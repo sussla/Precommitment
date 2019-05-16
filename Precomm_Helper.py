@@ -9,45 +9,103 @@ import sys  # to get file system encoding
 import csv
 import random
 
-
 ##### new function to pick options only
 
-
-def new_values():
-    # set parameters
-    change_options = [3, 9, 13]
-    c = random.choice(change_options)
-    # determine random options
-    direction = random.choice(range(0, 1, 1))
+def new_values(alphabet):
+    letter = random.choice(alphabet)
+    A_start = 0
+    A_end = 0
+    B_start = 0
+    B_end = 0
+    d = 0
+    c = 0
+    if letter == 'a':
+        d = 4
+        c = 3
+    if letter == 'b':
+        d = 4
+        c = -3
+    if letter == 'c':
+        d = 4
+        c = 9
+    if letter == 'd':
+        d = 4
+        c = -9
+    if letter == 'e':
+        d = 4
+        c = 13
+    if letter == 'f':
+        d = 4
+        c = -13
+    if letter == 'g':
+        d = 12
+        c = 3
+    if letter == 'h':
+        d = 12
+        c = -3
+    if letter == 'i':
+        d = 12
+        c = 9
+    if letter == 'j':
+        d = 12
+        c = -9
+    if letter == 'k':
+        d = 12
+        c = 13
+    if letter == 'l':
+        d = 12
+        c = -13
+    if letter == 'm':
+        d = 20
+        c = 3
+    if letter == 'n':
+        d = 20
+        c = -3
+    if letter == 'o':
+        d = 20
+        c = 9
+    if letter == 'p':
+        d = 20
+        c = -9
+    if letter == 'q':
+        d = 20
+        c = 13
+    if letter == 'r':
+        d = 20
+        c = -13
+    if letter == 's':
+        d = 28
+        c = 3
+    if letter == 't':
+        d = 28
+        c = -3
+    if letter == 'u':
+        d = 28
+        c = 9
+    if letter == 'v':
+        d = 28
+        c = -9
+    if letter == 'w':
+        d = 28
+        c = 13
+    if letter == 'x':
+        d = 28
+        c = -13
+    First_start = random.choice(range(13, 58, 1))
+    Second_start = First_start + d
+    First_end = First_start + (c)
+    Second_end = Second_start - (c)
     r = random.choice(range(0, 1, 1))
-    # first pick options
-    First_start = random.choice(range(13, 87, 1))
-    if First_start <= 28:
-        diff_options = [4, 12, 20, 28]
-        d = random.choice(diff_options)
-        Second_start = (First_start + d)
-    if First_start >= 72:
-        diff_options = [-4, -12, -20, -28]
-        d = random.choice(diff_options)
-        Second_start = (First_start + d)
-    else:
-        diff_options = [4, -4, 12, -12, 20, -20, 28, -28]
-        d = random.choice(diff_options)
-        Second_start = (First_start + d)
-    # Determine which value is A and B
     if r == 1:
         A_start = First_start
+        A_end = First_end
         B_start = Second_start
+        B_end = Second_end
     if r == 0:
         A_start = Second_start
+        A_end = Second_end
         B_start = First_start
-    # Determine ending options
-    if direction == 1:
-        A_end = A_start + c
-        B_end = B_start - c
-    if direction == 0:
-        A_end = A_start - c
-        B_end = B_start + c
+        B_end = First_end
     # Determine which value is larger or smaller
     max_start = max(A_start, B_start)
     min_start = min(A_start, B_start)
@@ -61,11 +119,10 @@ def new_values():
         change = 2
     if (A_start == max_start and A_end == min_end) or (B_start == max_start and B_end == min_end):
         change = 3
-    optionValues = {'optionA': A_start, 'optionB': B_start, 'endA': A_end, 'endB': B_end,
+    optionValues = {'letter': letter, 'optionA': A_start, 'optionB': B_start, 'endA': A_end, 'endB': B_end,
                     'difference': d, 'change': c,
                     'A_always': change == 1, 'B_always': change == 2, 'changes': change == 3}
     return optionValues
-
 
 def visual_bars(win, optionValues):
     # complete the path for calculating changing values
@@ -370,5 +427,3 @@ def progressive(win, values_change):
     values_change['step6_barB'].draw()
     win.flip()
     core.wait(0.2)
-
-

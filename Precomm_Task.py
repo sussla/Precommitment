@@ -98,6 +98,8 @@ rewardAmount = 0  # cumulative reward amount
 response = 0
 length = 0.3
 increase = 0.05
+alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+            'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x']
 
 
 ##############################
@@ -153,7 +155,7 @@ for trialIdx in range(nTrials):
     cents = 0
     loosing_win = 0   # amount of money you earn when you play but loose (randomly chosen amount)
     # pick options from helper for this trial
-    optionValues = helper.new_values()
+    optionValues = helper.new_values(alphabet)
     # stimuli that need to change for each trial
     # option A is on the left side of screen
     pickoptionA = visual.TextStim(win=win, text=optionValues['optionA'], name='optionA',
@@ -165,6 +167,8 @@ for trialIdx in range(nTrials):
                                  pos=[-0.5, -0.3], rgb=None, color=(1, 1, 1), colorSpace='rgb')
     endoptionB = visual.TextStim(win=win, text=optionValues['endB'], name='endB',
                                  pos=[0.5, -0.3], rgb=None, color=(1, 1, 1), colorSpace='rgb')
+    alphabet.remove(optionValues['letter'])
+    print(alphabet)
     # prepare to start routine "pick options"
     value_bars = helper.visual_bars(win, optionValues)
     if event.getKeys(keyList='escape'):
