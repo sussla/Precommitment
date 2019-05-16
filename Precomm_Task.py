@@ -93,7 +93,7 @@ trialClock = core.Clock()
 
 
 ### Task parameters ####
-nTrials = 40  # number of trials per block
+nTrials = 24  # number of trials per block
 rewardAmount = 0  # cumulative reward amount
 response = 0
 length = 0.3
@@ -606,6 +606,7 @@ for trialIdx in range(nTrials):
     thisExp.addData('OptionB', optionValues['optionB'])
     thisExp.addData('EndA', optionValues['endA'])
     thisExp.addData('EndB', optionValues['endB'])
+    thisExp.addData('letter', optionValues['letter'])
     thisExp.addData('difference', optionValues['difference'])
     thisExp.addData('change', optionValues['change'])
     thisExp.addData('A_alwaysBest', optionValues['A_always'])
