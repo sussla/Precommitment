@@ -11,9 +11,8 @@ import Precomm_Helper as helper
 
 ########### Basic experiment settings ###########
 
-
 ### Store info about the experiment session ###
-expName = 'PreComm_Task'  # from the Builder filename that created this script
+expName = 'PreComm_Practice'  # from the Builder filename that created this script
 expInfo = {'participant':''}
 dlg = gui.DlgFromDict(dictionary=expInfo, title=expName)
 if dlg.OK == False:
@@ -93,29 +92,26 @@ trialClock = core.Clock()
 
 
 ### Task parameters ####
-nTrials = 48  # number of trials per block
+nTrials = 10  # number of trials per block
 rewardAmount = 0  # cumulative reward amount
 response = 0
 length = 0.3
 increase = 0.05
-alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-            'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'aa', 'bb', 'cc', 'dd',
-            'ee', 'ff', 'gg', 'hh', 'ii', 'jj', 'kk', 'll', 'mm', 'nn', 'oo', 'pp',
-            'qq', 'rr', 'ss', 'tt', 'uu', 'vv', 'ww', 'xx']
+alphabet = ['a', 'c', 'e', 'g', 'k', 'o', 'q', 'r', 'u', 'x']
 
 ##############################
 ###### Begin experiment ######
 ##############################
 
-#Start with the welcome screen 
-start = visual.TextStim(win, text= '            Welcome! \nPress ENTER to begin task', height= 0.1,
+#Start with the welcome screen
+start = visual.TextStim(win, text= '            Welcome! \nPress ENTER to begin practice task', height= 0.1,
                         pos=[0, 0], wrapWidth=10, alignHoriz='center')
 start.draw()
 win.flip()
 event.waitKeys(keyList=['return'])
 globalClock.reset()
 
-#begin trial loop 
+#begin trial loop
 for trialIdx in range(nTrials):
     # allow escape experiment
     if event.getKeys(keyList='escape'):

@@ -11,7 +11,7 @@ import random
 
 ##### new function to pick options only
 
-def new_values(alphabet):
+def first_values(alphabet):
     letter = random.choice(alphabet)
     A_start = 0
     A_end = 0
@@ -91,6 +91,78 @@ def new_values(alphabet):
     if letter == 'x':
         d = 28
         c = -13
+    if letter == 'aa':
+        d = 4
+        c = 3
+    if letter == 'bb':
+        d = 4
+        c = -3
+    if letter == 'cc':
+        d = 4
+        c = 9
+    if letter == 'dd':
+        d = 4
+        c = -9
+    if letter == 'ee':
+        d = 4
+        c = 13
+    if letter == 'ff':
+        d = 4
+        c = -13
+    if letter == 'gg':
+        d = 12
+        c = 3
+    if letter == 'hh':
+        d = 12
+        c = -3
+    if letter == 'ii':
+        d = 12
+        c = 9
+    if letter == 'jj':
+        d = 12
+        c = -9
+    if letter == 'kk':
+        d = 12
+        c = 13
+    if letter == 'll':
+        d = 12
+        c = -13
+    if letter == 'mm':
+        d = 20
+        c = 3
+    if letter == 'nn':
+        d = 20
+        c = -3
+    if letter == 'oo':
+        d = 20
+        c = 9
+    if letter == 'pp':
+        d = 20
+        c = -9
+    if letter == 'qq':
+        d = 20
+        c = 13
+    if letter == 'rr':
+        d = 20
+        c = -13
+    if letter == 'ss':
+        d = 28
+        c = 3
+    if letter == 'tt':
+        d = 28
+        c = -3
+    if letter == 'uu':
+        d = 28
+        c = 9
+    if letter == 'vv':
+        d = 28
+        c = -9
+    if letter == 'ww':
+        d = 28
+        c = 13
+    if letter == 'xx':
+        d = 28
+        c = -13
     First_start = random.choice(range(13, 58, 1))
     Second_start = First_start + d
     First_end = First_start + (c)
@@ -123,6 +195,7 @@ def new_values(alphabet):
                     'difference': d, 'change': c,
                     'A_always': change == 1, 'B_always': change == 2, 'changes': change == 3}
     return optionValues
+
 
 def visual_bars(win, optionValues):
     # complete the path for calculating changing values
