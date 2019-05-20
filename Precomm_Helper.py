@@ -196,6 +196,231 @@ def first_values(alphabet):
                     'A_always': change == 1, 'B_always': change == 2, 'changes': change == 3}
     return optionValues
 
+def better_wait_values(split_alphabet):
+    letter = random.choice(split_alphabet)
+    A_start = 0
+    A_end = 0
+    B_start = 0
+    B_end = 0
+    d = 0
+    c = 0
+    if letter == 'a':
+        d = 4
+        c = 3
+    if letter == 'b':
+        d = 4
+        c = -3
+    if letter == 'c':
+        d = 4
+        c = 9
+    if letter == 'd':
+        d = 4
+        c = -9
+    if letter == 'e':
+        d = 4
+        c = 13
+    if letter == 'f':
+        d = 4
+        c = -13
+    if letter == 'g':
+        d = 12
+        c = 3
+    if letter == 'h':
+        d = 12
+        c = -3
+    if letter == 'i':
+        d = 12
+        c = 9
+    if letter == 'j':
+        d = 12
+        c = -9
+    if letter == 'k':
+        d = 12
+        c = 13
+    if letter == 'l':
+        d = 12
+        c = -13
+    if letter == 'aa':
+        d = 4
+        c = 3
+    if letter == 'bb':
+        d = 4
+        c = -3
+    if letter == 'cc':
+        d = 4
+        c = 9
+    if letter == 'dd':
+        d = 4
+        c = -9
+    if letter == 'ee':
+        d = 4
+        c = 13
+    if letter == 'ff':
+        d = 4
+        c = -13
+    if letter == 'gg':
+        d = 12
+        c = 3
+    if letter == 'hh':
+        d = 12
+        c = -3
+    if letter == 'ii':
+        d = 12
+        c = 9
+    if letter == 'jj':
+        d = 12
+        c = -9
+    if letter == 'kk':
+        d = 12
+        c = 13
+    if letter == 'll':
+        d = 12
+        c = -13
+    First_start = random.choice(range(13, 58, 1))
+    Second_start = First_start + d
+    First_end = First_start + c
+    Second_end = Second_start - c
+    r = random.choice(range(0, 1, 1))
+    if r == 1:
+        A_start = First_start
+        A_end = First_end
+        B_start = Second_start
+        B_end = Second_end
+    if r == 0:
+        A_start = Second_start
+        A_end = Second_end
+        B_start = First_start
+        B_end = First_end
+    # Determine which value is larger or smaller
+    max_start = max(A_start, B_start)
+    min_start = min(A_start, B_start)
+    max_end = max(A_end, B_end)
+    min_end = min(A_end, B_end)
+    # if best option changes or stays the same
+    change = 0
+    if (A_start == max_start) and (A_end == max_end):
+        change = 1
+    if (B_start == max_start) and (B_end == max_end):
+        change = 2
+    if (A_start == max_start and A_end == min_end) or (B_start == max_start and B_end == min_end):
+        change = 3
+    optionValues = {'letter': letter, 'optionA': A_start, 'optionB': B_start, 'endA': A_end, 'endB': B_end,
+                    'difference': d, 'change': c,
+                    'A_always': change == 1, 'B_always': change == 2, 'changes': change == 3}
+    return optionValues
+
+def better_commit_values(split_alphabet):
+    letter = random.choice(split_alphabet)
+    A_start = 0
+    A_end = 0
+    B_start = 0
+    B_end = 0
+    d = 0
+    c = 0
+    if letter == 'a':
+        d = 20
+        c = 3
+    if letter == 'b':
+        d = 20
+        c = -3
+    if letter == 'c':
+        d = 20
+        c = 9
+    if letter == 'd':
+        d = 20
+        c = -9
+    if letter == 'e':
+        d = 20
+        c = 13
+    if letter == 'f':
+        d = 20
+        c = -13
+    if letter == 'g':
+        d = 28
+        c = 3
+    if letter == 'h':
+        d = 28
+        c = -3
+    if letter == 'i':
+        d = 28
+        c = 9
+    if letter == 'j':
+        d = 28
+        c = -9
+    if letter == 'k':
+        d = 28
+        c = 13
+    if letter == 'l':
+        d = 28
+        c = -13
+    if letter == 'aa':
+        d = 20
+        c = 3
+    if letter == 'bb':
+        d = 20
+        c = -3
+    if letter == 'cc':
+        d = 20
+        c = 9
+    if letter == 'dd':
+        d = 20
+        c = -9
+    if letter == 'ee':
+        d = 20
+        c = 13
+    if letter == 'ff':
+        d = 20
+        c = -13
+    if letter == 'gg':
+        d = 28
+        c = 3
+    if letter == 'hh':
+        d = 28
+        c = -3
+    if letter == 'ii':
+        d = 28
+        c = 9
+    if letter == 'jj':
+        d = 28
+        c = -9
+    if letter == 'kk':
+        d = 28
+        c = 13
+    if letter == 'll':
+        d = 28
+        c = -13
+    First_start = random.choice(range(13, 58, 1))
+    Second_start = First_start + d
+    First_end = First_start + c
+    Second_end = Second_start - c
+    r = random.choice(range(0, 1, 1))
+    if r == 1:
+        A_start = First_start
+        A_end = First_end
+        B_start = Second_start
+        B_end = Second_end
+    if r == 0:
+        A_start = Second_start
+        A_end = Second_end
+        B_start = First_start
+        B_end = First_end
+    # Determine which value is larger or smaller
+    max_start = max(A_start, B_start)
+    min_start = min(A_start, B_start)
+    max_end = max(A_end, B_end)
+    min_end = min(A_end, B_end)
+    # if best option changes or stays the same
+    change = 0
+    if (A_start == max_start) and (A_end == max_end):
+        change = 1
+    if (B_start == max_start) and (B_end == max_end):
+        change = 2
+    if (A_start == max_start and A_end == min_end) or (B_start == max_start and B_end == min_end):
+        change = 3
+    optionValues = {'letter': letter, 'optionA': A_start, 'optionB': B_start, 'endA': A_end, 'endB': B_end,
+                    'difference': d, 'change': c,
+                    'A_always': change == 1, 'B_always': change == 2, 'changes': change == 3}
+    return optionValues
 
 def visual_bars(win, optionValues):
     # complete the path for calculating changing values
