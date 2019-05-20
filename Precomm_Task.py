@@ -12,6 +12,10 @@ import Precomm_Helper as helper
 ########### Basic experiment settings ###########
 
 
+### Change task set-up for the different environments
+# environment options: "better_pick" or "better_wait"
+environment = "better_wait"
+
 ### Store info about the experiment session ###
 expName = 'PreComm_Task'  # from the Builder filename that created this script
 expInfo = {'participant':''}
@@ -98,10 +102,8 @@ rewardAmount = 0  # cumulative reward amount
 response = 0
 length = 0.3
 increase = 0.05
-alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-            'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'aa', 'bb', 'cc', 'dd',
-            'ee', 'ff', 'gg', 'hh', 'ii', 'jj', 'kk', 'll', 'mm', 'nn', 'oo', 'pp',
-            'qq', 'rr', 'ss', 'tt', 'uu', 'vv', 'ww', 'xx']
+split_alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'aa', 'bb', 'cc', 'dd',
+            'ee', 'ff', 'gg', 'hh', 'ii', 'jj', 'kk', 'll']
 
 ##############################
 ###### Begin experiment ######
@@ -156,8 +158,11 @@ for trialIdx in range(nTrials):
     cents = 0
     loosing_win = 0   # amount of money you earn when you play but loose (randomly chosen amount)
     # pick options from helper for this trial
-    optionValues = helper.first_values(alphabet)
-    alphabet.remove(optionValues['letter'])
+    if environment == "better_wait":
+        optionValues = helper.better_wait_values(split_alphabet)
+    if environment == "better_pick":
+        optionValues = helper.better_commit_values(split_alphabet)
+    split_alphabet.remove(optionValues['letter'])
     # stimuli that need to change for each trial
     # option A is on the left side of screen
     pickoptionA = visual.TextStim(win=win, text=optionValues['optionA'], name='optionA',
