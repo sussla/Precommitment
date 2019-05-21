@@ -11,6 +11,84 @@ import random
 
 ##### new function to pick options only
 
+def pvalues(alphabet):
+    letter = random.choice(alphabet)
+    A_start = 0
+    A_end = 0
+    B_start = 0
+    B_end = 0
+    d = 0
+    c = 0
+    if letter == 'a':
+        d = 20
+        c = 3
+    if letter == 'b':
+        d = 20
+        c = -3
+    if letter == 'e':
+        d = 20
+        c = 9
+    if letter == 'g':
+        d = 20
+        c = 13
+    if letter == 'o':
+        d = 28
+        c = 3
+    if letter == 'x':
+        d = 28
+        c = -13
+    if letter == 's':
+        d = 4
+        c = 3
+    if letter == 'r':
+        d = 4
+        c = 9
+    if letter == 'q':
+        d = 4
+        c = -13
+
+    if letter == 'u':
+        d = 12
+        c = 9
+    if letter == 'f':
+        d = 12
+        c = -9
+    if letter == 'k':
+        d = 12
+        c = 13
+    First_start = random.choice(range(13, 58, 1))
+    Second_start = First_start + d
+    First_end = First_start + c
+    Second_end = Second_start - c
+    r = random.choice(range(0, 1, 1))
+    if r == 1:
+        A_start = First_start
+        A_end = First_end
+        B_start = Second_start
+        B_end = Second_end
+    if r == 0:
+        A_start = Second_start
+        A_end = Second_end
+        B_start = First_start
+        B_end = First_end
+    # Determine which value is larger or smaller
+    max_start = max(A_start, B_start)
+    min_start = min(A_start, B_start)
+    max_end = max(A_end, B_end)
+    min_end = min(A_end, B_end)
+    # if best option changes or stays the same
+    change = 0
+    if (A_start == max_start) and (A_end == max_end):
+        change = 1
+    if (B_start == max_start) and (B_end == max_end):
+        change = 2
+    if (A_start == max_start and A_end == min_end) or (B_start == max_start and B_end == min_end):
+        change = 3
+    optionValues = {'letter': letter, 'optionA': A_start, 'optionB': B_start, 'endA': A_end, 'endB': B_end,
+                    'difference': d, 'change': c,
+                    'A_always': change == 1, 'B_always': change == 2, 'changes': change == 3}
+    return optionValues
+
 
 def better_wait_values(split_alphabet):
     letter = random.choice(split_alphabet)
@@ -90,6 +168,42 @@ def better_wait_values(split_alphabet):
         d = 12
         c = 13
     if letter == 'll':
+        d = 12
+        c = -13
+    if letter == 'aaa':
+        d = 4
+        c = 3
+    if letter == 'bbb':
+        d = 4
+        c = -3
+    if letter == 'ccc':
+        d = 4
+        c = 9
+    if letter == 'ddd':
+        d = 4
+        c = -9
+    if letter == 'eee':
+        d = 4
+        c = 13
+    if letter == 'fff':
+        d = 4
+        c = -13
+    if letter == 'ggg':
+        d = 12
+        c = 3
+    if letter == 'hhh':
+        d = 12
+        c = -3
+    if letter == 'iii':
+        d = 12
+        c = 9
+    if letter == 'jjj':
+        d = 12
+        c = -9
+    if letter == 'kkk':
+        d = 12
+        c = 13
+    if letter == 'lll':
         d = 12
         c = -13
     First_start = random.choice(range(13, 58, 1))
@@ -203,6 +317,42 @@ def better_commit_values(split_alphabet):
         d = 28
         c = 13
     if letter == 'll':
+        d = 28
+        c = -13
+    if letter == 'aaa':
+        d = 20
+        c = 3
+    if letter == 'bbb':
+        d = 20
+        c = -3
+    if letter == 'ccc':
+        d = 20
+        c = 9
+    if letter == 'ddd':
+        d = 20
+        c = -9
+    if letter == 'eee':
+        d = 20
+        c = 13
+    if letter == 'fff':
+        d = 20
+        c = -13
+    if letter == 'ggg':
+        d = 28
+        c = 3
+    if letter == 'hhh':
+        d = 28
+        c = -3
+    if letter == 'iii':
+        d = 28
+        c = 9
+    if letter == 'jjj':
+        d = 28
+        c = -9
+    if letter == 'kkk':
+        d = 28
+        c = 13
+    if letter == 'lll':
         d = 28
         c = -13
     First_start = random.choice(range(13, 58, 1))
