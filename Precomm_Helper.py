@@ -9,16 +9,15 @@ import sys  # to get file system encoding
 import csv
 import random
 
-##### new function to pick options only
-
+#### values associated with d and c values in practice task ###
 def pvalues(alphabet):
     letter = random.choice(alphabet)
     A_start = 0
     A_end = 0
     B_start = 0
     B_end = 0
-    d = 0
-    c = 0
+    d = 0  # d indicates the difference between the starting values
+    c = 0  # c indicates the change that both of the values will take
     if letter == 'a':
         d = 20
         c = 3
@@ -96,8 +95,8 @@ def better_wait_values(split_alphabet):
     A_end = 0
     B_start = 0
     B_end = 0
-    d = 0
-    c = 0
+    d = 0  # d indicates the difference between the starting values
+    c = 0  # c indicates the change that both of the values will take
     if letter == 'a':
         d = 4
         c = 3
@@ -245,8 +244,8 @@ def better_commit_values(split_alphabet):
     A_end = 0
     B_start = 0
     B_end = 0
-    d = 0
-    c = 0
+    d = 0  # d indicates the difference between the starting values
+    c = 0  # c indicates the change that both of the values will take
     if letter == 'a':
         d = 20
         c = 3
@@ -464,30 +463,6 @@ def precomm_pick(win, trialClock):
     choice_2 = {'A': response == 1, 'B': response == 2, 'miss': response == 3, 'RT_precomm': RT_precomm}
     return choice_2
 
-def hit_pick(win, trialClock):
-    response = 0
-    RT_hitChoice = 0
-    # record responses
-    theseKeys = event.getKeys(keyList=['left', 'right', 'escape'])
-    if len(theseKeys) > 0:
-        if 'left' in theseKeys:  # pick left
-            response = 1
-            RT_hitChoice = trialClock.getTime()
-            win.flip()
-        elif 'right' in theseKeys:  # pick right
-            response = 2
-            RT_hitChoice = trialClock.getTime()
-            win.flip()
-        else:  # did not pick
-            response = 3
-            RT_hitChoice = trialClock.getTime()
-            win.flip()
-    if response == 0:
-        response = 3
-        RT_hitChoice = trialClock.getTime()
-    choice_3 = {'A': response == 1, 'B': response == 2, 'miss': response == 3, 'RT_hitChoice': RT_hitChoice}
-    return choice_3
-
 
 #### MID play routine ####
 def play_mid(win, trialClock, length):
@@ -525,33 +500,54 @@ def play_mid(win, trialClock, length):
                 'RT_play': RT_play, 'RT_trialClock_play': RT_trialClock_play}
     return choice_3
 
+#### routine that allows you to pick an option after you win MID game ###
+def hit_pick(win, trialClock):
+    response = 0
+    RT_hitChoice = 0
+    # record responses
+    theseKeys = event.getKeys(keyList=['left', 'right', 'escape'])
+    if len(theseKeys) > 0:
+        if 'left' in theseKeys:  # pick left
+            response = 1
+            RT_hitChoice = trialClock.getTime()
+            win.flip()
+        elif 'right' in theseKeys:  # pick right
+            response = 2
+            RT_hitChoice = trialClock.getTime()
+            win.flip()
+        else:  # did not pick
+            response = 3
+            RT_hitChoice = trialClock.getTime()
+            win.flip()
+    if response == 0:
+        response = 3
+        RT_hitChoice = trialClock.getTime()
+    choice_3 = {'A': response == 1, 'B': response == 2, 'miss': response == 3, 'RT_hitChoice': RT_hitChoice}
+    return choice_3
 
-
+### Routine to record if you press the space bar late and do not win the MID play option ###
 def press_late(win, trialClock):
     response = 0
     RT_late = 0
     choice_4 = 0
     # record responses
-    theseKeys = event.getKeys(keyList=['left', 'right', 'escape'])
+    theseKeys = event.getKeys(keyList=['space', 'escape'])
     if len(theseKeys) > 0:
-        if 'left' in theseKeys:  # pick right
+        if 'space' in theseKeys:  # pick right
             response = 1
             RT_late = trialClock.getTime()
             win.flip()
-        elif 'right' in theseKeys:  # pick left
+        else:  # did not pick
             response = 2
             RT_late = trialClock.getTime()
             win.flip()
-        else:  # did not pick
-            response = 3
-            RT_late = trialClock.getTime()
-            win.flip()
     if response == 0:
-        response = 3
+        response = 2
         RT_late = trialClock.getTime()
-    choice_4 = {'late_A': response == 1, 'late_B': response == 2, 'not_late': response == 3, 'RT_late': RT_late}
+    choice_4 = {'late_press': response == 1, 'not_late': response == 2, 'RT_late': RT_late}
     return choice_4
 
+### Get the different step values to indicate the movement of the bars ###
 def values_change(win, optionValues):
     if optionValues['endA'] >= optionValues['optionA']:
         difference = int(optionValues['endA']) - int(optionValues['optionA'])
@@ -666,6 +662,7 @@ def values_change(win, optionValues):
             'step3_barB': step3_barB, 'step4_barB': step4_barB, 'step5_barB': step5_barB, 'step6_barB': step6_barB}
     return bars
 
+### Progressive movement of the bars arranged in values_change ###
 def progressive(win, values_change):
     values_change['step1_barA'].draw()
     values_change['step1_barB'].draw()

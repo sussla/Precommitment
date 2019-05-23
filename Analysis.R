@@ -65,3 +65,6 @@ table(Precomm$A_alwaysBest == "True")
 
 ggplot(Precomm, aes(x=Best_A), ylim=0) + geom_bar(fill="plum3") + theme_classic() + 
   labs(x="difference values", y="freq", title="Frequency of Difference Values")
+
+# T Test 
+## t.test(y1, y2, paired = FALSE)

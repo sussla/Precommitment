@@ -588,50 +588,55 @@ for trialIdx in range(pTrials):
 
 # end of trial loop
 
-
 #begin trial loop
 for trialIdx in range(nTrials):
-    # allow escape experiment
+    # allow escape experiment (this will be demonstrated throughout the experiment)
     if event.getKeys(keyList='escape'):
         core.quit()
     # clear events from previous trial/ prevents a click from the previous trial to be counted on this trial
     event.clearEvents()
     trialClock.reset()
-    RT_choice = 0
-    RT_play = 0
-    RT_precomm = 0
-    RT_late = 0
-    RT_trialClock_play = 0
-    win_or_loose = 0
-    lost_type = 0
-    space = 0
-    no_space = 0
-    isi_time = 0
-    blank = str(length)
+    # RT variables that need to be zeroed out each trial
+    RT_choice = 0  # RT for decision to either precommit or wait
+    RT_play = 0  # RT to press space in play condition on mid_clock (from square onset)
+    RT_precomm = 0  # RT for decision of either left or right in commit clock
+    RT_late = 0  # RT to press space if late in play condition on trial_clock (from initial trial onset)
+    RT_trialClock_play = 0  # RT to press space in play condition on trial_clock (from initial trial onset)
+    # amount of money you will earn on this trial
+    cents = 0
+    loosing_win = 0   # if you loose MID but get money
+    # variables for record keeping (will be in csv file)
+    blank = str(length)  # amount of time the white square is on the screen
+    isi_time = 0 # isi interval changes each trial
+    lost_type = 0  # if you get endA or endB if you fail in the play condition
+    space = 0  # if press space during MID time
+    no_space = 0  # if do not press space during MID
     # start with the cross before each trial
     isi.draw()
     win.flip()
     core.wait(1)
     if event.getKeys(keyList='escape'):
         core.quit()
-    # track the reward value for each particular trial
+    # pick the book cover image to appear on the screen
     cover_number = random.choice(range(1, 99, 1))
     book = visual.ImageStim(win, image='Books/' + str(cover_number) + '.png', units='height',
                             pos=[0, 0], size=[0.4, 0.8], interpolate=True)
     book.draw()
     win.flip()
     core.wait(2)
-    # start with the cross before each trial
     if event.getKeys(keyList='escape'):
         core.quit()
+    # start with the cross before each trial
     isi.draw()
     win.flip()
     core.wait(1)
-    cents = 0
-    loosing_win = 0   # amount of money you earn when you play but loose (randomly chosen amount)
     # pick options from helper for this trial
-    optionValues = helper.pvalues(alphabet)
-    alphabet.remove(optionValues['letter'])
+    if environment == "A":
+        optionValues = helper.better_wait_values(split_alphabet)
+    if environment == "B":
+        optionValues = helper.better_commit_values(split_alphabet)
+    # remove the value (c/d combination) that was chosen for this trial
+    split_alphabet.remove(optionValues['letter'])
     # stimuli that need to change for each trial
     # option A is on the left side of screen
     pickoptionA = visual.TextStim(win=win, text=optionValues['optionA'], name='optionA',
@@ -647,6 +652,7 @@ for trialIdx in range(nTrials):
     value_bars = helper.visual_bars(win, optionValues)
     if event.getKeys(keyList='escape'):
         core.quit()
+    # Draw the trial screen
     optionText.draw()
     outline_barA.setAutoDraw(True)
     outline_barB.setAutoDraw(True)
@@ -664,7 +670,8 @@ for trialIdx in range(nTrials):
     # allow escape experiment
     if event.getKeys(keyList='escape'):
         core.quit()
-    if pickChoice['wait']:  # if choose to play on this trial
+    # if choose to play ('wait') on this trial
+    if pickChoice['wait']:
         # screen to show that play was chosen
         choice = 'wait'
         waitText.draw()
@@ -674,6 +681,7 @@ for trialIdx in range(nTrials):
         isi.draw()
         win.flip()
         core.wait(1)
+        # show the values changing to the new values first
         change_values.draw()
         win.flip()
         core.wait(0.5)
@@ -697,16 +705,18 @@ for trialIdx in range(nTrials):
             core.quit()
         win.flip()
         core.wait(1.5)
-        attempt.draw()
+        attempt.draw()  # wait screen that will say "ready"
         win.flip()
         core.wait(2)
         if event.getKeys(keyList='escape'):
             core.quit()
+        # pick the amount of time the fixation cross will be on the screen before white square
         timing_list = [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
         isi_time = random.choice(timing_list)
         isi.draw()
         win.flip()
         core.wait(isi_time)
+        # run the mid routine
         play_mid = helper.play_mid(win, trialClock, length)
         RT_play = play_mid['RT_play']
         RT_trialClock_play = play_mid['RT_trialClock_play']
@@ -717,16 +727,18 @@ for trialIdx in range(nTrials):
         # allow escape experiment
         if event.getKeys(keyList='escape'):
             core.quit()
-        # start the play routine to record response
-        if play_mid['hit']:  # if choose the left option on play
+        # if hit the white square in the allocated time
+        if play_mid['hit']:
             response = 'hit'
             if event.getKeys(keyList='escape'):
                 core.quit()
+            # remove time of the length if you get a hit
             length -= increase
             # tell them that it was a hit
             got_it.draw()
             win.flip()
             core.wait(1)
+            # now have the ability to choose which one they want
             chooseText.draw()
             win.flip()
             core.wait(2)
@@ -736,7 +748,7 @@ for trialIdx in range(nTrials):
             if event.getKeys(keyList='escape'):
                 core.quit()
             # if choose second B
-            if hit_pick['B']:  # if choose to precommit to the left option
+            if hit_pick['B']:  # if choose the end B option after winning
                 response = 'hit_pickB'
                 if event.getKeys(keyList='escape'):
                     core.quit()
@@ -753,6 +765,7 @@ for trialIdx in range(nTrials):
                 winning_textB.draw()
                 win.flip()
                 core.wait(2)
+                # clear the screen
                 values_change['step6_barA'].setAutoDraw(False)
                 values_change['step6_barB'].setAutoDraw(False)
                 endoptionA.setAutoDraw(False)
@@ -765,7 +778,7 @@ for trialIdx in range(nTrials):
                 # allow escape experiment
                 if event.getKeys(keyList='escape'):
                     core.quit()
-            elif hit_pick['A']:  # if choose to precommit to the left option
+            elif hit_pick['A']:  # if choose the end A option after winning
                 response = 'hit_pickA'
                 if event.getKeys(keyList='escape'):
                     core.quit()
@@ -782,6 +795,7 @@ for trialIdx in range(nTrials):
                 winning_textA.draw()
                 win.flip()
                 core.wait(2)
+                # clear the screen
                 values_change['step6_barA'].setAutoDraw(False)
                 values_change['step6_barB'].setAutoDraw(False)
                 endoptionA.setAutoDraw(False)
@@ -794,7 +808,7 @@ for trialIdx in range(nTrials):
                 # allow escape experiment
                 if event.getKeys(keyList='escape'):
                     core.quit()
-            elif hit_pick['miss']:  # if choose to precommit to the left option
+            elif hit_pick['miss']:  # if did not pick an option after winning
                 response = 'hit_pick_miss'
                 if event.getKeys(keyList='escape'):
                     core.quit()
@@ -822,20 +836,16 @@ for trialIdx in range(nTrials):
                     core.quit()
         elif play_mid['miss']:  # if do not pick within the allowed time (you "lost" the game)
             response = 'miss'
+            # increase the amount of time the white square will be on the screen next time
             length += increase
+            # start the press_late routine to see if tried but pressed late
             press_late = helper.press_late(win, trialClock)
             RT_late = press_late['RT_late']
             win.flip()
+            # if you loose the game, one of the two options will be randomly chosen
             potentials = [optionValues['endA'], optionValues['endB']]
-            # if you loose the game, one of the two options will be chosen for you
             loosing_win = random.choice(potentials)
-            # indicate that you lost
-            if press_late['late_A']:
-                win_or_loose = 1
-                win.flip()
-            if press_late['late_B']:
-                win_or_loose = 2
-                win.flip()
+            # indicate on the screen that you did not hit
             miss.draw()
             win.flip()
             core.wait(1)
@@ -843,18 +853,20 @@ for trialIdx in range(nTrials):
             cents = loosing_win
             win.flip()
             core.wait(2)
+            # indicate that one is chosen for you
             choosen.draw()
             win.flip()
             core.wait(1)
-            # highlight the random value that was chosen for you if you lost
             # allow escape experiment
             if event.getKeys(keyList='escape'):
                 core.quit()
+            # the next two division loops vary based on which of the two end options were randomly chosen for you
             if loosing_win == optionValues['endA']:
-                lost_type = 'chosen_endA'
+                lost_type = 'endA'
                 cents = optionValues['endA']
                 win.flip()
                 core.wait(0.5)
+                # highlight the option that you got
                 highlight_A.setAutoDraw(True)
                 win.flip()
                 core.wait(2)
@@ -867,6 +879,7 @@ for trialIdx in range(nTrials):
                 money = optionValues['endA']
                 win.flip()
                 core.wait(1)
+                # clear the screen
                 stimA_left.setAutoDraw(False)
                 stimB_right.setAutoDraw(False)
                 outline_barB.setAutoDraw(False)
@@ -880,10 +893,11 @@ for trialIdx in range(nTrials):
                 if event.getKeys(keyList='escape'):
                     core.quit()
             elif loosing_win == optionValues['endB']:
-                lost_type = 'chosen_endB'
+                lost_type = 'endB'
                 cents = optionValues['endB']
                 win.flip()
                 core.wait(0.5)
+                # highlight the option that you got
                 highlight_B.setAutoDraw(True)
                 win.flip()
                 core.wait(2)
@@ -896,6 +910,7 @@ for trialIdx in range(nTrials):
                 money = optionValues['endB']
                 win.flip()
                 core.wait(1)
+                # clear the screen
                 stimA_left.setAutoDraw(False)
                 stimB_right.setAutoDraw(False)
                 outline_barB.setAutoDraw(False)
@@ -908,20 +923,18 @@ for trialIdx in range(nTrials):
                 # allow escape experiment
                 if event.getKeys(keyList='escape'):
                     core.quit()
-    elif pickChoice['commit']: # if choose to precommit on this trial
+    # if choose to precommit on this trial
+    elif pickChoice['commit']:
         # indicate that pick was chosen for this trial
         choice = 'commit'
         if event.getKeys(keyList='escape'):
             core.quit()
-        pickoptionA.draw()
-        pickoptionB.draw()
+        # indicate that you choose to commit
         pickText.draw()
         win.flip()
         core.wait(1.5)
-        # instructions on how to pick
+        # state the two stimuli (websites) that you are picking between
         chooseText.draw()
-        pickoptionA.draw()
-        pickoptionB.draw()
         win.flip()
         core.wait(1.5)
         # run the pick (precommitment) routine from helper to record options chosen
@@ -930,19 +943,19 @@ for trialIdx in range(nTrials):
         # allow escape experiment
         if event.getKeys(keyList='escape'):
             core.quit()
-        if precomm['B']: # if choose to precommit to the left option
+        if precomm['B']: # if choose to precommit to the B option
             response = 'precomm_B'
             if event.getKeys(keyList='escape'):
                 core.quit()
-            pickoptionB.draw()
             cents = optionValues['endB']
             win.flip()
             core.wait(0.5)
-            # indicate that the values change
+            # remove the option values
             pickoptionA.setAutoDraw(False)
             pickoptionB.setAutoDraw(False)
             value_bars['option_barA'].setAutoDraw(False)
             value_bars['option_barB'].setAutoDraw(False)
+            # highlight that you choose to commit to B
             highlight_B.setAutoDraw(True)
             # show progressive change of values
             values_change = helper.values_change(win, optionValues)
@@ -968,6 +981,7 @@ for trialIdx in range(nTrials):
             money = optionValues['endB']
             win.flip()
             core.wait(1)
+            # clear the screen
             highlight_B.setAutoDraw(False)
             stimA_left.setAutoDraw(False)
             stimB_right.setAutoDraw(False)
@@ -980,15 +994,15 @@ for trialIdx in range(nTrials):
             response = 'precomm_A'
             if event.getKeys(keyList='escape'):
                 core.quit()
-            pickoptionA.draw()
             cents = optionValues['endA']
             win.flip()
             core.wait(0.5)
-            # indicate that the values change
+            # remove the option values
             pickoptionA.setAutoDraw(False)
             pickoptionB.setAutoDraw(False)
             value_bars['option_barA'].setAutoDraw(False)
             value_bars['option_barB'].setAutoDraw(False)
+            # highlight that you choose to commit to A
             highlight_A.setAutoDraw(True)
             win.flip()
             # show progressive change of values
@@ -1015,6 +1029,7 @@ for trialIdx in range(nTrials):
             money = optionValues['endA']
             win.flip()
             core.wait(1)
+            # clear the screen
             highlight_A.setAutoDraw(False)
             stimA_left.setAutoDraw(False)
             stimB_right.setAutoDraw(False)
@@ -1023,6 +1038,7 @@ for trialIdx in range(nTrials):
             # allow escape experiment
             if event.getKeys(keyList='escape'):
                 core.quit()
+        # if you fail to pick one of the options after choosing to precommit
         elif precomm['miss']:
             if event.getKeys(keyList='escape'):
                 core.quit()
@@ -1036,6 +1052,7 @@ for trialIdx in range(nTrials):
             money = 0
             win.flip()
             core.wait(1)
+            # clear the screen
             value_bars['option_barA'].setAutoDraw(False)
             value_bars['option_barB'].setAutoDraw(False)
             pickoptionA.setAutoDraw(False)
@@ -1047,7 +1064,8 @@ for trialIdx in range(nTrials):
             # allow escape experiment
             if event.getKeys(keyList='escape'):
                 core.quit()
-    elif pickChoice['miss']:  # if missed in choosing to pick or play
+    # if you missed choosing to either pick or play
+    elif pickChoice['miss']:
         choice = 'miss'
         miss.draw()
         if event.getKeys(keyList='escape'):
@@ -1060,6 +1078,7 @@ for trialIdx in range(nTrials):
         money = 0
         win.flip()
         core.wait(1)
+        # clear the screen
         value_bars['option_barA'].setAutoDraw(False)
         value_bars['option_barB'].setAutoDraw(False)
         pickoptionA.setAutoDraw(False)
@@ -1071,7 +1090,7 @@ for trialIdx in range(nTrials):
         # allow escape experiment
         if event.getKeys(keyList='escape'):
             core.quit()
-    ## update earnings
+    # update earnings
     rewardAmount += money
 
     # log data
@@ -1100,10 +1119,8 @@ for trialIdx in range(nTrials):
     thisExp.addData('Play_win_B', response == 'hit_pickB')
     thisExp.addData('Late_RT', RT_late)
     thisExp.addData('Play_lost', response == 'lost_game')
-    thisExp.addData('Play_lost_chosenA', lost_type == 'chosen_endA')
-    thisExp.addData('Play_lost_chosenB', lost_type == 'chosen_endB')
-    thisExp.addData('Play_toolate_B', win_or_loose == 1)
-    thisExp.addData('Play_toolate_A', win_or_loose == 2)
+    thisExp.addData('Play_lost_chosenA', lost_type == 'endA')
+    thisExp.addData('Play_lost_chosenB', lost_type == 'endB')
     thisExp.addData('Precomm_RT', RT_precomm)
     thisExp.addData('Precomm_B', response == 'precomm_B')
     thisExp.addData('Precomm_A', response == 'precomm_A')
@@ -1113,16 +1130,17 @@ for trialIdx in range(nTrials):
 # end of trial loop
 
 
-# show earnings on entire block
+# show earnings on entire block (divided by 4 for better money earnings)
 # allow escape experiment
 if event.getKeys(keyList='escape'):
     core.quit()
-moneyontrial= visual.TextStim(win, text='            Checkout. \n   You received $' +str(rewardAmount/100.00)
-                                        +'\n for selling your books!', height=0.1)
+moneyontrial= visual.TextStim(win, text='            Checkout. \n   You received $' + str((rewardAmount/100.00)/4)
+                                        + '\n for selling your books!', height=0.1)
 moneyontrial.draw()
 win.flip()
 # right now need to press enter to end the experiment
 event.waitKeys(keyList=['return'])
+
 
 
 ###########################
