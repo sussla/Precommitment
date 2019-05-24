@@ -7,7 +7,7 @@ path <- "~/Documents/Github/Precommitment/data/"
 setwd(path)
 
 #Open the data
-Precomm <- read.csv("Test_values.csv")
+Precomm <- read.csv("PreComm_Task_A_24052019.csv")
 View(Precomm)
 
 ##### Checking on Components of the data #####
@@ -48,23 +48,14 @@ View(changeXdifference)
 ChangesXDifferences <- matrix(c(differences, changes), nrow=40)
 View(ChangesXDifferences)
 
+#####################################################
+## Change Choice_Wait and Choice_Commit to numeric 
 
-## What is best ##
-A_best <- table(Precomm$A_alwaysBest)
-B_best <- table(Precomm$B_alwaysBest)
-Best_changes <- table(Precomm$Best_changes)
-Best <- c(A_best, B_best, Best_changes)
-nrow(Precomm[Precomm$A_alwaysBest==TRUE])
+## True = 2 and False = 1 ##
+Commit <- as.numeric(Precomm$Choice_Commit)
+Wait <- as.numeric(Precomm$Choice_Wait)
+Miss <- as.numeric(Precomm$Choice_Miss)
 
-Best_A <- as.numeric(Precomm$A_alwaysBest)>1
-Best_A
-Precomm$A_alwaysBest>1
-A_best <- table(Precomm$A_alwaysBest>1)
+## T test of choices
+t.test(Commit, Wait, paired = FALSE)
 
-table(Precomm$A_alwaysBest == "True")
-
-ggplot(Precomm, aes(x=Best_A), ylim=0) + geom_bar(fill="plum3") + theme_classic() + 
-  labs(x="difference values", y="freq", title="Frequency of Difference Values")
-
-# T Test 
-## t.test(y1, y2, paired = FALSE)

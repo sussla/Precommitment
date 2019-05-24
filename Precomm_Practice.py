@@ -104,9 +104,8 @@ alphabet = ['a', 'b', 'e', 'f', 'g', 'k', 'o', 'q', 'r', 's', 'u', 'x']
 ###### Begin experiment ######
 ##############################
 
-#Start with the welcome screen
-start = visual.TextStim(win, text= '                            Welcome! '
-                                   '\nPress ENTER to begin practice task', height= 0.1,
+# Start with the welcome screen
+start = visual.TextStim(win, text= 'Press ENTER to begin practice task', height= 0.1,
                         pos=[0, 0], wrapWidth=10, alignHoriz='center')
 start.draw()
 win.flip()

@@ -89,8 +89,8 @@ def pvalues(alphabet):
     return optionValues
 
 
-def better_wait_values(split_alphabet):
-    letter = random.choice(split_alphabet)
+def better_wait_values(split_alphabet_A):
+    letter = random.choice(split_alphabet_A)
     A_start = 0
     A_end = 0
     B_start = 0
@@ -238,8 +238,8 @@ def better_wait_values(split_alphabet):
                     'A_always': change == 1, 'B_always': change == 2, 'changes': change == 3}
     return optionValues
 
-def better_commit_values(split_alphabet):
-    letter = random.choice(split_alphabet)
+def better_commit_values(split_alphabet_B):
+    letter = random.choice(split_alphabet_B)
     A_start = 0
     A_end = 0
     B_start = 0
